@@ -1,11 +1,9 @@
 .hero {
-  position: relative;
   background-color: #1a1a2e;
   color: #ffffff;
   text-align: center;
   padding: 80px 24px;
   border-radius: 8px;
-  overflow: hidden;
 }
 
 .hero-content {
