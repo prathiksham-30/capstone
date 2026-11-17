@@ -5,7 +5,7 @@ header .header {
   justify-content: space-between;
   padding: 0 24px;
   height: 64px;
-  background: #1a1a2e;
+  background: lightcoral;
   color: #ffffff;
   position: sticky;
   top: 0;
