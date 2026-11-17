@@ -1,27 +1,61 @@
-.cards > ul {
+.cards ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
 }
 
-.cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+.cards ul li {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease;
 }
 
-.cards .cards-card-body {
-  margin: 16px;
+.cards ul li:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-.cards .cards-card-image {
-  line-height: 0;
+.cards ul li h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a2e;
 }
 
-.cards > ul > li img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+.cards ul li p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin: 0;
+  flex: 1;
+}
+
+.cards ul li strong {
+  font-size: 1.1rem;
+  color: #e94560;
+}
+
+.cards ul li a.button {
+  display: inline-block;
+  background-color: #1a1a2e;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  margin-top: auto;
+}
+
+.cards ul li a.button:hover {
+  background-color: #e94560;
 }
