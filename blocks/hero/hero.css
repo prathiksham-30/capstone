@@ -41,22 +41,31 @@
   background-color: #c73652;
 }
 
+.hero-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
 .hero {
   position: relative;
   min-height: 500px;
   display: flex;
   align-items: center;
-  overflow: hidden;
 }
 
-/* Hide the second column (image column) from normal flow */
+/* Position the image column as a full background */
+.hero > div {
+  position: relative;
+  width: 100%;
+}
+
 .hero > div > div:last-child {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-/* Make the image fill the container */
+.hero > div > div:last-child picture,
 .hero > div > div:last-child img {
   width: 100%;
   height: 100%;
@@ -64,19 +73,19 @@
   display: block;
 }
 
-/* Keep the text content on top */
+/* Keep text on top */
 .hero > div > div:first-child {
   position: relative;
   z-index: 1;
-  padding: 2rem;
+  padding: 3rem 2rem;
   color: white;
 }
 
-/* Optional: dark overlay for better text readability */
-.hero::before {
+/* Dark overlay for readability */
+.hero > div::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 0;
 }
