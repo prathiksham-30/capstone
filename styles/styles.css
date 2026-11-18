@@ -12,16 +12,17 @@
 
 :root {
   /* colors */
-  --background-color: #f4eee5;
-  --light-color: #fffaf3;
-  --dark-color: #3b2a1e;
-  --text-color: #35251b;
-  --link-color: #70452a;
-  --link-hover-color: #4d2e1d;
-  --header-background-color: #3b2a1e;
-  --header-text-color: #f5eadc;
-  --header-muted-color: #d8c6b5;
-  --accent-color: #a86436;
+  --background-color: #f4f1e9;
+  --light-color: #fcfbf7;
+  --dark-color: #293943;
+  --text-color: #35434a;
+  --link-color: #28798c;
+  --link-hover-color: #1d5e70;
+  --header-background-color: #293943;
+  --header-text-color: #f4f1e9;
+  --header-muted-color: #c8d0d2;
+  --accent-color: #36869a;
+  --border-color: #d7dcda;
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
