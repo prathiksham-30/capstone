@@ -1,20 +1,55 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+/**
+ * ShopEdge — Footer Block
+ * File: blocks/footer/footer.js
+ *
+ * AEM Boilerplate loads /footer.html, wraps its <main> content
+ * inside a <footer> element, then calls this decorator.
+ */
+
+import { loadCSS } from '../../scripts/aem.js';
 
 /**
- * loads and decorates the footer
- * @param {Element} block The footer block element
+ * Decorate the footer block.
+ * @param {HTMLElement} block  The <footer> element injected by scripts.js
  */
 export default async function decorate(block) {
-  // load footer as fragment
-  const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(footerPath);
+  // 1. Load footer-specific CSS
+  loadCSS(`${window.hlx.codeBasePath}/blocks/footer/footer.css`);
 
-  // decorate footer DOM
-  block.textContent = '';
-  const footer = document.createElement('div');
-  while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  // 2. Inject current year into the copyright line dynamically
+  const copyright = block.querySelector('.footer-bottom p');
+  if (copyright) {
+    copyright.textContent = copyright.textContent.replace(
+      /\d{4}/,
+      new Date().getFullYear(),
+    );
+  }
 
-  block.append(footer);
+  // 3. Mark active nav link based on current path
+  const currentPath = window.location.pathname;
+  block.querySelectorAll('.footer-links a').forEach((link) => {
+    try {
+      const linkPath = new URL(link.href).pathname;
+      if (currentPath.startsWith(linkPath) && linkPath !== '/') {
+        link.setAttribute('aria-current', 'page');
+        link.closest('li')?.classList.add('active');
+      }
+    } catch {
+      // ignore malformed hrefs
+    }
+  });
+
+  // 4. Smooth-scroll to top when ShopEdge brand heading is clicked
+  const brand = block.querySelector('.footer-brand h2');
+  if (brand) {
+    brand.style.cursor = 'pointer';
+    brand.setAttribute('role', 'button');
+    brand.setAttribute('tabindex', '0');
+    brand.setAttribute('aria-label', 'Scroll to top');
+    const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    brand.addEventListener('click', scrollTop);
+    brand.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') scrollTop();
+    });
+  }
 }

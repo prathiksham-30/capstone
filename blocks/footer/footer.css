@@ -1,20 +1,170 @@
+/* =============================================================
+   ShopEdge — Footer Block Styles
+   File: blocks/footer/footer.css
+   ============================================================= */
+
+/* ── Footer wrapper ─────────────────────────────────────────── */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
-}
-
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
-}
-
-footer .footer p {
+  background-color: #1a1a2e;
+  color: #c8c8d8;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 0;
   margin: 0;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+/* ── Brand block ────────────────────────────────────────────── */
+footer .footer-brand {
+  background-color: #16213e;
+  padding: 2.5rem 2rem 2rem;
+  border-bottom: 1px solid #2e2e4e;
+}
+
+footer .footer-brand > div > div {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer .footer-brand h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+footer .footer-brand p {
+  color: #a0a0b8;
+  max-width: 480px;
+  margin: 0;
+}
+
+/* ── Links block — 4-column grid ────────────────────────────── */
+footer .footer-links {
+  padding: 2.5rem 2rem;
+  border-bottom: 1px solid #2e2e4e;
+}
+
+footer .footer-links > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer .footer-links h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #ffffff;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #0f3460;
+}
+
+footer .footer-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-links ul li {
+  margin-bottom: 0.5rem;
+}
+
+footer .footer-links ul li a {
+  color: #a0a0b8;
+  text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+  display: inline-block;
+}
+
+footer .footer-links ul li a:hover {
+  color: #e94560;
+  padding-left: 4px;
+}
+
+/* ── Bottom bar ─────────────────────────────────────────────── */
+footer .footer-bottom {
+  background-color: #0f0f1a;
+  padding: 1.25rem 2rem;
+}
+
+footer .footer-bottom > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer .footer-bottom p {
+  margin: 0;
+  color: #707088;
+  font-size: 0.82rem;
+}
+
+footer .footer-bottom ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+footer .footer-bottom ul li a {
+  color: #707088;
+  text-decoration: none;
+  font-size: 0.82rem;
+  transition: color 0.2s ease;
+}
+
+footer .footer-bottom ul li a:hover {
+  color: #e94560;
+}
+
+/* ── Responsive — tablet (≤ 900px) ─────────────────────────── */
+@media (max-width: 900px) {
+  footer .footer-links > div {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+/* ── Responsive — mobile (≤ 540px) ─────────────────────────── */
+@media (max-width: 540px) {
+  footer .footer-brand,
+  footer .footer-links,
+  footer .footer-bottom {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  footer .footer-links > div {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  footer .footer-bottom > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  footer .footer-bottom ul {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+}
+
+/* ── Responsive — small mobile (≤ 360px) ───────────────────── */
+@media (max-width: 360px) {
+  footer .footer-links > div {
+    grid-template-columns: 1fr;
   }
 }
