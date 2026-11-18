@@ -1,5 +1,3 @@
-/* ShopEdge — Simple Footer */
-
 footer {
   background-color: #1a1a2e;
   color: #a0a0b8;
@@ -8,6 +6,7 @@ footer {
   text-align: center;
   padding: 2rem 1.5rem;
   margin-top: 2rem;
+  border-top: 1px solid #2e2e4e;
 }
 
 footer p {
