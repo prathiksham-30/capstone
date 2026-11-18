@@ -1,145 +1,41 @@
-/* ShopEdge — Footer Block */
+/* ShopEdge — Simple Footer */
 
 footer {
   background-color: #1a1a2e;
-  color: #c8c8d8;
+  color: #a0a0b8;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   font-size: 0.9rem;
-  line-height: 1.6;
-  padding: 0;
-  margin: 0;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  margin-top: 2rem;
 }
 
-/* Row 1 — Brand */
-.footer > div:first-child {
-  background-color: #16213e;
-  padding: 2.5rem 2rem;
-  border-bottom: 1px solid #2e2e4e;
-}
-
-.footer > div:first-child h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 0.75rem;
-  cursor: pointer;
-}
-
-.footer > div:first-child p {
+footer p {
   color: #a0a0b8;
-  max-width: 480px;
-  margin: 0;
-}
-
-/* Row 2 — 4-column links grid */
-.footer > div:nth-child(2) {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  padding: 2.5rem 2rem;
-  border-bottom: 1px solid #2e2e4e;
-  background-color: #1a1a2e;
-}
-
-.footer > div:nth-child(2) h4 {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: #ffffff;
   margin: 0 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #0f3460;
 }
 
-.footer > div:nth-child(2) ul {
+footer strong {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+footer ul {
   list-style: none;
-  margin: 0;
+  margin: 0 0 1rem;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
 }
 
-.footer > div:nth-child(2) li {
-  margin-bottom: 0.5rem;
-}
-
-.footer > div:nth-child(2) a {
+footer ul li a {
   color: #a0a0b8;
   text-decoration: none;
-  transition: color 0.2s ease, padding-left 0.2s ease;
-  display: inline-block;
-}
-
-.footer > div:nth-child(2) a:hover {
-  color: #e94560;
-  padding-left: 4px;
-}
-
-/* Row 3 — Bottom bar */
-.footer > div:nth-child(3) {
-  background-color: #0f0f1a;
-  padding: 1.25rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.footer > div:nth-child(3) p {
-  margin: 0;
-  color: #707088;
-  font-size: 0.82rem;
-}
-
-.footer > div:nth-child(3) ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.footer > div:nth-child(3) a {
-  color: #707088;
-  text-decoration: none;
-  font-size: 0.82rem;
   transition: color 0.2s ease;
 }
 
-.footer > div:nth-child(3) a:hover {
+footer ul li a:hover {
   color: #e94560;
-}
-
-/* Responsive — tablet */
-@media (max-width: 900px) {
-  .footer > div:nth-child(2) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Responsive — mobile */
-@media (max-width: 540px) {
-  .footer > div:first-child,
-  .footer > div:nth-child(2),
-  .footer > div:nth-child(3) {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-
-  .footer > div:nth-child(2) {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-
-  .footer > div:nth-child(3) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-/* Responsive — small mobile */
-@media (max-width: 360px) {
-  .footer > div:nth-child(2) {
-    grid-template-columns: 1fr;
-  }
 }
