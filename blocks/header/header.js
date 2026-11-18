@@ -1,56 +1,105 @@
-async function fetchNavContent(navPath) {
-  const resp = await fetch(`${navPath}.plain.html`);
-  if (!resp.ok) return null;
-  return resp.text();
+import { getMetadata } from '../../scripts/aem.js';
+import { loadFragment } from '../fragment/fragment.js';
+
+const isDesktop = window.matchMedia('(min-width: 900px)');
+
+function closeOnEscape(e) {
+  if (e.code === 'Escape') {
+    const nav = document.getElementById('nav');
+    const navSections = nav.querySelector('.nav-sections');
+    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
+    if (navSectionExpanded && isDesktop.matches) {
+      toggleAllNavSections(navSections);
+      navSectionExpanded.focus();
+    } else if (!isDesktop.matches) {
+      toggleMenu(nav, navSections);
+      nav.querySelector('button').focus();
+    }
+  }
+}
+
+function openOnKeydown(e) {
+  const focused = document.activeElement;
+  const isNavDrop = focused.className === 'nav-drop';
+  if (isNavDrop && (e.code === 'Enter' || e.code === 'Space')) {
+    const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
+    toggleAllNavSections(focused.closest('.nav-sections'));
+    focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
+  }
+}
+
+function focusNavSection() {
+  document.activeElement.addEventListener('keydown', openOnKeydown);
+}
+
+function toggleAllNavSections(sections, expanded = false) {
+  sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li').forEach((section) => {
+    section.setAttribute('aria-expanded', expanded);
+  });
+}
+
+function toggleMenu(nav, navSections, forceExpanded = null) {
+  const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
+  const button = nav.querySelector('.nav-hamburger button');
+  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
+  nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+  toggleAllNavSections(navSections, expanded || !isDesktop.matches ? 'false' : 'true');
+  button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
 }
 
 export default async function decorate(block) {
-  const navPath = '/navigation';
+  const navMeta = getMetadata('nav');
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
 
-  // Fetch nav document content
-  const html = await fetchNavContent(navPath);
-  if (!html) return;
+  const fragment = await loadFragment(navPath);
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-
-  // --- Brand Logo ---
-  const brandSection = doc.body.querySelector('div:nth-child(1) p a');
-  const brand = document.createElement('div');
-  brand.className = 'nav-brand';
-  if (brandSection) {
-    brand.innerHTML = `<a href="${brandSection.href}" class="nav-logo">${brandSection.textContent}</a>`;
-  }
-
-  // --- Nav Links ---
-  const navSection = doc.body.querySelector('div:nth-child(2) ul');
+  block.textContent = '';
   const nav = document.createElement('nav');
-  nav.className = 'nav-links';
-  if (navSection) nav.appendChild(navSection);
+  nav.id = 'nav';
+  while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  // --- Cart Icon ---
-  const cartBtn = document.createElement('div');
-  cartBtn.className = 'nav-cart';
-  cartBtn.innerHTML = `
-    <a href="/cart" aria-label="Cart">
-      🛒 <span class="cart-count">0</span>
-    </a>
-  `;
-
-  // --- Hamburger (mobile) ---
-  const hamburger = document.createElement('button');
-  hamburger.className = 'nav-hamburger';
-  hamburger.setAttribute('aria-label', 'Toggle navigation');
-  hamburger.setAttribute('aria-expanded', 'false');
-  hamburger.innerHTML = `<span></span><span></span><span></span>`;
-
-  hamburger.addEventListener('click', () => {
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', String(!expanded));
-    nav.classList.toggle('nav-open');
+  const classes = ['brand', 'sections', 'tools'];
+  classes.forEach((c, i) => {
+    const section = nav.children[i];
+    if (section) section.classList.add(`nav-${c}`);
   });
 
-  // --- Assemble ---
-  block.innerHTML = '';
-  block.append(brand, hamburger, nav, cartBtn);
+  const navBrand = nav.querySelector('.nav-brand');
+  const brandLink = navBrand.querySelector('.default-content-wrapper > p > a');
+  if (brandLink) {
+    brandLink.className = '';
+    brandLink.closest('.default-content-wrapper').className = '';
+  }
+
+  const navSections = nav.querySelector('.nav-sections');
+  if (navSections) {
+    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
+      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
+      navSection.addEventListener('click', () => {
+        if (isDesktop.matches) {
+          toggleAllNavSections(navSections);
+          navSection.setAttribute('aria-expanded', navSection.getAttribute('aria-expanded') !== 'true');
+        }
+      });
+      navSection.addEventListener('focus', focusNavSection);
+    });
+  }
+
+  const navHamburger = document.createElement('div');
+  navHamburger.classList.add('nav-hamburger');
+  navHamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
+    <span class="nav-hamburger-icon"></span>
+  </button>`;
+  navHamburger.addEventListener('click', () => toggleMenu(nav, navSections));
+  nav.insertBefore(navHamburger, navSections);
+  nav.setAttribute('aria-expanded', 'false');
+
+  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+
+  document.addEventListener('keydown', closeOnEscape);
+
+  const navWrapper = document.createElement('div');
+  navWrapper.className = 'nav-wrapper';
+  navWrapper.append(nav);
+  block.append(navWrapper);
 }
