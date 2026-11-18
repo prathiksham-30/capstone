@@ -103,3 +103,46 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 }
+
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('shopedge-cart')) || [];
+  const countEl = document.querySelector('[data-cart-count]');
+  if (countEl) {
+    countEl.textContent = cart.length;
+    countEl.dataset.cartCount = cart.length;
+  }
+}
+
+export default async function decorate(block) {
+  const resp = await fetch('/nav.html');
+  const html = await resp.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const nav = document.createElement('nav');
+  nav.setAttribute('aria-label', 'Main navigation');
+
+  const brand = doc.querySelector('main > div:first-child');
+  const links = doc.querySelector('main > div:nth-child(2)');
+
+  if (brand) {
+    const brandDiv = document.createElement('div');
+    brandDiv.className = 'nav-brand';
+    brandDiv.innerHTML = brand.innerHTML;
+    nav.append(brandDiv);
+  }
+
+  if (links) {
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'nav-links';
+    linksDiv.innerHTML = links.innerHTML;
+    nav.append(linksDiv);
+  }
+
+  block.append(nav);
+
+  // Update cart count after nav is rendered
+  updateCartCount();
+
+  // Listen for cart updates from other pages (e.g. add to cart)
+  window.addEventListener('cart-updated', updateCartCount);
+}
