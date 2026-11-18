@@ -1,6 +1,7 @@
 export default async function decorate(block) {
   // 1. Dynamic copyright year
-  const rows = block.querySelectorAll(':scope > div');
+  const rows = [...block.querySelectorAll(':scope > div')];
+
   if (rows[2]) {
     const p = rows[2].querySelector('p');
     if (p) p.textContent = p.textContent.replace(/\d{4}/, new Date().getFullYear());
