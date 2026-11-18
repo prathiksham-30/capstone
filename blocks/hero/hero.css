@@ -1,6 +1,6 @@
 .hero {
-  background-color: #1a1a2e;
-  color: #ffffff;
+  background-color: var(--dark-color);
+  color: var(--header-text-color);
   text-align: center;
   padding: 80px 24px;
   border-radius: 8px;
@@ -16,7 +16,7 @@
   font-weight: 800;
   margin-bottom: 16px;
   line-height: 1.2;
-  color: #ffffff;
+  color: var(--header-text-color);
 }
 
 .hero p {
@@ -27,8 +27,8 @@
 
 .hero a.button.primary {
   display: inline-block;
-  background-color: #e94560;
-  color: #ffffff;
+  background-color: var(--accent-color);
+  color: var(--light-color);
   padding: 14px 32px;
   border-radius: 4px;
   font-weight: 700;
@@ -38,7 +38,7 @@
 }
 
 .hero a.button.primary:hover {
-  background-color: #c73652;
+  background-color: var(--link-hover-color);
 }
 
 .hero-wrapper {
@@ -78,7 +78,7 @@
   position: relative;
   z-index: 1;
   padding: 3rem 2rem;
-  color: white;
+  color: var(--light-color);
 }
 
 /* Dark overlay for readability */

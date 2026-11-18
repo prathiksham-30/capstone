@@ -3,7 +3,7 @@ header {
 }
 
 header .header {
-  background: #1a1a2e;
+  background: var(--header-background-color);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -19,7 +19,7 @@ header nav {
 
 /* ── LEFT — Brand ── */
 .nav-brand a {
-  color: #e94560;
+  color: var(--header-text-color);
   font-size: 1.5rem;
   font-weight: 700;
   text-decoration: none;
@@ -49,7 +49,7 @@ header nav {
 
 .nav-sections ul li > a,
 .nav-sections ul li > p {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   text-decoration: none;
   font-size: 0.95rem;
   margin: 0;
@@ -58,7 +58,7 @@ header nav {
 
 .nav-sections ul li:hover > a,
 .nav-sections ul li:hover > p {
-  color: #e94560;
+  color: var(--header-text-color);
 }
 
 /* Dropdowns */
@@ -67,7 +67,7 @@ header nav {
   position: absolute;
   top: 120%;
   left: 0;
-  background: #16213e;
+  background: #4a3527;
   min-width: 180px;
   flex-direction: column;
   padding: 0.5rem 0;
@@ -85,14 +85,14 @@ header nav {
 }
 
 .nav-sections ul li ul li a {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   font-size: 0.9rem;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .nav-sections ul li ul li a:hover {
-  color: #e94560;
+  color: var(--header-text-color);
 }
 
 /* ── RIGHT — Icons ── */
@@ -112,7 +112,7 @@ header nav {
 .nav-search-icon,
 .nav-account-icon,
 .nav-cart-icon {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -123,7 +123,7 @@ header nav {
 .nav-search-icon:hover,
 .nav-account-icon:hover,
 .nav-cart-icon:hover {
-  color: #e94560;
+  color: var(--header-text-color);
 }
 
 /* Cart badge — sits top-right above the icon */
@@ -131,8 +131,8 @@ header nav {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #e94560;
-  color: white;
+  background: var(--accent-color);
+  color: var(--light-color);
   font-size: 0.65rem;
   font-weight: 700;
   min-width: 16px;
@@ -156,7 +156,7 @@ header nav {
   display: block;
   width: 22px;
   height: 2px;
-  background: #a0a0b8;
+  background: var(--header-muted-color);
   position: relative;
   transition: all 0.3s;
 }
@@ -185,7 +185,7 @@ header nav {
     position: absolute;
     top: var(--nav-height);
     left: 0; right: 0;
-    background: #1a1a2e;
+    background: var(--header-background-color);
     padding: 1rem 2rem;
     flex-direction: column;
   }

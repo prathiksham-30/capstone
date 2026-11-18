@@ -1,21 +1,21 @@
 footer {
-  background-color: #1a1a2e;
-  color: #a0a0b8;
+  background-color: var(--header-background-color);
+  color: var(--header-muted-color);
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   font-size: 0.9rem;
   text-align: center;
   padding: 2rem 1.5rem;
   margin-top: 2rem;
-  border-top: 1px solid #2e2e4e;
+  border-top: 1px solid #5b4535;
 }
 
 footer p {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   margin: 0 0 1rem;
 }
 
 footer strong {
-  color: #ffffff;
+  color: var(--header-text-color);
   font-size: 1.1rem;
 }
 
@@ -30,11 +30,11 @@ footer ul {
 }
 
 footer ul li a {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 footer ul li a:hover {
-  color: #e94560;
+  color: var(--header-text-color);
 }
