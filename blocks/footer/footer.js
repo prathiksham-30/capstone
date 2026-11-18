@@ -1,8 +1,3 @@
-/**
- * ShopEdge — Footer Block
- * File: blocks/footer/footer.js
- */
-
 export default async function decorate(block) {
   // 1. Dynamic copyright year
   const copyright = block.querySelector('.footer-bottom p');
@@ -13,7 +8,7 @@ export default async function decorate(block) {
     );
   }
 
-  // 2. Mark active link based on current page path
+  // 2. Mark active link
   const currentPath = window.location.pathname;
   block.querySelectorAll('.footer-links a').forEach((link) => {
     try {
@@ -22,12 +17,10 @@ export default async function decorate(block) {
         link.setAttribute('aria-current', 'page');
         link.closest('li')?.classList.add('active');
       }
-    } catch {
-      // ignore malformed hrefs
-    }
+    } catch { /* ignore */ }
   });
 
-  // 3. Smooth scroll-to-top on brand heading click
+  // 3. Scroll to top on brand click
   const brand = block.querySelector('.footer-brand h2');
   if (brand) {
     brand.style.cursor = 'pointer';
@@ -39,11 +32,5 @@ export default async function decorate(block) {
     brand.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') scrollTop();
     });
-  }
-
-  // 4. Hide footer on checkout page
-  const hiddenPaths = ['/eds-ecommerce/checkout'];
-  if (hiddenPaths.some((p) => currentPath.startsWith(p))) {
-    block.closest('footer')?.remove();
   }
 }
