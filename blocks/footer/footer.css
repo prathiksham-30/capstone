@@ -1,9 +1,5 @@
-/* =============================================================
-   ShopEdge — Footer Block Styles
-   File: blocks/footer/footer.css
-   ============================================================= */
+/* ShopEdge — Footer Block */
 
-/* ── Footer wrapper ─────────────────────────────────────────── */
 footer {
   background-color: #1a1a2e;
   color: #c8c8d8;
@@ -14,47 +10,42 @@ footer {
   margin: 0;
 }
 
-/* ── Brand block ────────────────────────────────────────────── */
-footer .footer-brand {
+/* Row 1 — Brand */
+.footer > div:nth-child(1) {
   background-color: #16213e;
   padding: 2.5rem 2rem 2rem;
   border-bottom: 1px solid #2e2e4e;
+  max-width: 100%;
 }
 
-footer .footer-brand > div > div {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-footer .footer-brand h2 {
+.footer > div:nth-child(1) h2 {
   font-size: 1.75rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 0.75rem;
-  letter-spacing: 0.5px;
+  cursor: pointer;
 }
 
-footer .footer-brand p {
+.footer > div:nth-child(1) p {
   color: #a0a0b8;
   max-width: 480px;
   margin: 0;
 }
 
-/* ── Links block — 4-column grid ────────────────────────────── */
-footer .footer-links {
-  padding: 2.5rem 2rem;
-  border-bottom: 1px solid #2e2e4e;
-}
-
-footer .footer-links > div {
+/* Row 2 — 4-column links */
+.footer > div:nth-child(2) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+  padding: 2.5rem 2rem;
+  border-bottom: 1px solid #2e2e4e;
   max-width: 1200px;
   margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-footer .footer-links h4 {
+.footer > div:nth-child(2) h4 {
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -65,51 +56,46 @@ footer .footer-links h4 {
   border-bottom: 2px solid #0f3460;
 }
 
-footer .footer-links ul {
+.footer > div:nth-child(2) ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-footer .footer-links ul li {
+.footer > div:nth-child(2) ul li {
   margin-bottom: 0.5rem;
 }
 
-footer .footer-links ul li a {
+.footer > div:nth-child(2) ul li a {
   color: #a0a0b8;
   text-decoration: none;
   transition: color 0.2s ease, padding-left 0.2s ease;
   display: inline-block;
 }
 
-footer .footer-links ul li a:hover {
+.footer > div:nth-child(2) ul li a:hover {
   color: #e94560;
   padding-left: 4px;
 }
 
-/* ── Bottom bar ─────────────────────────────────────────────── */
-footer .footer-bottom {
+/* Row 3 — Bottom bar */
+.footer > div:nth-child(3) {
   background-color: #0f0f1a;
   padding: 1.25rem 2rem;
-}
-
-footer .footer-bottom > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.75rem;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
-footer .footer-bottom p {
+.footer > div:nth-child(3) p {
   margin: 0;
   color: #707088;
   font-size: 0.82rem;
 }
 
-footer .footer-bottom ul {
+.footer > div:nth-child(3) ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -117,54 +103,47 @@ footer .footer-bottom ul {
   gap: 1.5rem;
 }
 
-footer .footer-bottom ul li a {
+.footer > div:nth-child(3) ul li a {
   color: #707088;
   text-decoration: none;
   font-size: 0.82rem;
   transition: color 0.2s ease;
 }
 
-footer .footer-bottom ul li a:hover {
+.footer > div:nth-child(3) ul li a:hover {
   color: #e94560;
 }
 
-/* ── Responsive — tablet (≤ 900px) ─────────────────────────── */
+/* Responsive — tablet */
 @media (max-width: 900px) {
-  footer .footer-links > div {
+  .footer > div:nth-child(2) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem;
   }
 }
 
-/* ── Responsive — mobile (≤ 540px) ─────────────────────────── */
+/* Responsive — mobile */
 @media (max-width: 540px) {
-  footer .footer-brand,
-  footer .footer-links,
-  footer .footer-bottom {
+  .footer > div:nth-child(1),
+  .footer > div:nth-child(2),
+  .footer > div:nth-child(3) {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
 
-  footer .footer-links > div {
+  .footer > div:nth-child(2) {
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
   }
 
-  footer .footer-bottom > div {
+  .footer > div:nth-child(3) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  footer .footer-bottom ul {
-    gap: 1rem;
-    flex-wrap: wrap;
   }
 }
 
-/* ── Responsive — small mobile (≤ 360px) ───────────────────── */
+/* Responsive — small mobile */
 @media (max-width: 360px) {
-  footer .footer-links > div {
+  .footer > div:nth-child(2) {
     grid-template-columns: 1fr;
   }
 }
