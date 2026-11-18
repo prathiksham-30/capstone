@@ -1,22 +1,10 @@
 /**
  * ShopEdge — Footer Block
  * File: blocks/footer/footer.js
- *
- * AEM Boilerplate loads /footer.html, wraps its <main> content
- * inside a <footer> element, then calls this decorator.
  */
 
-import { loadCSS } from '../../scripts/aem.js';
-
-/**
- * Decorate the footer block.
- * @param {HTMLElement} block  The <footer> element injected by scripts.js
- */
 export default async function decorate(block) {
-  // 1. Load footer-specific CSS
-  loadCSS(`${window.hlx.codeBasePath}/blocks/footer/footer.css`);
-
-  // 2. Inject current year into the copyright line dynamically
+  // 1. Dynamic copyright year
   const copyright = block.querySelector('.footer-bottom p');
   if (copyright) {
     copyright.textContent = copyright.textContent.replace(
@@ -25,7 +13,7 @@ export default async function decorate(block) {
     );
   }
 
-  // 3. Mark active nav link based on current path
+  // 2. Mark active link based on current page path
   const currentPath = window.location.pathname;
   block.querySelectorAll('.footer-links a').forEach((link) => {
     try {
@@ -39,7 +27,7 @@ export default async function decorate(block) {
     }
   });
 
-  // 4. Smooth-scroll to top when ShopEdge brand heading is clicked
+  // 3. Smooth scroll-to-top on brand heading click
   const brand = block.querySelector('.footer-brand h2');
   if (brand) {
     brand.style.cursor = 'pointer';
@@ -51,5 +39,11 @@ export default async function decorate(block) {
     brand.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') scrollTop();
     });
+  }
+
+  // 4. Hide footer on checkout page
+  const hiddenPaths = ['/eds-ecommerce/checkout'];
+  if (hiddenPaths.some((p) => currentPath.startsWith(p))) {
+    block.closest('footer')?.remove();
   }
 }
