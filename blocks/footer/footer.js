@@ -1,13 +1,12 @@
 export default async function decorate(block) {
-  // Dynamic copyright year
+  // 1. Dynamic copyright year
   const rows = block.querySelectorAll(':scope > div');
-  const bottomRow = rows[2];
-  if (bottomRow) {
-    const p = bottomRow.querySelector('p');
+  if (rows[2]) {
+    const p = rows[2].querySelector('p');
     if (p) p.textContent = p.textContent.replace(/\d{4}/, new Date().getFullYear());
   }
 
-  // Mark active link
+  // 2. Mark active link
   const currentPath = window.location.pathname;
   block.querySelectorAll('a').forEach((link) => {
     try {
@@ -19,7 +18,7 @@ export default async function decorate(block) {
     } catch { /* ignore */ }
   });
 
-  // Scroll to top on brand heading click
+  // 3. Scroll to top on brand heading click
   const brand = block.querySelector('h2');
   if (brand) {
     brand.setAttribute('role', 'button');

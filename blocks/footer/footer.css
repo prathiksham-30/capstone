@@ -10,12 +10,11 @@ footer {
   margin: 0;
 }
 
-/* Row 1 — Brand */
+/* ── Row 1: Brand ───────────────────────────────────────────── */
 .footer > div:nth-child(1) {
   background-color: #16213e;
-  padding: 2.5rem 2rem 2rem;
+  padding: 2.5rem 2rem;
   border-bottom: 1px solid #2e2e4e;
-  max-width: 100%;
 }
 
 .footer > div:nth-child(1) h2 {
@@ -24,6 +23,7 @@ footer {
   color: #ffffff;
   margin: 0 0 0.75rem;
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 .footer > div:nth-child(1) p {
@@ -32,20 +32,17 @@ footer {
   margin: 0;
 }
 
-/* Row 2 — 4-column links */
+/* ── Row 2: 4-column links ──────────────────────────────────── */
 .footer > div:nth-child(2) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   padding: 2.5rem 2rem;
   border-bottom: 1px solid #2e2e4e;
-  max-width: 1200px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  width: 100%;
+  background-color: #1a1a2e;
 }
 
-.footer > div:nth-child(2) h4 {
+.footer > div:nth-child(2) > div h4 {
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -56,29 +53,29 @@ footer {
   border-bottom: 2px solid #0f3460;
 }
 
-.footer > div:nth-child(2) ul {
+.footer > div:nth-child(2) > div ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.footer > div:nth-child(2) ul li {
+.footer > div:nth-child(2) > div ul li {
   margin-bottom: 0.5rem;
 }
 
-.footer > div:nth-child(2) ul li a {
+.footer > div:nth-child(2) > div ul li a {
   color: #a0a0b8;
   text-decoration: none;
   transition: color 0.2s ease, padding-left 0.2s ease;
   display: inline-block;
 }
 
-.footer > div:nth-child(2) ul li a:hover {
+.footer > div:nth-child(2) > div ul li a:hover {
   color: #e94560;
   padding-left: 4px;
 }
 
-/* Row 3 — Bottom bar */
+/* ── Row 3: Bottom bar ──────────────────────────────────────── */
 .footer > div:nth-child(3) {
   background-color: #0f0f1a;
   padding: 1.25rem 2rem;
@@ -114,14 +111,14 @@ footer {
   color: #e94560;
 }
 
-/* Responsive — tablet */
+/* ── Responsive: tablet ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .footer > div:nth-child(2) {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Responsive — mobile */
+/* ── Responsive: mobile ─────────────────────────────────────── */
 @media (max-width: 540px) {
   .footer > div:nth-child(1),
   .footer > div:nth-child(2),
@@ -141,7 +138,7 @@ footer {
   }
 }
 
-/* Responsive — small mobile */
+/* ── Responsive: small mobile ───────────────────────────────── */
 @media (max-width: 360px) {
   .footer > div:nth-child(2) {
     grid-template-columns: 1fr;
