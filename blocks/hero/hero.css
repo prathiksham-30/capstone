@@ -81,7 +81,7 @@ body.has-hero-header > header .header {
 .hero-slide > div:first-child {
   position: relative;
   z-index: 2;
-  padding: 3rem 4rem;
+  padding: 3rem clamp(5.25rem, 8vw, 7rem);
   color: white;
   max-width: 600px;
 }
@@ -176,10 +176,16 @@ body.has-hero-header > header .header {
   .hero { height: 400px; }
 
   .hero-slide > div:first-child {
-    padding: 2rem;
+    padding: 2rem 2rem 5rem;
   }
 
   .hero-slide > div:first-child h1 {
     font-size: 1.8rem;
+  }
+
+  .hero-arrow {
+    top: auto;
+    bottom: 1.5rem;
+    transform: none;
   }
 }
