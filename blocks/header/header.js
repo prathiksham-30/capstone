@@ -119,30 +119,40 @@ export default async function decorate(block) {
   }
 
   const navSections = nav.querySelector('.nav-sections');
-  if (navSections) {
-    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) {
-        navSection.classList.add('nav-drop');
+if (navSections) {
+  navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
+    if (navSection.querySelector('ul')) {
+      navSection.classList.add('nav-drop');
 
-        // Boilerplate wraps content in .default-content-wrapper > p
-        const labelEl = navSection.querySelector(':scope > .default-content-wrapper > p')
-          || navSection.querySelector(':scope > .default-content-wrapper > p > a')
-          || navSection.querySelector(':scope > p')
-          || navSection.querySelector(':scope > a');
-        const label = labelEl ? labelEl.textContent.trim() : '';
+      // li is already inside default-content-wrapper > ul
+      // so label is a direct child <p> or <a>
+      const labelEl = navSection.querySelector(':scope > p')
+        || navSection.querySelector(':scope > a');
 
-        console.log('Nav label detected:', JSON.stringify(label));
-        buildMegaMenu(navSection, label);
+      // Strip any arrow characters and extra whitespace
+      const label = labelEl
+        ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
+        : '';
+
+      console.log('Nav label detected:', JSON.stringify(label));
+      buildMegaMenu(navSection, label);
+    }
+
+    navSection.addEventListener('click', () => {
+      if (isDesktop.matches) {
+        toggleAllNavSections(navSections);
+        navSection.setAttribute('aria-expanded', navSection.getAttribute('aria-expanded') !== 'true');
       }
-
-      navSection.addEventListener('click', () => {
-        if (isDesktop.matches) {
-          toggleAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', navSection.getAttribute('aria-expanded') !== 'true');
-        }
-      });
-      navSection.addEventListener('focus', focusNavSection);
     });
+    navSection.addEventListener('focus', focusNavSection);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navSections.contains(e.target)) {
+      toggleAllNavSections(navSections);
+    }
+  });
+}
 
     document.addEventListener('click', (e) => {
       if (!navSections.contains(e.target)) {
