@@ -61,201 +61,139 @@ header nav {
   color: var(--header-text-color);
 }
 
-/* Dropdowns */
-.nav-sections ul li ul {
+/* ── Mega Menu Panel ── */
+.nav-drop {
+  position: static !important;
+}
+
+.nav-drop > .mega-menu-panel {
   display: none;
   position: absolute;
-  top: 120%;
+  top: 100%;
   left: 0;
-  background: #354b56;
-  min-width: 180px;
-  flex-direction: column;
-  padding: 0.5rem 0;
-  border-radius: 6px;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--light-color);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
   z-index: 200;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  padding: 2rem;
+  max-height: calc(100vh - var(--nav-height));
+  overflow-y: auto;
 }
 
-.nav-sections ul li[aria-expanded="true"] > ul {
+.nav-drop[aria-expanded="true"] > .mega-menu-panel {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
 }
 
-.nav-sections ul li ul li {
-  padding: 0.4rem 1rem;
+/* Links column */
+.mega-menu-links {
+  flex: 1;
 }
 
-.nav-sections ul li ul li.nav-subdrop {
-  position: relative;
-  padding: 0;
-}
-
-.nav-sections ul li ul li.nav-subdrop > p {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  color: var(--header-muted-color);
+.mega-menu-links > ul {
+  list-style: none;
   margin: 0;
-  padding: 0.4rem 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
-.nav-sections ul li ul li.nav-subdrop > p::after {
-  content: '›';
-  font-size: 1rem;
-  margin-left: 0.5rem;
-}
-
-.nav-sections ul li ul li.nav-subdrop > ul {
-  display: none;
-  position: absolute;
-  left: 100%;
-  top: 0;
-  background: var(--dark-color);
-  min-width: 160px;
-  padding: 0.5rem 0;
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  z-index: 300;
-}
-
-.nav-sections ul li ul li.nav-subdrop.open > ul {
+/* Sub-group headers (e.g. Men / Women) */
+.mega-menu-links > ul > li.nav-subdrop {
   display: flex;
   flex-direction: column;
+  min-width: 120px;
 }
 
-.nav-sections ul li ul li.nav-subdrop > ul li {
-  padding: 0.4rem 1rem;
-  color: var(--header-muted-color);
-  font-size: 0.85rem;
-  white-space: nowrap;
+.mega-menu-links > ul > li.nav-subdrop > p {
+  color: var(--dark-color);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-color);
+  cursor: default;
+}
+
+/* 3rd level items */
+.mega-menu-links > ul > li.nav-subdrop > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mega-menu-links > ul > li.nav-subdrop > ul > li a,
+.mega-menu-links > ul > li.nav-subdrop > ul > li p {
+  color: var(--text-color);
+  font-size: 0.88rem;
+  text-decoration: none;
+  display: block;
+  margin: 0;
+  padding: 0.2rem 0;
+  transition: color 0.2s;
   cursor: pointer;
 }
 
-.nav-sections ul li ul li.nav-subdrop > ul li:hover {
-  color: var(--header-text-color);
+.mega-menu-links > ul > li.nav-subdrop > ul > li a:hover,
+.mega-menu-links > ul > li.nav-subdrop > ul > li p:hover {
+  color: var(--link-color);
 }
 
-.nav-sections ul li ul li a {
-  color: var(--header-muted-color);
-  font-size: 0.9rem;
+/* Non-subdrop items (plain links like All Categories, New Arrivals) */
+.mega-menu-links > ul > li:not(.nav-subdrop) > a,
+.mega-menu-links > ul > li:not(.nav-subdrop) > p {
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-weight: 600;
   text-decoration: none;
-  white-space: nowrap;
+  transition: color 0.2s;
+  margin: 0;
 }
 
-.nav-sections ul li ul li a:hover {
-  color: var(--header-text-color);
+.mega-menu-links > ul > li:not(.nav-subdrop) > a:hover,
+.mega-menu-links > ul > li:not(.nav-subdrop) > p:hover {
+  color: var(--link-color);
 }
 
-@media (width >= 901px) {
-  .nav-sections .default-content-wrapper > ul > li.nav-drop {
-    position: static;
-  }
+/* ── Image column ── */
+.mega-menu-image {
+  flex-shrink: 0;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--border-color);
+  padding-left: 2rem;
+}
 
-  .nav-sections .default-content-wrapper > ul > li.nav-drop > ul.mega-menu-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-    box-sizing: border-box;
-    width: 100%;
-    max-height: calc(100vh - var(--nav-height));
-    overflow-y: auto;
-    min-width: 500px;
-    flex-direction: row;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 8px;
-    background: var(--light-color);
-    box-shadow: 0 12px 32px rgb(0 0 0 / 40%);
-  }
+.mega-menu-image img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
 
-  .nav-sections .default-content-wrapper > ul > li.nav-drop[aria-expanded="true"] > ul.mega-menu-dropdown {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .mega-menu-dropdown > li {
-    flex: 1;
-    min-width: 0;
-    padding: 0;
-  }
-
-  .nav-sections .mega-menu-dropdown > li > a,
-  .nav-sections .mega-menu-dropdown > li > p {
-    color: var(--text-color);
-  }
-
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > p {
-    color: var(--dark-color);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 0 0 0.5rem;
-    margin: 0 0 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-    cursor: default;
-  }
-
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > p::after {
-    content: none;
-  }
-
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > ul {
-    display: flex;
-    position: static;
-    min-width: unset;
-    padding: 0;
-    flex-direction: column;
-    gap: 0.3rem;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > ul > li {
-    padding: 0.3rem 0;
-  }
-
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > ul > li a,
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > ul > li p {
-    color: var(--text-color);
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: color 0.2s;
-    margin: 0;
-  }
-
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > ul > li a:hover,
-  .nav-sections .mega-menu-dropdown > li.nav-subdrop > ul > li p:hover {
-    color: var(--link-color);
-  }
-
-  .mega-menu-image {
-    display: flex;
-    flex: 0 0 180px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1rem;
-  }
-
-  .mega-menu-image img {
-    display: block;
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-
-  .mega-menu-label {
-    margin-top: 0.75rem;
-    color: var(--dark-color);
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-  }
+.mega-menu-label {
+  color: var(--dark-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 0.6rem;
+  text-align: center;
 }
 
 /* ── RIGHT — Icons ── */
@@ -297,7 +235,7 @@ header nav {
   color: var(--header-text-color);
 }
 
-/* Cart badge — sits top-right above the icon */
+/* Cart badge */
 .cart-count {
   position: absolute;
   top: -8px;
@@ -316,7 +254,7 @@ header nav {
   pointer-events: none;
 }
 
-/* ── Hamburger (mobile) ── */
+/* ── Hamburger ── */
 .nav-hamburger {
   display: none;
 }
@@ -348,6 +286,7 @@ header nav {
   padding: 0.5rem;
 }
 
+/* ── Mobile ── */
 @media (max-width: 900px) {
   .nav-hamburger { display: block; }
 
@@ -355,10 +294,12 @@ header nav {
     display: none;
     position: absolute;
     top: var(--nav-height);
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     background: var(--header-background-color);
     padding: 1rem 2rem;
     flex-direction: column;
+    z-index: 100;
   }
 
   nav[aria-expanded="true"] .nav-sections {
@@ -371,9 +312,25 @@ header nav {
     gap: 1rem;
   }
 
-  .nav-sections ul li ul li.nav-subdrop > ul {
+  /* Stack mega menu on mobile */
+  .nav-drop > .mega-menu-panel {
     position: static;
-    top: auto;
-    left: auto;
+    box-shadow: none;
+    padding: 0.5rem 0 0 1rem;
+    border-radius: 0;
+    max-height: unset;
+  }
+
+  .nav-drop[aria-expanded="true"] > .mega-menu-panel {
+    flex-direction: column;
+  }
+
+  .mega-menu-image {
+    display: none;
+  }
+
+  .mega-menu-links > ul {
+    flex-direction: column;
+    gap: 1rem;
   }
 }

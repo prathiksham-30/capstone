@@ -3,11 +3,10 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
-// Mega menu images per category
 const megaMenuImages = {
-  'Shoes': 'https://content.da.live/prathiksham-30/capstone/assets/nav/shoes.jpg',
-  'Clothing': 'https://content.da.live/prathiksham-30/capstone/assets/nav/clothing.jpeg',
-  'Accessories': 'https://content.da.live/prathiksham-30/capstone/assets/nav/accessories.jpeg',
+  Shoes: 'https://content.da.live/prathiksham-30/capstone/assets/nav/shoes.jpg',
+  Clothing: 'https://content.da.live/prathiksham-30/capstone/assets/nav/clothing.jpeg',
+  Accessories: 'https://content.da.live/prathiksham-30/capstone/assets/nav/accessories.jpeg',
 };
 
 function closeOnEscape(e) {
@@ -27,8 +26,7 @@ function closeOnEscape(e) {
 
 function openOnKeydown(e) {
   const focused = document.activeElement;
-  const isNavDrop = focused.className === 'nav-drop';
-  if (isNavDrop && (e.code === 'Enter' || e.code === 'Space')) {
+  if (focused.classList.contains('nav-drop') && (e.code === 'Enter' || e.code === 'Space')) {
     const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
     toggleAllNavSections(focused.closest('.nav-sections'));
     focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
@@ -65,21 +63,34 @@ function updateCartCount() {
 
 function buildMegaMenu(navSection, label) {
   const imgUrl = megaMenuImages[label];
-  if (!imgUrl) return;
-
-  // Create image panel
-  const imgPanel = document.createElement('div');
-  imgPanel.className = 'mega-menu-image';
-  imgPanel.innerHTML = `
-    <img src="${imgUrl}" alt="${label}" loading="lazy">
-    <p class="mega-menu-label">${label}</p>
-  `;
-
-  // Find the existing dropdown ul
   const dropdown = navSection.querySelector('ul');
-  if (dropdown) {
-    dropdown.classList.add('mega-menu-dropdown');
-    dropdown.append(imgPanel);
+  if (!dropdown) return;
+
+  // Mark sub-drops
+  dropdown.querySelectorAll(':scope > li').forEach((subItem) => {
+    if (subItem.querySelector('ul')) subItem.classList.add('nav-subdrop');
+  });
+
+  // Wrap the ul + optional image in a mega-menu panel div
+  const panel = document.createElement('div');
+  panel.className = imgUrl ? 'mega-menu-panel has-image' : 'mega-menu-panel';
+
+  // Move the ul into the panel
+  const linksCol = document.createElement('div');
+  linksCol.className = 'mega-menu-links';
+  dropdown.replaceWith(panel);
+  linksCol.append(dropdown);
+  panel.append(linksCol);
+
+  // Add image column if available
+  if (imgUrl) {
+    const imgCol = document.createElement('div');
+    imgCol.className = 'mega-menu-image';
+    imgCol.innerHTML = `
+      <img src="${imgUrl}" alt="${label}" loading="lazy">
+      <p class="mega-menu-label">${label}</p>
+    `;
+    panel.append(imgCol);
   }
 }
 
@@ -113,19 +124,10 @@ export default async function decorate(block) {
       if (navSection.querySelector('ul')) {
         navSection.classList.add('nav-drop');
 
-        // Get the label text for this section
         const labelEl = navSection.querySelector(':scope > p') || navSection.querySelector(':scope > a');
         const label = labelEl ? labelEl.textContent.trim() : '';
 
-        // Build mega menu image panel
         buildMegaMenu(navSection, label);
-
-        // Handle nested sub-dropdowns (3rd level)
-        navSection.querySelectorAll('ul > li').forEach((subItem) => {
-          if (subItem.querySelector('ul')) {
-            subItem.classList.add('nav-subdrop');
-          }
-        });
       }
 
       navSection.addEventListener('click', () => {
@@ -137,7 +139,6 @@ export default async function decorate(block) {
       navSection.addEventListener('focus', focusNavSection);
     });
 
-    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!navSections.contains(e.target)) {
         toggleAllNavSections(navSections);
@@ -183,7 +184,6 @@ export default async function decorate(block) {
 
   block.append(navWrapper);
 
-  // Cart count
   updateCartCount();
   window.addEventListener('cart-updated', updateCartCount);
 }
