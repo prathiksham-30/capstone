@@ -4,8 +4,8 @@ footer .footer {
   padding: 0;
 }
 
-/* ── Footer Brand — 4 column grid ── */
-.footer-brand > div > div {
+/* ── 4-column grid — targets EDS-wrapped DOM ── */
+.footer-brand > div {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 3rem;
@@ -14,15 +14,21 @@ footer .footer {
   align-items: flex-start;
 }
 
-/* Column 1 — Brand */
-.footer-brand > div > div > div:first-child h2 {
+/* Each column wrapper */
+.footer-brand > div > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Column 1 — Brand ── */
+.footer-brand > div > div:first-child h2 {
   color: #e94560;
   font-size: 1.6rem;
   font-weight: 700;
   margin: 0 0 0.75rem 0;
 }
 
-.footer-brand > div > div > div:first-child p {
+.footer-brand > div > div:first-child p {
   color: #a0a0b8;
   font-size: 0.9rem;
   line-height: 1.7;
@@ -30,7 +36,7 @@ footer .footer {
 }
 
 /* Social icons */
-.footer-brand > div > div > div:first-child ul {
+.footer-brand > div > div:first-child ul {
   list-style: none;
   display: flex;
   gap: 0.6rem;
@@ -38,7 +44,7 @@ footer .footer {
   padding: 0;
 }
 
-.footer-brand > div > div > div:first-child ul li a {
+.footer-brand > div > div:first-child ul li a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -51,18 +57,18 @@ footer .footer {
   transition: all 0.2s;
 }
 
-.footer-brand > div > div > div:first-child ul li a:hover {
+.footer-brand > div > div:first-child ul li a:hover {
   color: white;
   border-color: #e94560;
   background: rgba(233,69,96,0.2);
 }
 
-.footer-brand > div > div > div:first-child ul li a svg {
+.footer-brand > div > div:first-child ul li a svg {
   display: block;
 }
 
-/* Columns 2, 3, 4 — Link groups */
-.footer-brand > div > div > div:not(:first-child) h3 {
+/* ── Columns 2, 3, 4 — Link groups ── */
+.footer-brand > div > div:not(:first-child) h3 {
   color: white;
   font-size: 0.82rem;
   font-weight: 700;
@@ -74,7 +80,7 @@ footer .footer {
   display: inline-block;
 }
 
-.footer-brand > div > div > div:not(:first-child) ul {
+.footer-brand > div > div:not(:first-child) ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -83,14 +89,14 @@ footer .footer {
   gap: 0.6rem;
 }
 
-.footer-brand > div > div > div:not(:first-child) ul li a {
+.footer-brand > div > div:not(:first-child) ul li a {
   color: #a0a0b8;
   font-size: 0.88rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
-.footer-brand > div > div > div:not(:first-child) ul li a:hover {
+.footer-brand > div > div:not(:first-child) ul li a:hover {
   color: #e94560;
 }
 
@@ -135,7 +141,7 @@ footer .footer {
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-  .footer-brand > div > div {
+  .footer-brand > div {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     padding: 2.5rem 2rem;
@@ -143,7 +149,7 @@ footer .footer {
 }
 
 @media (max-width: 540px) {
-  .footer-brand > div > div {
+  .footer-brand > div {
     grid-template-columns: 1fr;
   }
 
