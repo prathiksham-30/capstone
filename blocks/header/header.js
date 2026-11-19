@@ -127,6 +127,7 @@ export default async function decorate(block) {
         const labelEl = navSection.querySelector(':scope > p') || navSection.querySelector(':scope > a');
         const label = labelEl ? labelEl.textContent.trim() : '';
 
+        console.log('Nav label detected:', JSON.stringify(label));
         buildMegaMenu(navSection, label);
       }
 
