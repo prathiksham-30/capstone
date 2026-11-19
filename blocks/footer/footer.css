@@ -1,37 +1,34 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
 
 footer .footer {
-  background: #1a1a2e;
-  color: #a0a0b8;
+  background: var(--header-background-color);
+  color: var(--header-muted-color);
   padding: 0;
 }
 
-/* ── Brand + Links Row — two columns ── */
 .footer-brand > div > div {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 4rem;
-  padding: 3rem 4rem;
-  background: #16213e;
-  align-items: flex-start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 3rem;
+  padding: 3rem clamp(1.5rem, 4vw, 4rem);
+  background: var(--header-background-color);
+  align-items: start;
 }
 
-/* Left — Brand */
 .footer-brand > div > div > div:first-child h2 {
-  color: #e94560;
+  color: var(--header-text-color);
   font-size: 1.6rem;
   font-weight: 700;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.75rem;
 }
 
 .footer-brand > div > div > div:first-child p {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   font-size: 0.95rem;
   line-height: 1.6;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.5rem;
 }
 
-/* Social icons */
 .footer-brand > div > div > div:first-child ul {
   list-style: none;
   display: flex;
@@ -48,39 +45,41 @@ footer .footer {
   height: 38px;
   font-family: 'Font Awesome 6 Brands';
   font-size: 1.1rem;
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid var(--border-color);
   border-radius: 50%;
   transition: all 0.2s;
 }
 
 .footer-brand > div > div > div:first-child ul li a:hover {
-  color: white;
-  border-color: #e94560;
-  background: rgba(233,69,96,0.2);
+  color: var(--header-text-color);
+  border-color: var(--accent-color);
+  background: var(--accent-color);
 }
 
-/* Right — Links columns */
-.footer-links-inline {
+.footer-brand > div > div > div:last-child {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  gap: 0 2rem;
+  align-items: start;
 }
 
-.footer-links-inline h3 {
-  color: white;
+.footer-brand > div > div > div:last-child h3 {
+  color: var(--header-text-color);
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
   padding-bottom: 0.6rem;
-  border-bottom: 2px solid #e94560;
+  border-bottom: 2px solid var(--accent-color);
   display: inline-block;
 }
 
-.footer-links-inline ul {
+.footer-brand > div > div > div:last-child ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -89,21 +88,20 @@ footer .footer {
   gap: 0.65rem;
 }
 
-.footer-links-inline ul li a {
-  color: #a0a0b8;
+.footer-brand > div > div > div:last-child ul li a {
+  color: var(--header-muted-color);
   font-size: 0.9rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
-.footer-links-inline ul li a:hover {
-  color: #e94560;
+.footer-brand > div > div > div:last-child ul li a:hover {
+  color: var(--header-text-color);
 }
 
-/* ── Bottom Bar ── */
 .footer-bottom {
-  background: #0f0f1a;
-  padding: 1.25rem 4rem;
+  background: var(--dark-color);
+  padding: 1.25rem clamp(1.5rem, 4vw, 4rem);
 }
 
 .footer-bottom > div > div {
@@ -115,7 +113,7 @@ footer .footer {
 }
 
 .footer-bottom p {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   font-size: 0.85rem;
   margin: 0;
 }
@@ -129,36 +127,38 @@ footer .footer {
 }
 
 .footer-bottom ul li a {
-  color: #a0a0b8;
+  color: var(--header-muted-color);
   font-size: 0.85rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .footer-bottom ul li a:hover {
-  color: #e94560;
+  color: var(--header-text-color);
 }
 
-/* ── Responsive ── */
 @media (max-width: 900px) {
   .footer-brand > div > div {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 2rem;
+    padding: 2rem clamp(1.5rem, 4vw, 2rem);
   }
 
-  .footer-links-inline {
-    grid-template-columns: repeat(2, 1fr);
+  .footer-brand > div > div > div:last-child {
+    gap: 0 1.5rem;
   }
 
   .footer-bottom {
-    padding: 1.25rem 2rem;
+    padding: 1.25rem clamp(1.5rem, 4vw, 2rem);
   }
 }
 
 @media (max-width: 540px) {
-  .footer-links-inline {
+  .footer-brand > div > div > div:last-child {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    gap: 0;
   }
 
   .footer-bottom > div > div {
