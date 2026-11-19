@@ -62,8 +62,13 @@ function updateCartCount() {
 }
 
 function buildMegaMenu(navSection, label) {
+  console.log('buildMegaMenu called with label:', JSON.stringify(label));
+  console.log('megaMenuImages keys:', Object.keys(megaMenuImages));
+  console.log('match found:', !!megaMenuImages[label]);
+
   const imgUrl = megaMenuImages[label];
   const dropdown = navSection.querySelector('ul');
+  console.log('dropdown found:', !!dropdown);
   if (!dropdown) return;
 
   // Mark sub-drops
