@@ -37,26 +37,29 @@ footer .footer {
   margin: 0 0 1.5rem 0;
 }
 
-/* Social icons */
+/* Social text links */
 .footer-brand > div > div:first-child ul {
   list-style: none;
   display: flex;
   gap: 0.6rem;
   margin: 0;
   padding: 0;
+  flex-wrap: wrap;
 }
 
 .footer-brand > div > div:first-child ul li a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  padding: 0.4rem 1rem;
   color: #a0a0b8;
+  font-size: 0.78rem;
+  font-weight: 600;
   text-decoration: none;
   border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 50%;
+  border-radius: 20px;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .footer-brand > div > div:first-child ul li a:hover {
@@ -65,9 +68,6 @@ footer .footer {
   background: rgba(233,69,96,0.2);
 }
 
-.footer-brand > div > div:first-child ul li a svg {
-  display: block;
-}
 
 /* ── Columns 2, 3, 4 — Link groups ── */
 .footer-brand > div > div:not(:first-child) h3 {
