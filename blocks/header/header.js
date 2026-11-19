@@ -124,7 +124,11 @@ export default async function decorate(block) {
       if (navSection.querySelector('ul')) {
         navSection.classList.add('nav-drop');
 
-        const labelEl = navSection.querySelector(':scope > p') || navSection.querySelector(':scope > a');
+        // Boilerplate wraps content in .default-content-wrapper > p
+        const labelEl = navSection.querySelector(':scope > .default-content-wrapper > p')
+          || navSection.querySelector(':scope > .default-content-wrapper > p > a')
+          || navSection.querySelector(':scope > p')
+          || navSection.querySelector(':scope > a');
         const label = labelEl ? labelEl.textContent.trim() : '';
 
         console.log('Nav label detected:', JSON.stringify(label));
