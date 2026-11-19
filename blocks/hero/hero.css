@@ -1,91 +1,158 @@
 .hero {
-  background-color: var(--dark-color);
-  color: var(--header-text-color);
-  text-align: center;
-  padding: 80px 24px;
-  border-radius: 8px;
-}
-
-.hero-content {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.hero h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  margin-bottom: 16px;
-  line-height: 1.2;
-  color: var(--header-text-color);
-}
-
-.hero p {
-  font-size: 1.125rem;
-  margin-bottom: 24px;
-  opacity: 0.9;
-}
-
-.hero a.button.primary {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: var(--light-color);
-  padding: 14px 32px;
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-}
-
-.hero a.button.primary:hover {
-  background-color: var(--link-hover-color);
-}
-
-.hero-wrapper {
   position: relative;
+  width: 100%;
   overflow: hidden;
+  height: 580px;
 }
 
-.hero {
+/* Slider container */
+.hero-slider {
   position: relative;
-  min-height: 500px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Each slide */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
   display: flex;
   align-items: center;
 }
 
-/* Position the image column as a full background */
-.hero > div {
-  position: relative;
-  width: 100%;
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
 }
 
-.hero > div > div:last-child {
+/* Background image column */
+.hero-slide > div:last-child {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.hero > div > div:last-child picture,
-.hero > div > div:last-child img {
+.hero-slide > div:last-child picture,
+.hero-slide > div:last-child img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* Keep text on top */
-.hero > div > div:first-child {
-  position: relative;
-  z-index: 1;
-  padding: 3rem 2rem;
-  color: var(--light-color);
-}
-
-/* Dark overlay for readability */
-.hero > div::before {
+/* Dark overlay */
+.hero-slide::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* Text content column */
+.hero-slide > div:first-child {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 4rem;
+  color: white;
+  max-width: 600px;
+}
+
+.hero-slide > div:first-child h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero-slide > div:first-child p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: rgba(255,255,255,0.85);
+}
+
+.hero-slide > div:first-child a {
+  display: inline-block;
+  background: #e94560;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.hero-slide > div:first-child a:hover {
+  background: #c73652;
+}
+
+/* Arrow buttons */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.4);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  backdrop-filter: blur(4px);
+}
+
+.hero-arrow:hover {
+  background: rgba(233, 69, 96, 0.8);
+  border-color: #e94560;
+}
+
+.hero-arrow-prev { left: 1.5rem; }
+.hero-arrow-next { right: 1.5rem; }
+
+/* Dot indicators */
+.hero-dots {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.hero-dot.active {
+  background: #e94560;
+  border-color: #e94560;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero { height: 400px; }
+
+  .hero-slide > div:first-child {
+    padding: 2rem;
+  }
+
+  .hero-slide > div:first-child h1 {
+    font-size: 1.8rem;
+  }
 }
