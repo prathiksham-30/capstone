@@ -4,35 +4,28 @@ footer .footer {
   padding: 0;
 }
 
-/* ── Brand + Links Row ── */
-.footer-brand > div > div:first-child {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 4rem;
-  padding: 3rem 4rem;
+/* ── Brand Section ── */
+.footer-brand {
   background: #16213e;
+  padding: 2.5rem 4rem;
 }
 
-/* Left column — Brand */
-.footer-brand > div > div:first-child > div:first-child h2 {
+.footer-brand h2 {
   color: #e94560;
   font-size: 1.6rem;
   font-weight: 700;
   margin: 0 0 0.75rem 0;
 }
 
-.footer-brand > div > div:first-child > div:first-child p {
+.footer-brand p {
   color: #a0a0b8;
   font-size: 0.95rem;
-  max-width: 320px;
+  max-width: 400px;
   line-height: 1.6;
   margin: 0 0 1.25rem 0;
 }
 
-/* Social links */
-.footer-brand > div > div:first-child > div:first-child ul {
+.footer-brand ul {
   list-style: none;
   display: flex;
   gap: 0.75rem;
@@ -41,7 +34,7 @@ footer .footer {
   flex-wrap: wrap;
 }
 
-.footer-brand > div > div:first-child > div:first-child ul li a {
+.footer-brand ul li a {
   display: inline-block;
   color: #a0a0b8;
   font-size: 0.85rem;
@@ -52,14 +45,25 @@ footer .footer {
   transition: all 0.2s;
 }
 
-.footer-brand > div > div:first-child > div:first-child ul li a:hover {
+.footer-brand ul li a:hover {
   color: white;
   border-color: #e94560;
   background: rgba(233,69,96,0.1);
 }
 
-/* Right column — Help & Support */
-.footer-brand > div > div:first-child > div:last-child h3 {
+/* ── Links Grid ── */
+.footer-links {
+  padding: 3rem 4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-links > div > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.footer-links h3 {
   color: white;
   font-size: 0.85rem;
   font-weight: 700;
@@ -68,7 +72,7 @@ footer .footer {
   margin: 0 0 1rem 0;
 }
 
-.footer-brand > div > div:first-child > div:last-child ul {
+.footer-links ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -77,14 +81,14 @@ footer .footer {
   gap: 0.5rem;
 }
 
-.footer-brand > div > div:first-child > div:last-child ul li a {
+.footer-links ul li a {
   color: #a0a0b8;
   font-size: 0.9rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
-.footer-brand > div > div:first-child > div:last-child ul li a:hover {
+.footer-links ul li a:hover {
   color: #e94560;
 }
 
@@ -128,19 +132,32 @@ footer .footer {
 }
 
 /* ── Responsive ── */
-@media (max-width: 768px) {
-  .footer-brand > div > div:first-child {
-    flex-direction: column;
-    gap: 2rem;
-    padding: 2rem;
+@media (max-width: 900px) {
+  .footer-brand,
+  .footer-links,
+  .footer-bottom {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
-  .footer-bottom {
-    padding: 1.25rem 2rem;
+  .footer-links > div > div {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .footer-links > div > div {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .footer-bottom > div > div {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer-links > div > div {
+    grid-template-columns: 1fr;
   }
 }
