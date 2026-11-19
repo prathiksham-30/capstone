@@ -101,8 +101,8 @@ body.has-hero-header > header .header {
 
 .hero-slide > div:first-child a {
   display: inline-block;
-  background: #e94560;
-  color: white;
+  background: var(--accent-color);
+  color: var(--light-color);
   padding: 0.75rem 2rem;
   border-radius: 4px;
   text-decoration: none;
@@ -110,8 +110,9 @@ body.has-hero-header > header .header {
   transition: background 0.2s;
 }
 
-.hero-slide > div:first-child a:hover {
-  background: #c73652;
+.hero-slide > div:first-child a:hover,
+.hero-slide > div:first-child a:focus-visible {
+  background: var(--link-hover-color);
 }
 
 /* Arrow buttons */
