@@ -4,9 +4,9 @@ import { loadFragment } from '../fragment/fragment.js';
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
 const megaMenuImages = {
-  Shoes: 'https://content.da.live/prathiksham-30/capstone/assets/nav/shoes.jpg',
-  Clothing: 'https://content.da.live/prathiksham-30/capstone/assets/nav/clothing.jpeg',
-  Accessories: 'https://content.da.live/prathiksham-30/capstone/assets/nav/accessories.jpeg',
+  Shoes: 'https://main--capstone--prathiksham-30.aem.live/assets/nav/shoes.jpg',
+  Clothing: 'https://main--capstone--prathiksham-30.aem.live/assets/nav/clothing.jpeg',
+  Accessories: 'https://main--capstone--prathiksham-30.aem.live/assets/nav/accessories.jpeg',
 };
 
 function closeOnEscape(e) {
