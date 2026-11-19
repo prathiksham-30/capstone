@@ -1,3 +1,29 @@
+.hero-section {
+  margin: 0;
+  padding: 0;
+}
+
+main > .section.hero-section > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.has-hero-header > header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 20;
+  height: auto;
+}
+
+body.has-hero-header > header .header {
+  position: relative;
+  top: auto;
+  background: transparent;
+}
+
 .hero {
   position: relative;
   width: 100%;

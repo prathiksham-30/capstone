@@ -2,6 +2,12 @@ export default function decorate(block) {
   const slides = [...block.querySelectorAll(':scope > div')];
   if (slides.length === 0) return;
 
+  const section = block.closest('.section');
+  if (section && section === document.querySelector('main > .section')) {
+    section.classList.add('hero-section');
+    document.body.classList.add('has-hero-header');
+  }
+
   // Wrap all slides in a slider container
   const slider = document.createElement('div');
   slider.className = 'hero-slider';
