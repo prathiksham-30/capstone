@@ -1,0 +1,98 @@
+.feature-banner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2rem 4rem;
+}
+
+.feature-banner > div {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-banner > div:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.feature-banner > div > div:first-child {
+  height: 280px;
+  overflow: hidden;
+}
+
+.feature-banner > div > div:first-child img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.feature-banner > div:hover > div:first-child img {
+  transform: scale(1.05);
+}
+
+.feature-banner > div > div:last-child {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feature-banner > div > div:last-child h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a2e;
+}
+
+.feature-banner > div > div:last-child p {
+  font-size: 0.88rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.feature-banner > div > div:last-child strong {
+  font-size: 1.2rem;
+  color: #e94560;
+  font-weight: 700;
+}
+
+.feature-banner > div > div:last-child a {
+  display: inline-block;
+  margin-top: auto;
+  background: #1a1a2e;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.feature-banner > div > div:last-child a:hover {
+  background: #e94560;
+}
+
+@media (max-width: 900px) {
+  .feature-banner {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .feature-banner {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
