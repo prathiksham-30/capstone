@@ -3,6 +3,13 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+// Mega menu images per category
+const megaMenuImages = {
+  'Shoes': 'https://content.da.live/prathiksham-30/capstone/assets/nav/shoes.jpg',
+  'Clothing': 'https://content.da.live/prathiksham-30/capstone/assets/nav/clothing.jpeg',
+  'Accessories': 'https://content.da.live/prathiksham-30/capstone/assets/nav/accessories.jpeg',
+};
+
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
@@ -56,6 +63,26 @@ function updateCartCount() {
   }
 }
 
+function buildMegaMenu(navSection, label) {
+  const imgUrl = megaMenuImages[label];
+  if (!imgUrl) return;
+
+  // Create image panel
+  const imgPanel = document.createElement('div');
+  imgPanel.className = 'mega-menu-image';
+  imgPanel.innerHTML = `
+    <img src="${imgUrl}" alt="${label}" loading="lazy">
+    <p class="mega-menu-label">${label}</p>
+  `;
+
+  // Find the existing dropdown ul
+  const dropdown = navSection.querySelector('ul');
+  if (dropdown) {
+    dropdown.classList.add('mega-menu-dropdown');
+    dropdown.append(imgPanel);
+  }
+}
+
 export default async function decorate(block) {
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
@@ -74,7 +101,7 @@ export default async function decorate(block) {
   });
 
   const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.default-content-wrapper > p > a');
+  const brandLink = navBrand?.querySelector('.default-content-wrapper > p > a');
   if (brandLink) {
     brandLink.className = '';
     brandLink.closest('.default-content-wrapper').className = '';
@@ -83,17 +110,23 @@ export default async function decorate(block) {
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
+      if (navSection.querySelector('ul')) {
+        navSection.classList.add('nav-drop');
 
-      navSection.querySelectorAll('ul > li').forEach((subItem) => {
-        if (subItem.querySelector('ul')) {
-          subItem.classList.add('nav-subdrop');
-          subItem.addEventListener('click', (e) => {
-            e.stopPropagation();
-            subItem.classList.toggle('open');
-          });
-        }
-      });
+        // Get the label text for this section
+        const labelEl = navSection.querySelector(':scope > p') || navSection.querySelector(':scope > a');
+        const label = labelEl ? labelEl.textContent.trim() : '';
+
+        // Build mega menu image panel
+        buildMegaMenu(navSection, label);
+
+        // Handle nested sub-dropdowns (3rd level)
+        navSection.querySelectorAll('ul > li').forEach((subItem) => {
+          if (subItem.querySelector('ul')) {
+            subItem.classList.add('nav-subdrop');
+          }
+        });
+      }
 
       navSection.addEventListener('click', () => {
         if (isDesktop.matches) {
@@ -101,18 +134,14 @@ export default async function decorate(block) {
           navSection.setAttribute('aria-expanded', navSection.getAttribute('aria-expanded') !== 'true');
         }
       });
-      navSection.addEventListener('mouseenter', () => {
-        if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
-          toggleAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', 'true');
-        }
-      });
-      navSection.addEventListener('mouseleave', () => {
-        if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
-          navSection.setAttribute('aria-expanded', 'false');
-        }
-      });
       navSection.addEventListener('focus', focusNavSection);
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!navSections.contains(e.target)) {
+        toggleAllNavSections(navSections);
+      }
     });
   }
 
@@ -134,9 +163,9 @@ export default async function decorate(block) {
 
   // SVG icon injection
   const icons = {
-    '.nav-search-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>`,
-    '.nav-account-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.25"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>`,
-    '.nav-cart-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2l2.2 10.1a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 1.95-1.55L21 8H6.1"/><circle cx="9.5" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>`,
+    '.nav-search-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+    '.nav-account-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    '.nav-cart-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`,
   };
 
   Object.entries(icons).forEach(([selector, svg]) => {
@@ -154,7 +183,7 @@ export default async function decorate(block) {
 
   block.append(navWrapper);
 
-  // Cart count logic
+  // Cart count
   updateCartCount();
   window.addEventListener('cart-updated', updateCartCount);
 }
