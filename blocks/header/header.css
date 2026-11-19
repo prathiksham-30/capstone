@@ -84,6 +84,57 @@ header nav {
   padding: 0.4rem 1rem;
 }
 
+.nav-sections ul li ul li.nav-subdrop {
+  position: relative;
+  padding: 0;
+}
+
+.nav-sections ul li ul li.nav-subdrop > p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: var(--header-muted-color);
+  margin: 0;
+  padding: 0.4rem 1rem;
+}
+
+.nav-sections ul li ul li.nav-subdrop > p::after {
+  content: '›';
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.nav-sections ul li ul li.nav-subdrop > ul {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background: var(--dark-color);
+  min-width: 160px;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 300;
+}
+
+.nav-sections ul li ul li.nav-subdrop.open > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-sections ul li ul li.nav-subdrop > ul li {
+  padding: 0.4rem 1rem;
+  color: var(--header-muted-color);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nav-sections ul li ul li.nav-subdrop > ul li:hover {
+  color: var(--header-text-color);
+}
+
 .nav-sections ul li ul li a {
   color: var(--header-muted-color);
   font-size: 0.9rem;
@@ -118,6 +169,14 @@ header nav {
   align-items: center;
   transition: color 0.2s;
   position: relative;
+}
+
+.nav-search-icon svg,
+.nav-account-icon svg,
+.nav-cart-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .nav-search-icon:hover,
@@ -198,5 +257,11 @@ header nav {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+
+  .nav-sections ul li ul li.nav-subdrop > ul {
+    position: static;
+    top: auto;
+    left: auto;
   }
 }
