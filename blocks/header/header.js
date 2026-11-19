@@ -152,13 +152,6 @@ if (navSections) {
       toggleAllNavSections(navSections);
     }
   });
-}
-
-    document.addEventListener('click', (e) => {
-      if (!navSections.contains(e.target)) {
-        toggleAllNavSections(navSections);
-      }
-    });
   }
 
   const navHamburger = document.createElement('div');
