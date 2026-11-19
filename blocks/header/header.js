@@ -4,21 +4,21 @@ import { loadFragment } from '../fragment/fragment.js';
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
 const megaMenuImages = {
-  shoes: 'https://content.da.live/prathiksham-30/capstone/assets/nav/shoes.jpg',
-  clothing: 'https://content.da.live/prathiksham-30/capstone/assets/nav/clothing.jpeg',
-  accessories: 'https://content.da.live/prathiksham-30/capstone/assets/nav/accessories.jpeg',
+  Shoes: 'https://content.da.live/prathiksham-30/capstone/assets/nav/shoes.jpg',
+  Clothing: 'https://content.da.live/prathiksham-30/capstone/assets/nav/clothing.jpeg',
+  Accessories: 'https://content.da.live/prathiksham-30/capstone/assets/nav/accessories.jpeg',
 };
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
     const navSections = nav.querySelector('.nav-sections');
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-      toggleAllNavSections(navSections);
-      navSectionExpanded.focus();
+    const expanded = navSections.querySelector('[aria-expanded="true"]');
+    if (expanded && isDesktop.matches) {
+      expanded.setAttribute('aria-expanded', 'false');
+      expanded.focus();
     } else if (!isDesktop.matches) {
-      toggleMenu(nav, navSections);
+      nav.setAttribute('aria-expanded', 'false');
       nav.querySelector('button').focus();
     }
   }
@@ -28,7 +28,7 @@ function openOnKeydown(e) {
   const focused = document.activeElement;
   if (focused.classList.contains('nav-drop') && (e.code === 'Enter' || e.code === 'Space')) {
     const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
-    toggleAllNavSections(focused.closest('.nav-sections'));
+    focused.closest('.nav-sections').querySelectorAll('.nav-drop').forEach((d) => d.setAttribute('aria-expanded', 'false'));
     focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
   }
 }
@@ -38,7 +38,7 @@ function focusNavSection() {
 }
 
 function toggleAllNavSections(sections, expanded = false) {
-  sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li').forEach((section) => {
+  sections.querySelectorAll('.nav-drop').forEach((section) => {
     section.setAttribute('aria-expanded', expanded);
   });
 }
@@ -48,7 +48,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   const button = nav.querySelector('.nav-hamburger button');
   document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || !isDesktop.matches ? 'false' : 'true');
+  toggleAllNavSections(navSections, false);
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
 }
 
@@ -62,32 +62,27 @@ function updateCartCount() {
 }
 
 function buildMegaMenu(navSection, label) {
-  console.log('buildMegaMenu called with label:', JSON.stringify(label));
-  console.log('megaMenuImages keys:', Object.keys(megaMenuImages));
-  console.log('match found:', !!megaMenuImages[label]);
-
   const imgUrl = megaMenuImages[label];
-  const dropdown = navSection.querySelector('ul');
-  console.log('dropdown found:', !!dropdown);
-  if (!dropdown) return;
+  const existingUl = navSection.querySelector(':scope > ul');
+  if (!existingUl) return;
 
-  // Mark sub-drops
-  dropdown.querySelectorAll(':scope > li').forEach((subItem) => {
+  // Mark nav-subdrop on nested items
+  existingUl.querySelectorAll(':scope > li').forEach((subItem) => {
     if (subItem.querySelector('ul')) subItem.classList.add('nav-subdrop');
   });
 
-  // Wrap the ul + optional image in a mega-menu panel div
+  // Create the panel
   const panel = document.createElement('div');
   panel.className = imgUrl ? 'mega-menu-panel has-image' : 'mega-menu-panel';
 
-  // Move the ul into the panel
+  // Links column — move the ul into it
   const linksCol = document.createElement('div');
   linksCol.className = 'mega-menu-links';
-  dropdown.replaceWith(panel);
-  linksCol.append(dropdown);
+  linksCol.append(existingUl.cloneNode(true));
+
   panel.append(linksCol);
 
-  // Add image column if available
+  // Image column
   if (imgUrl) {
     const imgCol = document.createElement('div');
     imgCol.className = 'mega-menu-image';
@@ -97,6 +92,9 @@ function buildMegaMenu(navSection, label) {
     `;
     panel.append(imgCol);
   }
+
+  // Replace the original ul with the panel
+  existingUl.replaceWith(panel);
 }
 
 export default async function decorate(block) {
@@ -124,39 +122,35 @@ export default async function decorate(block) {
   }
 
   const navSections = nav.querySelector('.nav-sections');
-if (navSections) {
-  navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-    if (navSection.querySelector('ul')) {
-      navSection.classList.add('nav-drop');
+  if (navSections) {
+    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
+      if (navSection.querySelector('ul')) {
+        navSection.classList.add('nav-drop');
+        navSection.setAttribute('aria-expanded', 'false');
 
-      // li is already inside default-content-wrapper > ul
-      // so label is a direct child <p> or <a>
-      const labelEl = navSection.querySelector(':scope > p')
-        || navSection.querySelector(':scope > a');
+        const labelEl = navSection.querySelector(':scope > p')
+          || navSection.querySelector(':scope > a');
+        const label = labelEl
+          ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
+          : '';
 
-      // Strip any arrow characters and extra whitespace
-      const label = labelEl
-        ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
-        : '';
-
-      console.log('Nav label detected:', JSON.stringify(label));
-      buildMegaMenu(navSection, label);
-    }
-
-    navSection.addEventListener('click', () => {
-      if (isDesktop.matches) {
-        toggleAllNavSections(navSections);
-        navSection.setAttribute('aria-expanded', navSection.getAttribute('aria-expanded') !== 'true');
+        buildMegaMenu(navSection, label);
       }
-    });
-    navSection.addEventListener('focus', focusNavSection);
-  });
 
-  document.addEventListener('click', (e) => {
-    if (!navSections.contains(e.target)) {
-      toggleAllNavSections(navSections);
-    }
-  });
+      navSection.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isDesktop.matches) {
+          const isExpanded = navSection.getAttribute('aria-expanded') === 'true';
+          toggleAllNavSections(navSections, false);
+          navSection.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+        }
+      });
+      navSection.addEventListener('focus', focusNavSection);
+    });
+
+    document.addEventListener('click', () => {
+      toggleAllNavSections(navSections, false);
+    });
   }
 
   const navHamburger = document.createElement('div');
