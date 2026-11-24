@@ -250,15 +250,19 @@
   .hero-arrow-next { left: 4rem; }
 }
 
-.hero-wrapper {
+main .hero-section,
+main .hero-section > div,
+main .hero-section .hero-wrapper {
+  width: 100% !important;
+  max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  width: 100% !important;
+  box-sizing: border-box;
 }
 
 .hero {
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: none !important;
   margin: 0 !important;
 }
 
