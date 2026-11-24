@@ -169,3 +169,14 @@ export async function fetchProductsByApiCategory(apiCategory, limit = 12) {
     return [];
   }
 }
+
+export async function fetchProductsByApiCategory(apiCategory, limit = 12) {
+  try {
+    const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=${limit}`);
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    return data.products;
+  } catch {
+    return [];
+  }
+}

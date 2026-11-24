@@ -328,3 +328,22 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+/* Hero section — full width, flush with header */
+main > div:has(.hero) {
+  padding: 0;
+  margin: 0;
+}
+
+main > div:has(.hero-wrapper) {
+  padding: 0;
+  margin: 0;
+}
+
+.hero-wrapper {
+  margin: 0;
+}
+
+.hero {
+  margin-top: 0 !important;
+}
