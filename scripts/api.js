@@ -158,3 +158,13 @@ export function getCartTotal(cartWithDetails) {
   return cartWithDetails.reduce((total, item) => total + item.product.price * item.qty, 0).toFixed(2);
 }
 
+export async function fetchProductsByApiCategory(apiCategory, limit = 12) {
+  try {
+    const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=${limit}`);
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    return data.products;
+  } catch {
+    return [];
+  }
+}
