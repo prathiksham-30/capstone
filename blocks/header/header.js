@@ -3,11 +3,24 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
-const megaMenuImages = {
-  Shoes: 'https://main--capstone--prathiksham-30.aem.live/assets/nav/shoes.jpg',
-  Clothing: 'https://main--capstone--prathiksham-30.aem.live/assets/nav/clothing.jpeg',
-  Accessories: 'https://main--capstone--prathiksham-30.aem.live/assets/nav/accessories.jpeg',
+// Map nav label → DummyJSON API category slug
+const megaMenuCategories = {
+  Shoes: 'mens-shoes',
+  Clothing: 'womens-dresses',
+  Accessories: 'womens-jewellery',
 };
+
+// Fetch first product thumbnail from API for mega menu image
+async function fetchCategoryImage(apiCategory) {
+  try {
+    const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=1`);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.products?.[0]?.thumbnail || null;
+  } catch {
+    return null;
+  }
+}
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
@@ -56,13 +69,13 @@ function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('shopedge-cart')) || [];
   const countEl = document.querySelector('[data-cart-count]');
   if (countEl) {
-    countEl.textContent = cart.length;
-    countEl.dataset.cartCount = cart.length;
+    countEl.textContent = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    countEl.dataset.cartCount = countEl.textContent;
   }
 }
 
-function buildMegaMenu(navSection, label) {
-  const imgUrl = megaMenuImages[label];
+async function buildMegaMenu(navSection, label) {
+  const apiCategory = megaMenuCategories[label];
   const existingUl = navSection.querySelector(':scope > ul');
   if (!existingUl) return;
 
@@ -73,24 +86,27 @@ function buildMegaMenu(navSection, label) {
 
   // Create the panel
   const panel = document.createElement('div');
-  panel.className = imgUrl ? 'mega-menu-panel has-image' : 'mega-menu-panel';
+  panel.className = 'mega-menu-panel';
 
-  // Links column — move the ul into it
+  // Links column
   const linksCol = document.createElement('div');
   linksCol.className = 'mega-menu-links';
   linksCol.append(existingUl.cloneNode(true));
-
   panel.append(linksCol);
 
-  // Image column
-  if (imgUrl) {
-    const imgCol = document.createElement('div');
-    imgCol.className = 'mega-menu-image';
-    imgCol.innerHTML = `
-      <img src="${imgUrl}" alt="${label}" loading="lazy">
-      <p class="mega-menu-label">${label}</p>
-    `;
-    panel.append(imgCol);
+  // Fetch image from API and add image column
+  if (apiCategory) {
+    const imgUrl = await fetchCategoryImage(apiCategory);
+    if (imgUrl) {
+      panel.classList.add('has-image');
+      const imgCol = document.createElement('div');
+      imgCol.className = 'mega-menu-image';
+      imgCol.innerHTML = `
+        <img src="${imgUrl}" alt="${label}" loading="lazy">
+        <p class="mega-menu-label">${label}</p>
+      `;
+      panel.append(imgCol);
+    }
   }
 
   // Replace the original ul with the panel
@@ -123,6 +139,8 @@ export default async function decorate(block) {
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
+    // Build all mega menus in parallel
+    const buildPromises = [];
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) {
         navSection.classList.add('nav-drop');
@@ -134,7 +152,8 @@ export default async function decorate(block) {
           ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
           : '';
 
-        buildMegaMenu(navSection, label);
+        // Collect all async buildMegaMenu calls
+        buildPromises.push(buildMegaMenu(navSection, label));
       }
 
       navSection.addEventListener('click', (e) => {
@@ -161,6 +180,9 @@ export default async function decorate(block) {
       });
       navSection.addEventListener('focus', focusNavSection);
     });
+
+    // Wait for all mega menus to build
+    await Promise.all(buildPromises);
 
     document.addEventListener('click', () => {
       toggleAllNavSections(navSections, false);
