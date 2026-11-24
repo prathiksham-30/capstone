@@ -351,3 +351,9 @@ main .hero-section {
 main .hero-section .hero-wrapper {
   margin: 0 !important;
 }
+
+/* Hero section — remove all section padding */
+main > div:first-child {
+  padding: 0 !important;
+  margin: 0 !important;
+}
