@@ -357,3 +357,9 @@ main > div:first-child {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* Remove padding from hero section */
+main > div:first-child {
+  padding: 0 !important;
+  margin: 0 !important;
+}

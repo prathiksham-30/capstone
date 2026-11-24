@@ -2,6 +2,7 @@
 .hero-wrapper {
   margin: 0 !important;
   padding: 0 !important;
+  width: 100% !important;
 }
 
 .hero {
@@ -9,7 +10,9 @@
   width: 100%;
   height: 560px;
   overflow: hidden;
-  background: #f8f4f0;
+  background: #1a1a2e;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-loading {
@@ -32,14 +35,16 @@
   position: relative;
 }
 
+/* Each slide — strict 50/50 two-column grid, no gaps */
 .hero-slide {
   position: absolute;
   inset: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100%;
+  gap: 0;
   opacity: 0;
   transition: opacity 0.7s ease;
-  background: #fff;
 }
 
 .hero-slide.active {
@@ -56,6 +61,8 @@
   background: #1a1a2e;
   color: white;
   gap: 0.75rem;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .hero-slide-tag {
@@ -129,14 +136,13 @@
   transform: translateX(4px);
 }
 
-/* ── RIGHT — product image ── */
+/* ── RIGHT — product image, fills full column ── */
 .hero-slide-right {
   position: relative;
   overflow: hidden;
   background: #f5f0eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .hero-slide-bg-circle {
@@ -152,12 +158,13 @@
 }
 
 .hero-slide-right img {
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
   transition: transform 0.7s ease;
 }
 
@@ -222,22 +229,25 @@
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .hero { height: auto; }
+  .hero {
+    height: auto;
+    min-height: 500px;
+  }
 
   .hero-slide {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
+    grid-template-rows: 280px auto;
     position: relative;
   }
 
-  .hero-slide-left {
-    padding: 2.5rem 2rem;
-    order: 2;
+  .hero-slide-right {
+    grid-row: 1;
+    height: 280px;
   }
 
-  .hero-slide-right {
-    height: 280px;
-    order: 1;
+  .hero-slide-left {
+    grid-row: 2;
+    padding: 2rem;
   }
 
   .hero-slide-title { font-size: 2rem; }
@@ -246,8 +256,6 @@
 @media (max-width: 540px) {
   .hero-slide-title { font-size: 1.6rem; }
   .hero-slide-right { height: 220px; }
-  .hero-arrow-prev { left: 1rem; }
-  .hero-arrow-next { left: 4rem; }
 }
 
 main .hero-section,
