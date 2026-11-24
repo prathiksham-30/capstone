@@ -252,7 +252,10 @@
 
 main .hero-section,
 main .hero-section > div,
-main .hero-section .hero-wrapper {
+main .hero-section .hero-wrapper,
+main .hero-spacing,
+main .hero-spacing > div,
+main .hero-spacing .hero-wrapper {
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
@@ -279,5 +282,6 @@ main .hero-section .hero-wrapper {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+  object-position: center !important;
   display: block !important;
 }
