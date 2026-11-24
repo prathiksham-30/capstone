@@ -8,6 +8,8 @@ const megaMenuCategories = {
   Shoes: 'mens-shoes',
   Clothing: 'womens-dresses',
   Accessories: 'womens-jewellery',
+  Beauty: 'beauty',
+  Bags: 'womens-bags',
 };
 
 async function fetchCategoryImage(apiCategory) {

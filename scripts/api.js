@@ -4,9 +4,10 @@ const BASE_URL = 'https://dummyjson.com';
 export const CATEGORY_MAP = {
   all: null,
   shoes: ['mens-shoes', 'womens-shoes'],
-  clothing: ['mens-shirts', 'womens-dresses', 'tops', 'womens-tops'],
+  clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   accessories: ['womens-jewellery', 'sunglasses', 'mens-watches', 'womens-watches'],
-  'new-arrivals': null,
+  beauty: ['beauty', 'fragrances', 'skin-care'],
+  bags: ['womens-bags'],
 };
 
 /**
