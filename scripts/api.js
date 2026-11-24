@@ -10,9 +10,6 @@ export const CATEGORY_MAP = {
   bags: ['womens-bags'],
 };
 
-/**
- * Fetch all products
- */
 export async function fetchAllProducts(limit = 20, skip = 0) {
   try {
     const resp = await fetch(`${BASE_URL}/products?limit=${limit}&skip=${skip}`);
@@ -23,9 +20,6 @@ export async function fetchAllProducts(limit = 20, skip = 0) {
   }
 }
 
-/**
- * Fetch products by ShopEdge category slug
- */
 export async function fetchProductsByCategory(categorySlug, limit = 12) {
   try {
     const categories = CATEGORY_MAP[categorySlug];
@@ -47,9 +41,17 @@ export async function fetchProductsByCategory(categorySlug, limit = 12) {
   }
 }
 
-/**
- * Fetch single product by ID
- */
+export async function fetchProductsByApiCategory(apiCategory, limit = 12) {
+  try {
+    const resp = await fetch(`${BASE_URL}/products/category/${apiCategory}?limit=${limit}`);
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    return data.products;
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchProductById(id) {
   try {
     const resp = await fetch(`${BASE_URL}/products/${id}`);
@@ -60,9 +62,6 @@ export async function fetchProductById(id) {
   }
 }
 
-/**
- * Fetch multiple products by IDs (for cart)
- */
 export async function fetchProductsByIds(ids) {
   try {
     const results = await Promise.all(ids.map((id) => fetchProductById(id)));
@@ -72,9 +71,6 @@ export async function fetchProductsByIds(ids) {
   }
 }
 
-/**
- * Search products
- */
 export async function searchProducts(query, limit = 20) {
   try {
     const resp = await fetch(`${BASE_URL}/products/search?q=${encodeURIComponent(query)}&limit=${limit}`);
@@ -86,9 +82,6 @@ export async function searchProducts(query, limit = 20) {
   }
 }
 
-/**
- * Fetch featured products (for home page)
- */
 export async function fetchFeaturedProducts(limit = 4) {
   try {
     const resp = await fetch(`${BASE_URL}/products?limit=${limit}&skip=0&sortBy=rating&order=desc`);
@@ -100,9 +93,6 @@ export async function fetchFeaturedProducts(limit = 4) {
   }
 }
 
-/**
- * Get cart items with full product details from API
- */
 export async function getCartWithDetails() {
   try {
     const cart = JSON.parse(localStorage.getItem('shopedge-cart') || '[]');
@@ -117,9 +107,6 @@ export async function getCartWithDetails() {
   }
 }
 
-/**
- * Cart helpers
- */
 export function addToCart(product, qty = 1) {
   const cart = JSON.parse(localStorage.getItem('shopedge-cart') || '[]');
   const existing = cart.find((item) => item.id === product.id);
@@ -134,8 +121,9 @@ export function addToCart(product, qty = 1) {
 
 export function removeFromCart(productId) {
   const cart = JSON.parse(localStorage.getItem('shopedge-cart') || '[]');
-  const updated = cart.filter((item) => item.id !== productId);
-  localStorage.setItem('shopedge-cart', JSON.stringify(updated));
+  localStorage.setItem('shopedge-cart', JSON.stringify(
+    cart.filter((item) => item.id !== productId)
+  ));
   window.dispatchEvent(new Event('cart-updated'));
 }
 
@@ -156,27 +144,7 @@ export function getCartCount() {
 }
 
 export function getCartTotal(cartWithDetails) {
-  return cartWithDetails.reduce((total, item) => total + item.product.price * item.qty, 0).toFixed(2);
-}
-
-export async function fetchProductsByApiCategory(apiCategory, limit = 12) {
-  try {
-    const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=${limit}`);
-    if (!resp.ok) return [];
-    const data = await resp.json();
-    return data.products;
-  } catch {
-    return [];
-  }
-}
-
-export async function fetchProductsByApiCategory(apiCategory, limit = 12) {
-  try {
-    const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=${limit}`);
-    if (!resp.ok) return [];
-    const data = await resp.json();
-    return data.products;
-  } catch {
-    return [];
-  }
+  return cartWithDetails.reduce(
+    (total, item) => total + item.product.price * item.qty, 0
+  ).toFixed(2);
 }
