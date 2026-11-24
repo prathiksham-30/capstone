@@ -5,11 +5,10 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
 
 // Map nav label → DummyJSON API categories
 const megaMenuCategories = {
-  Shoes: ['mens-shoes', 'womens-shoes'],
   Clothing: ['mens-shirts', 'womens-dresses', 'tops'],
-  Accessories: ['womens-jewellery', 'mens-watches', 'womens-watches', 'sunglasses'],
+  Accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'mens-watches', 'womens-watches', 'sunglasses', 'womens-bags'],
   Beauty: ['beauty', 'fragrances', 'skin-care'],
-  Bags: ['womens-bags'],
+  'Home & Living': ['furniture', 'home-decoration', 'kitchen-accessories'],
 };
 
 async function fetchCategoryBrands(apiCategory) {

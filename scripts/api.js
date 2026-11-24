@@ -3,11 +3,10 @@ const BASE_URL = 'https://dummyjson.com';
 // ShopEdge → DummyJSON category mapping
 export const CATEGORY_MAP = {
   all: null,
-  shoes: ['mens-shoes', 'womens-shoes'],
   clothing: ['mens-shirts', 'womens-dresses', 'tops'],
-  accessories: ['womens-jewellery', 'sunglasses', 'mens-watches', 'womens-watches'],
+  accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'sunglasses', 'mens-watches', 'womens-watches', 'womens-bags'],
   beauty: ['beauty', 'fragrances', 'skin-care'],
-  bags: ['womens-bags'],
+  'home-living': ['furniture', 'home-decoration', 'kitchen-accessories'],
 };
 
 export async function fetchAllProducts(limit = 20, skip = 0) {
