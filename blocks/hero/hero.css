@@ -186,6 +186,11 @@
   .hero-arrow { width: 36px; height: 36px; font-size: 1rem; }
 }
 
+.hero-section {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .hero-wrapper {
   margin: 0 !important;
   padding: 0 !important;
