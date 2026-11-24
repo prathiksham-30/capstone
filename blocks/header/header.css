@@ -581,3 +581,59 @@ header nav {
   padding-left: 6px;
   transition: all 0.15s;
 }
+
+/* ── Compact dropdown ── */
+.nav-drop > .mega-menu-panel {
+  min-width: 280px !important;
+  max-width: 420px !important;
+  width: auto !important;
+  padding: 1rem 1.25rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.nav-drop > .mega-menu-panel.has-image {
+  min-width: 360px !important;
+  max-width: 480px !important;
+}
+
+/* Compact link list */
+.mega-menu-links > ul {
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.mega-menu-links > ul > li {
+  min-width: unset !important;
+}
+
+.mega-menu-links > ul > li a {
+  display: block;
+  padding: 0.45rem 0.5rem !important;
+  font-size: 0.88rem !important;
+  color: #333 !important;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mega-menu-links > ul > li a:hover {
+  background: rgba(233,69,96,0.08) !important;
+  color: #e94560 !important;
+  padding-left: 0.75rem !important;
+}
+
+/* Smaller image in mega menu */
+.mega-menu-image {
+  width: 120px !important;
+  padding-left: 1rem !important;
+}
+
+.mega-menu-image img {
+  height: 110px !important;
+}
+
+.mega-menu-label {
+  font-size: 0.82rem !important;
+  margin-top: 0.4rem !important;
+}
