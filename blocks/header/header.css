@@ -475,3 +475,62 @@ header nav {
     --header-muted-color: var(--text-color);
   }
 }
+
+/* Keep panel open when hovering over it */
+.nav-drop:hover > .mega-menu-panel,
+.nav-drop[aria-expanded="true"] > .mega-menu-panel {
+  display: flex !important;
+}
+
+/* Hover color change on nav items */
+.nav-sections .default-content-wrapper > ul > li > p,
+.nav-sections .default-content-wrapper > ul > li > a {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-sections .default-content-wrapper > ul > li:hover > p,
+.nav-sections .default-content-wrapper > ul > li:hover > a,
+.nav-sections .default-content-wrapper > ul > li[aria-expanded="true"] > p,
+.nav-sections .default-content-wrapper > ul > li[aria-expanded="true"] > a {
+  color: #e94560 !important;
+}
+
+/* Underline indicator on active/hover nav item */
+.nav-sections .default-content-wrapper > ul > li {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-sections .default-content-wrapper > ul > li::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #e94560;
+  transition: width 0.2s;
+}
+
+.nav-sections .default-content-wrapper > ul > li:hover::after,
+.nav-sections .default-content-wrapper > ul > li[aria-expanded="true"]::after {
+  width: 100%;
+}
+
+/* Mega menu panel — stay open on hover */
+.mega-menu-panel {
+  pointer-events: auto;
+}
+
+.nav-drop:hover > .mega-menu-panel {
+  display: flex !important;
+}
+
+/* Sub-link hover color */
+.mega-menu-links > ul > li.nav-subdrop > ul > li a:hover,
+.mega-menu-links > ul > li.nav-subdrop > ul > li p:hover {
+  color: #e94560 !important;
+  padding-left: 4px;
+  transition: all 0.15s;
+}

@@ -157,27 +157,29 @@ export default async function decorate(block) {
       }
 
       navSection.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (isDesktop.matches) {
-          if (navSection.classList.contains('nav-drop')) {
-            toggleAllNavSections(navSections, false);
-            navSection.setAttribute('aria-expanded', 'true');
-          } else {
-            toggleAllNavSections(navSections, false);
-          }
-        }
-      });
-      navSection.addEventListener('mouseenter', () => {
-        if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
-          toggleAllNavSections(navSections, false);
-          navSection.setAttribute('aria-expanded', 'true');
-        }
-      });
-      navSection.addEventListener('mouseleave', () => {
-        if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
-          navSection.setAttribute('aria-expanded', 'false');
-        }
-      });
+  e.stopPropagation();
+  if (!isDesktop.matches) {
+    const isExpanded = navSection.getAttribute('aria-expanded') === 'true';
+    toggleAllNavSections(navSections, false);
+    navSection.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+  }
+});
+
+navSection.addEventListener('mouseenter', () => {
+  if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
+    toggleAllNavSections(navSections, false);
+    navSection.setAttribute('aria-expanded', 'true');
+  }
+});
+
+// Use the panel itself to keep menu open
+navSection.addEventListener('mouseleave', (e) => {
+  if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
+    const panel = navSection.querySelector('.mega-menu-panel');
+    if (panel && panel.contains(e.relatedTarget)) return;
+    navSection.setAttribute('aria-expanded', 'false');
+  }
+});
       navSection.addEventListener('focus', focusNavSection);
     });
 
