@@ -2,41 +2,38 @@ import { fetchProductsByApiCategory } from '../../scripts/api.js';
 
 export default async function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
+  const configs = rows.map((row) => ({
+    category: row.children[1]?.textContent.trim() || row.children[0]?.textContent.trim(),
+    name: row.children[2]?.textContent.trim() || '',
+    desc: row.children[3]?.textContent.trim() || '',
+  })).filter((c) => c.category && c.category !== 'category');
 
-  // Parse config rows — each row: category slug | name | description
-  const categories = rows.map((row) => ({
-    slug: row.children[0]?.textContent.trim(),
-    name: row.children[1]?.textContent.trim(),
-    description: row.children[2]?.textContent.trim(),
-  })).filter((c) => c.slug && c.name);
+  if (!configs.length) return;
+  block.innerHTML = '<div class="promo-grid-loading"></div>';
 
-  if (!categories.length) return;
-
-  block.innerHTML = '<div class="promo-grid-loading">Loading categories...</div>';
-
-  // Fetch one product per category for the image
   const enriched = await Promise.all(
-    categories.map(async (cat) => {
-      const products = await fetchProductsByApiCategory(cat.slug, 1);
-      return { ...cat, image: products[0]?.thumbnail || '' };
+    configs.map(async (cfg) => {
+      const products = await fetchProductsByApiCategory(cfg.category, 3);
+      const img = products[Math.floor(Math.random() * products.length)]?.thumbnail || '';
+      return { ...cfg, img };
     })
   );
 
   const grid = document.createElement('div');
   grid.className = 'promo-grid-inner';
 
-  enriched.forEach((cat) => {
+  enriched.forEach((item) => {
     const card = document.createElement('div');
     card.className = 'promo-grid-card';
     card.innerHTML = `
-      <a href="/category/${cat.slug}" class="promo-grid-link">
-        <div class="promo-grid-image">
-          ${cat.image ? `<img src="${cat.image}" alt="${cat.name}" loading="lazy">` : ''}
-          <div class="promo-grid-overlay">
-            <h3>${cat.name}</h3>
-            <p>${cat.description || ''}</p>
-            <span class="promo-grid-cta">Shop Now</span>
-          </div>
+      <a href="/category/${item.category}" class="promo-grid-link">
+        <div class="promo-grid-img">
+          ${item.img ? `<img src="${item.img}" alt="${item.name}" loading="lazy">` : ''}
+        </div>
+        <div class="promo-grid-info">
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+          <span class="promo-grid-btn">Shop Now →</span>
         </div>
       </a>
     `;

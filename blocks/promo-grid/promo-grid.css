@@ -1,13 +1,15 @@
 .promo-grid-inner {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  padding: 0.5rem 0;
 }
 
 .promo-grid-card {
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   position: relative;
+  background: #0d1b2a;
 }
 
 .promo-grid-link {
@@ -15,67 +17,62 @@
   text-decoration: none;
 }
 
-.promo-grid-image {
+.promo-grid-img {
   position: relative;
-  height: 320px;
+  height: 260px;
   overflow: hidden;
-  background: #1a1a2e;
+  background: #112236;
 }
 
-.promo-grid-image img {
+.promo-grid-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s;
+  transition: transform 0.5s ease;
 }
 
-.promo-grid-card:hover .promo-grid-image img {
+.promo-grid-card:hover .promo-grid-img img {
   transform: scale(1.07);
 }
 
-.promo-grid-overlay {
+.promo-grid-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1.5rem 1rem 1rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  color: white;
-  transition: padding 0.3s;
+  padding: 2rem 1.25rem 1.25rem;
+  background: linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.6) 60%, transparent 100%);
 }
 
-.promo-grid-overlay h3 {
-  font-size: 1.1rem;
+.promo-grid-info h3 {
+  color: #ffffff;
+  font-size: 1rem;
   font-weight: 700;
-  margin: 0 0 0.3rem;
-  color: white;
+  margin: 0 0 0.25rem;
 }
 
-.promo-grid-overlay p {
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.85);
+.promo-grid-info p {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.78rem;
   margin: 0 0 0.75rem;
-  display: none;
 }
 
-.promo-grid-card:hover .promo-grid-overlay p {
-  display: block;
-}
-
-.promo-grid-cta {
+.promo-grid-btn {
   display: inline-block;
-  background: #e94560;
-  color: white;
-  padding: 0.4rem 1rem;
-  border-radius: 4px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: background 0.2s;
+  color: #c9a84c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #c9a84c;
+  padding-bottom: 1px;
+  transition: color 0.2s;
 }
 
-.promo-grid-card:hover .promo-grid-cta {
-  background: #c73652;
+.promo-grid-card:hover .promo-grid-btn {
+  color: #ffffff;
+  border-color: #ffffff;
 }
 
 @media (max-width: 900px) {
@@ -84,5 +81,5 @@
 
 @media (max-width: 540px) {
   .promo-grid-inner { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-  .promo-grid-image { height: 200px; }
+  .promo-grid-img { height: 180px; }
 }

@@ -64,8 +64,8 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #e94560;
-  color: white;
+  background: #c9a84c;
+  color: #0d1b2a;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 0.25rem 0.5rem;
@@ -125,7 +125,7 @@
 .product-teaser-price {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #e94560;
+  color: #c9a84c;
 }
 
 .product-teaser-original {
@@ -154,7 +154,7 @@
 .product-teaser-cta {
   margin: 0 1rem 1rem;
   padding: 0.65rem;
-  background: #1a1a2e;
+  background: #0d1b2a;
   color: white;
   border: none;
   border-radius: 6px;
@@ -165,7 +165,7 @@
   width: calc(100% - 2rem);
 }
 
-.product-teaser-cta:hover { background: #e94560; }
+.product-teaser-cta:hover { background:#c9a84c; color: #0d1b2a; }
 .product-teaser-cta.added { background: #27ae60; }
 
 @media (max-width: 1024px) {

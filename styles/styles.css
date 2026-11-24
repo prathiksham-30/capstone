@@ -11,18 +11,31 @@
  */
 
 :root {
-  /* colors */
-  --background-color: #f4f1e9;
-  --light-color: #fcfbf7;
-  --dark-color: #293943;
-  --text-color: #35434a;
-  --link-color: #28798c;
-  --link-hover-color: #1d5e70;
-  --header-background-color: #293943;
-  --header-text-color: #f4f1e9;
-  --header-muted-color: #c8d0d2;
-  --accent-color: #36869a;
-  --border-color: #d7dcda;
+  /* ShopEdge Theme — Deep Navy + Gold */
+  --color-bg: #0d1b2a;
+  --color-bg-alt: #112236;
+  --color-bg-card: #ffffff;
+  --color-accent: #c9a84c;
+  --color-accent-hover: #a8873a;
+  --color-text: #1a1a2e;
+  --color-text-light: #6b7a8d;
+  --color-text-muted: #9aa5b4;
+  --color-white: #ffffff;
+  --color-border: #e8ecf0;
+  --color-shadow: rgba(0,0,0,0.08);
+
+  /* Header */
+  --header-background-color: #0d1b2a;
+  --header-text-color: #ffffff;
+  --header-muted-color: #9aa5b4;
+  --accent-color: #c9a84c;
+  --nav-height: 64px;
+
+  /* Legacy vars */
+  --light-color: #ffffff;
+  --dark-color: #0d1b2a;
+  --link-color: #c9a84c;
+  --border-color: #e8ecf0;
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;

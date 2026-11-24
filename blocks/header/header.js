@@ -78,8 +78,72 @@ function updateCartCount() {
   }
 }
 
+// Sub-categories per nav label
+const subCategories = {
+  Shoes: [
+    { name: "Men's Shoes", href: '/category/mens-shoes' },
+    { name: "Women's Shoes", href: '/category/womens-shoes' },
+    { name: 'Sneakers', href: '/category/mens-shoes' },
+    { name: 'Boots', href: '/category/mens-shoes' },
+    { name: 'Heels', href: '/category/womens-shoes' },
+    { name: 'Sandals', href: '/category/womens-shoes' },
+    { name: 'Flats', href: '/category/womens-shoes' },
+    { name: 'Loafers', href: '/category/mens-shoes' },
+  ],
+  Clothing: [
+    { name: "Men's Shirts", href: '/category/mens-shirts' },
+    { name: "Women's Dresses", href: '/category/womens-dresses' },
+    { name: 'Tops', href: '/category/tops' },
+    { name: 'T-Shirts', href: '/category/tops' },
+    { name: 'Pants', href: '/category/mens-shirts' },
+    { name: 'Jackets', href: '/category/mens-shirts' },
+    { name: 'Kurtas', href: '/category/womens-dresses' },
+    { name: 'Skirts', href: '/category/womens-dresses' },
+  ],
+  Accessories: [
+    { name: "Women's Jewellery", href: '/category/womens-jewellery' },
+    { name: "Men's Watches", href: '/category/mens-watches' },
+    { name: "Women's Watches", href: '/category/womens-watches' },
+    { name: 'Sunglasses', href: '/category/sunglasses' },
+    { name: 'Rings', href: '/category/womens-jewellery' },
+    { name: 'Necklaces', href: '/category/womens-jewellery' },
+    { name: 'Earrings', href: '/category/womens-jewellery' },
+    { name: 'Bracelets', href: '/category/womens-jewellery' },
+  ],
+  Beauty: [
+    { name: 'All Beauty', href: '/category/beauty' },
+    { name: 'Fragrances', href: '/category/fragrances' },
+    { name: 'Skin Care', href: '/category/skin-care' },
+    { name: 'Makeup', href: '/category/beauty' },
+    { name: 'Lipstick', href: '/category/beauty' },
+    { name: 'Foundation', href: '/category/beauty' },
+    { name: 'Eyeshadow', href: '/category/beauty' },
+    { name: 'Nail Polish', href: '/category/beauty' },
+  ],
+  Bags: [
+    { name: 'All Bags', href: '/category/womens-bags' },
+    { name: 'Handbags', href: '/category/womens-bags' },
+    { name: 'Totes', href: '/category/womens-bags' },
+    { name: 'Clutches', href: '/category/womens-bags' },
+    { name: 'Backpacks', href: '/category/womens-bags' },
+    { name: 'Crossbody', href: '/category/womens-bags' },
+  ],
+};
+
+async function fetchCategoryImage(apiCategory) {
+  try {
+    const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=1`);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.products?.[0]?.thumbnail || null;
+  } catch {
+    return null;
+  }
+}
+
 async function buildMegaMenu(navSection, label) {
-  const apiCategories = megaMenuCategories[label];
+  const cats = subCategories[label];
+  const apiCategory = megaMenuCategories[label]?.[0];
   const existingUl = navSection.querySelector(':scope > ul');
   if (!existingUl) return;
 
@@ -89,45 +153,33 @@ async function buildMegaMenu(navSection, label) {
   const linksCol = document.createElement('div');
   linksCol.className = 'mega-menu-links';
 
-  // Keep original nav subcategory links
-  const navList = existingUl.cloneNode(true);
-  linksCol.append(navList);
-
-  if (apiCategories) {
-    // Fetch brands from first API category
-    const { brands, image } = await fetchCategoryBrands(apiCategories[0]);
-
-    if (brands.length) {
-      const brandSection = document.createElement('div');
-      brandSection.className = 'mega-menu-brands';
-      brandSection.innerHTML = `<p class="mega-menu-brands-title">Popular Brands</p>`;
-      const brandList = document.createElement('ul');
-      brands.slice(0, 8).forEach((brand) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="/category/${apiCategories[0]}?brand=${encodeURIComponent(brand)}">${brand}</a>`;
-        brandList.append(li);
-      });
-      brandSection.append(brandList);
-      linksCol.append(brandSection);
-
-      if (image) {
-        panel.classList.add('has-image');
-        const imgCol = document.createElement('div');
-        imgCol.className = 'mega-menu-image';
-        imgCol.innerHTML = `
-          <img src="${image}" alt="${label}" loading="lazy">
-          <p class="mega-menu-label">${label}</p>
-        `;
-        panel.append(linksCol);
-        panel.append(imgCol);
-      } else {
-        panel.append(linksCol);
-      }
-    } else {
-      panel.append(linksCol);
-    }
+  // Build sub-category list from static map
+  const list = document.createElement('ul');
+  if (cats) {
+    cats.forEach(({ name, href }) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${href}">${name}</a>`;
+      list.append(li);
+    });
   } else {
-    panel.append(linksCol);
+    list.append(...existingUl.cloneNode(true).children);
+  }
+  linksCol.append(list);
+  panel.append(linksCol);
+
+  // Fetch image from API
+  if (apiCategory) {
+    const imgUrl = await fetchCategoryImage(apiCategory);
+    if (imgUrl) {
+      panel.classList.add('has-image');
+      const imgCol = document.createElement('div');
+      imgCol.className = 'mega-menu-image';
+      imgCol.innerHTML = `
+        <img src="${imgUrl}" alt="${label}" loading="lazy">
+        <p class="mega-menu-label">${label}</p>
+      `;
+      panel.append(imgCol);
+    }
   }
 
   existingUl.replaceWith(panel);
