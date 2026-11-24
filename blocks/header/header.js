@@ -3,14 +3,13 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
-// Map nav label → DummyJSON API category slug
+// Map nav label → DummyJSON API category for mega menu image
 const megaMenuCategories = {
   Shoes: 'mens-shoes',
   Clothing: 'womens-dresses',
   Accessories: 'womens-jewellery',
 };
 
-// Fetch first product thumbnail from API for mega menu image
 async function fetchCategoryImage(apiCategory) {
   try {
     const resp = await fetch(`https://dummyjson.com/products/category/${apiCategory}?limit=1`);
@@ -41,7 +40,8 @@ function openOnKeydown(e) {
   const focused = document.activeElement;
   if (focused.classList.contains('nav-drop') && (e.code === 'Enter' || e.code === 'Space')) {
     const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
-    focused.closest('.nav-sections').querySelectorAll('.nav-drop').forEach((d) => d.setAttribute('aria-expanded', 'false'));
+    focused.closest('.nav-sections').querySelectorAll('.nav-drop')
+      .forEach((d) => d.setAttribute('aria-expanded', 'false'));
     focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
   }
 }
@@ -51,13 +51,13 @@ function focusNavSection() {
 }
 
 function toggleAllNavSections(sections, expanded = false) {
-  sections.querySelectorAll('.nav-drop').forEach((section) => {
-    section.setAttribute('aria-expanded', expanded);
-  });
+  sections.querySelectorAll('.nav-drop').forEach((s) => s.setAttribute('aria-expanded', expanded));
 }
 
 function toggleMenu(nav, navSections, forceExpanded = null) {
-  const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
+  const expanded = forceExpanded !== null
+    ? !forceExpanded
+    : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
   document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
@@ -66,11 +66,12 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 }
 
 function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('shopedge-cart')) || [];
+  const cart = JSON.parse(localStorage.getItem('shopedge-cart') || '[]');
   const countEl = document.querySelector('[data-cart-count]');
   if (countEl) {
-    countEl.textContent = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
-    countEl.dataset.cartCount = countEl.textContent;
+    const total = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    countEl.textContent = total;
+    countEl.dataset.cartCount = total;
   }
 }
 
@@ -79,22 +80,14 @@ async function buildMegaMenu(navSection, label) {
   const existingUl = navSection.querySelector(':scope > ul');
   if (!existingUl) return;
 
-  // Mark nav-subdrop on nested items
-  existingUl.querySelectorAll(':scope > li').forEach((subItem) => {
-    if (subItem.querySelector('ul')) subItem.classList.add('nav-subdrop');
-  });
-
-  // Create the panel
   const panel = document.createElement('div');
   panel.className = 'mega-menu-panel';
 
-  // Links column
   const linksCol = document.createElement('div');
   linksCol.className = 'mega-menu-links';
   linksCol.append(existingUl.cloneNode(true));
   panel.append(linksCol);
 
-  // Fetch image from API and add image column
   if (apiCategory) {
     const imgUrl = await fetchCategoryImage(apiCategory);
     if (imgUrl) {
@@ -109,14 +102,12 @@ async function buildMegaMenu(navSection, label) {
     }
   }
 
-  // Replace the original ul with the panel
   existingUl.replaceWith(panel);
 }
 
 export default async function decorate(block) {
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-
   const fragment = await loadFragment(navPath);
 
   block.textContent = '';
@@ -139,8 +130,8 @@ export default async function decorate(block) {
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
-    // Build all mega menus in parallel
     const buildPromises = [];
+
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) {
         navSection.classList.add('nav-drop');
@@ -152,39 +143,59 @@ export default async function decorate(block) {
           ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
           : '';
 
-        // Collect all async buildMegaMenu calls
         buildPromises.push(buildMegaMenu(navSection, label));
       }
 
-      navSection.addEventListener('click', (e) => {
-  e.stopPropagation();
-  if (!isDesktop.matches) {
-    const isExpanded = navSection.getAttribute('aria-expanded') === 'true';
-    toggleAllNavSections(navSections, false);
-    navSection.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
-  }
-});
-
-navSection.addEventListener('mouseenter', () => {
-  if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
-    toggleAllNavSections(navSections, false);
-    navSection.setAttribute('aria-expanded', 'true');
-  }
-});
-
-// Use the panel itself to keep menu open
-navSection.addEventListener('mouseleave', (e) => {
-  if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
-    const panel = navSection.querySelector('.mega-menu-panel');
-    if (panel && panel.contains(e.relatedTarget)) return;
-    navSection.setAttribute('aria-expanded', 'false');
-  }
-});
       navSection.addEventListener('focus', focusNavSection);
     });
 
-    // Wait for all mega menus to build
     await Promise.all(buildPromises);
+
+    // ── Hover logic — fixed with leaveTimer so panel stays open ──
+    let leaveTimer = null;
+
+    navSections.querySelectorAll('.nav-drop').forEach((navSection) => {
+      navSection.addEventListener('mouseenter', () => {
+        clearTimeout(leaveTimer);
+        if (isDesktop.matches) {
+          toggleAllNavSections(navSections, false);
+          navSection.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      navSection.addEventListener('mouseleave', () => {
+        if (isDesktop.matches) {
+          leaveTimer = setTimeout(() => {
+            navSection.setAttribute('aria-expanded', 'false');
+          }, 150); // 150ms delay — enough to move mouse to panel
+        }
+      });
+
+      const panel = navSection.querySelector('.mega-menu-panel');
+      if (panel) {
+        panel.addEventListener('mouseenter', () => {
+          clearTimeout(leaveTimer);
+        });
+
+        panel.addEventListener('mouseleave', () => {
+          if (isDesktop.matches) {
+            leaveTimer = setTimeout(() => {
+              navSection.setAttribute('aria-expanded', 'false');
+            }, 150);
+          }
+        });
+      }
+
+      // Click for mobile + direct navigation
+      navSection.addEventListener('click', (e) => {
+        if (!isDesktop.matches) {
+          e.stopPropagation();
+          const isExpanded = navSection.getAttribute('aria-expanded') === 'true';
+          toggleAllNavSections(navSections, false);
+          navSection.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+        }
+      });
+    });
 
     document.addEventListener('click', () => {
       toggleAllNavSections(navSections, false);
@@ -207,7 +218,7 @@ navSection.addEventListener('mouseleave', (e) => {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
 
-  // SVG icon injection
+  // SVG icons
   const icons = {
     '.nav-search-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
     '.nav-account-icon': `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
@@ -228,7 +239,6 @@ navSection.addEventListener('mouseleave', (e) => {
   });
 
   block.append(navWrapper);
-
   updateCartCount();
   window.addEventListener('cart-updated', updateCartCount);
 }
