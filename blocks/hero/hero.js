@@ -1,106 +1,132 @@
 import { fetchProductsByApiCategory } from '../../scripts/api.js';
 
-function getCategoryMeta(category) {
-  const meta = {
-    'womens-dresses': { title: 'New Season Dresses', subtitle: 'Elegant styles for every occasion' },
-    'mens-shoes': { title: 'Step Up Your Style', subtitle: 'From sneakers to formal — find your pair' },
-    'womens-jewellery': { title: 'Shine Bright', subtitle: 'Rings, necklaces, bracelets and more' },
-    'mens-watches': { title: 'Timeless Elegance', subtitle: 'Classic and modern watches for every wrist' },
-    'womens-shoes': { title: 'Walk in Style', subtitle: 'Heels, flats, sandals and more' },
-    'mens-shirts': { title: 'Sharp & Smart', subtitle: 'Formal, casual and everything in between' },
-    'tops': { title: 'Fresh Tops', subtitle: 'Trending tops for every style' },
-    'beauty': { title: 'Glow Up', subtitle: 'Premium makeup and skincare essentials' },
-    'fragrances': { title: 'Find Your Scent', subtitle: 'Discover your signature fragrance' },
-    'skin-care': { title: 'Healthy Skin', subtitle: 'Nourish and protect your skin' },
-    'womens-bags': { title: 'Carry in Style', subtitle: 'Handbags, totes, clutches and more' },
-    'womens-watches': { title: 'Elegant Timepieces', subtitle: 'Watches for every occasion' },
-    'sunglasses': { title: 'Look Sharp', subtitle: 'UV protection meets style' },
-  };
-  return meta[category] || { title: 'Shop ShopEdge', subtitle: 'Discover top-rated products' };
-}
+const SLIDE_CONFIG = [
+  {
+    category: 'womens-dresses',
+    title: 'New Season\nDresses',
+    subtitle: 'Explore the latest styles for every occasion.',
+    cta: 'Shop Dresses',
+    link: '/category/womens-dresses',
+    accent: '#e94560',
+  },
+  {
+    category: 'mens-shoes',
+    title: 'Step Up\nYour Style',
+    subtitle: 'From sneakers to formals — find your perfect pair.',
+    cta: 'Shop Shoes',
+    link: '/category/mens-shoes',
+    accent: '#1a1a2e',
+  },
+  {
+    category: 'womens-jewellery',
+    title: 'Shine\nBright',
+    subtitle: 'Rings, necklaces, bracelets and more.',
+    cta: 'Shop Jewellery',
+    link: '/category/womens-jewellery',
+    accent: '#c0a060',
+  },
+  {
+    category: 'mens-watches',
+    title: 'Timeless\nElegance',
+    subtitle: 'Classic and modern watches for every wrist.',
+    cta: 'Shop Watches',
+    link: '/category/mens-watches',
+    accent: '#2c3e50',
+  },
+];
 
 export default async function decorate(block) {
-  const rows = [...block.querySelectorAll(':scope > div')];
   block.innerHTML = '<div class="hero-loading"></div>';
 
-  const slideData = await Promise.all(
-    rows.map(async (row) => {
-      const key = row.children[0]?.textContent.trim().toLowerCase();
-      const val = row.children[1]?.textContent.trim();
-      const category = key === 'category' ? val : key;
-      if (!category) return null;
-      const products = await fetchProductsByApiCategory(category, 5);
-      if (!products.length) return null;
-      const product = products[Math.floor(Math.random() * products.length)];
-      const { title, subtitle } = getCategoryMeta(category);
+  // Fetch one product per slide for image
+  const slidesData = await Promise.all(
+    SLIDE_CONFIG.map(async (config) => {
+      const products = await fetchProductsByApiCategory(config.category, 5);
+      // Pick product with best image (use images array not just thumbnail)
+      const product = products.find((p) => p.images?.length > 0) || products[0];
       return {
-        image: product.images?.[0] || product.thumbnail,
-        title,
-        subtitle,
-        link: `/category/${category}`,
+        ...config,
+        image: product?.images?.[0] || product?.thumbnail || '',
+        productTitle: product?.title || '',
+        productPrice: product?.price || '',
+        productBrand: product?.brand || '',
       };
     })
   );
 
-  const slides = slideData.filter(Boolean);
-  if (!slides.length) { block.innerHTML = ''; return; }
+  block.innerHTML = '';
 
+  // Build slider
   const slider = document.createElement('div');
   slider.className = 'hero-slider';
 
-  slides.forEach((slide, i) => {
+  slidesData.forEach((slide, i) => {
     const el = document.createElement('div');
     el.className = `hero-slide${i === 0 ? ' active' : ''}`;
+    el.style.setProperty('--accent', slide.accent);
+
     el.innerHTML = `
-      <div class="hero-bg"><img src="${slide.image}" alt="${slide.title}" loading="${i === 0 ? 'eager' : 'lazy'}"></div>
-      <div class="hero-content">
-        <span class="hero-eyebrow">New Collection</span>
-        <h1>${slide.title}</h1>
-        <p>${slide.subtitle}</p>
-        <a href="${slide.link}" class="hero-cta">Shop Now</a>
+      <div class="hero-slide-left">
+        <div class="hero-slide-tag">${slide.category.replace(/-/g, ' ')}</div>
+        <h1 class="hero-slide-title">${slide.title.replace('\n', '<br>')}</h1>
+        <p class="hero-slide-subtitle">${slide.subtitle}</p>
+        ${slide.productBrand ? `<p class="hero-slide-brand">${slide.productBrand}</p>` : ''}
+        ${slide.productPrice ? `<p class="hero-slide-price">From <strong>$${slide.productPrice}</strong></p>` : ''}
+        <a href="${slide.link}" class="hero-slide-cta">${slide.cta} →</a>
+      </div>
+      <div class="hero-slide-right">
+        ${slide.image ? `<img src="${slide.image}" alt="${slide.title}" loading="${i === 0 ? 'eager' : 'lazy'}">` : ''}
+        <div class="hero-slide-bg-circle"></div>
       </div>
     `;
     slider.append(el);
   });
 
+  // Prev / Next arrows
   const prev = document.createElement('button');
-  prev.className = 'hero-arrow hero-prev';
-  prev.setAttribute('aria-label', 'Previous');
-  prev.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>`;
+  prev.className = 'hero-arrow hero-arrow-prev';
+  prev.setAttribute('aria-label', 'Previous slide');
+  prev.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>`;
 
   const next = document.createElement('button');
-  next.className = 'hero-arrow hero-next';
-  next.setAttribute('aria-label', 'Next');
-  next.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>`;
+  next.className = 'hero-arrow hero-arrow-next';
+  next.setAttribute('aria-label', 'Next slide');
+  next.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`;
 
+  // Dots
   const dots = document.createElement('div');
   dots.className = 'hero-dots';
-  slides.forEach((_, i) => {
+  slidesData.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.className = `hero-dot${i === 0 ? ' active' : ''}`;
     dot.setAttribute('aria-label', `Slide ${i + 1}`);
     dots.append(dot);
   });
 
-  block.innerHTML = '';
   block.append(slider, prev, next, dots);
 
+  // Slider logic
   let current = 0;
-  let timer;
+  let autoplay;
 
-  function goTo(n) {
-    slider.querySelectorAll('.hero-slide')[current].classList.remove('active');
-    dots.children[current].classList.remove('active');
-    current = (n + slides.length) % slides.length;
-    slider.querySelectorAll('.hero-slide')[current].classList.add('active');
-    dots.children[current].classList.add('active');
+  function goTo(index) {
+    const allSlides = slider.querySelectorAll('.hero-slide');
+    const allDots = dots.querySelectorAll('.hero-dot');
+    allSlides[current].classList.remove('active');
+    allDots[current].classList.remove('active');
+    current = (index + slidesData.length) % slidesData.length;
+    allSlides[current].classList.add('active');
+    allDots[current].classList.add('active');
   }
 
-  function start() { timer = setInterval(() => goTo(current + 1), 5000); }
-  function stop() { clearInterval(timer); }
+  function start() { autoplay = setInterval(() => goTo(current + 1), 5000); }
+  function stop() { clearInterval(autoplay); }
 
   prev.addEventListener('click', () => { stop(); goTo(current - 1); start(); });
   next.addEventListener('click', () => { stop(); goTo(current + 1); start(); });
-  [...dots.children].forEach((dot, i) => dot.addEventListener('click', () => { stop(); goTo(i); start(); }));
+  dots.querySelectorAll('.hero-dot').forEach((dot, i) => {
+    dot.addEventListener('click', () => { stop(); goTo(i); start(); });
+  });
+
   start();
 }
