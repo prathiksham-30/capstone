@@ -144,12 +144,12 @@ header nav {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  min-width: 130px;
-  border-right: 1px solid #f0f0f0;
-  padding-right: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 0 1rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .mega-menu-links > ul > li > a {
@@ -263,8 +263,7 @@ header nav {
   }
 
   .mega-menu-links > ul {
-    border-right: none;
-    padding-right: 0;
+    grid-template-columns: 1fr;
   }
 }
 
