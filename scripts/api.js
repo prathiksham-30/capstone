@@ -157,3 +157,4 @@ export function getCartCount() {
 export function getCartTotal(cartWithDetails) {
   return cartWithDetails.reduce((total, item) => total + item.product.price * item.qty, 0).toFixed(2);
 }
+

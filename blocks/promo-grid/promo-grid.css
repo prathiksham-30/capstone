@@ -1,95 +1,88 @@
-.promo-grid {
+.promo-grid-inner {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  padding: 2rem 4rem;
 }
 
-.promo-grid > div {
-  position: relative;
+.promo-grid-card {
   border-radius: 12px;
   overflow: hidden;
-  cursor: pointer;
-  background: #f5f5f5;
+  position: relative;
 }
 
-.promo-grid > div > div:first-child {
+.promo-grid-link {
+  display: block;
+  text-decoration: none;
+}
+
+.promo-grid-image {
   position: relative;
   height: 320px;
   overflow: hidden;
+  background: #1a1a2e;
 }
 
-.promo-grid > div > div:first-child img {
+.promo-grid-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s;
 }
 
-.promo-grid > div:hover > div:first-child img {
-  transform: scale(1.05);
+.promo-grid-card:hover .promo-grid-image img {
+  transform: scale(1.07);
 }
 
-.promo-grid > div > div:last-child {
+.promo-grid-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 1.5rem 1rem 1rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
   color: white;
+  transition: padding 0.3s;
 }
 
-.promo-grid > div > div:last-child h3 {
+.promo-grid-overlay h3 {
   font-size: 1.1rem;
   font-weight: 700;
-  margin: 0 0 0.3rem 0;
+  margin: 0 0 0.3rem;
   color: white;
 }
 
-.promo-grid > div > div:last-child p {
+.promo-grid-overlay p {
   font-size: 0.82rem;
-  margin: 0 0 0.75rem 0;
   color: rgba(255,255,255,0.85);
+  margin: 0 0 0.75rem;
   display: none;
 }
 
-.promo-grid > div:hover > div:last-child p {
+.promo-grid-card:hover .promo-grid-overlay p {
   display: block;
 }
 
-.promo-grid > div > div:last-child a {
+.promo-grid-cta {
   display: inline-block;
   background: #e94560;
   color: white;
   padding: 0.4rem 1rem;
   border-radius: 4px;
-  text-decoration: none;
   font-size: 0.82rem;
   font-weight: 600;
   transition: background 0.2s;
 }
 
-.promo-grid > div > div:last-child a:hover {
+.promo-grid-card:hover .promo-grid-cta {
   background: #c73652;
 }
 
 @media (max-width: 900px) {
-  .promo-grid {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 2rem;
-  }
+  .promo-grid-inner { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 540px) {
-  .promo-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  .promo-grid > div > div:first-child {
-    height: 200px;
-  }
+  .promo-grid-inner { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .promo-grid-image { height: 200px; }
 }
