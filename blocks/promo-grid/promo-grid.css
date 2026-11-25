@@ -1,9 +1,17 @@
-/* ── Promo Grid — horizontal scroll ── */
+/* ── Container ── */
 .promo-grid {
   position: relative;
-  padding: 0 1rem;
+  padding: 0 3rem;
+  margin: 0 auto;
 }
 
+.promo-grid-loading {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
+
+/* ── Scroll wrapper ── */
 .promo-grid-wrapper {
   overflow: hidden;
   width: 100%;
@@ -29,9 +37,9 @@
   scroll-snap-align: start;
   border-radius: 14px;
   overflow: hidden;
-  position: relative;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   transition: transform 0.3s, box-shadow 0.3s;
+  background: #f0f0f0;
 }
 
 .promo-grid-card:hover {
@@ -44,13 +52,13 @@
   text-decoration: none;
 }
 
-/* ── Image — HD quality, proper aspect ratio ── */
+/* ── Image ── */
 .promo-grid-image {
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #f0f0f0;
+  background: #e8e8e8;
 }
 
 .promo-grid-image img {
@@ -62,85 +70,74 @@
   object-position: center top;
   display: block;
   transition: transform 0.5s ease;
-  image-rendering: auto;
 }
 
 .promo-grid-card:hover .promo-grid-image img {
   transform: scale(1.07);
 }
 
-/* ── Overlay — gradient + text ── */
+.promo-grid-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #e8e8e8, #f5f5f5);
+}
+
+/* ── Overlay ── */
 .promo-grid-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.78) 0%,
-    rgba(0,0,0,0.3) 50%,
+    rgba(0,0,0,0.75) 0%,
+    rgba(0,0,0,0.2) 50%,
     rgba(0,0,0,0) 100%
   );
   display: flex;
-  align-items: flex-end;
-  padding: 1.5rem 1.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 1.25rem 1rem;
+  gap: 0.5rem;
   transition: background 0.3s;
 }
 
 .promo-grid-card:hover .promo-grid-overlay {
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.88) 0%,
-    rgba(0,0,0,0.4) 60%,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.35) 60%,
     rgba(0,0,0,0.05) 100%
   );
 }
 
-.promo-grid-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.promo-grid-content h3 {
+.promo-grid-overlay h3 {
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
-}
-
-.promo-grid-content p {
-  color: rgba(255,255,255,0.8);
-  font-size: 0.82rem;
-  margin: 0;
-  line-height: 1.4;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.promo-grid-card:hover .promo-grid-content p {
-  max-height: 60px;
 }
 
 .promo-grid-cta {
   display: inline-block;
   background: #e94560;
   color: white;
-  padding: 0.4rem 1rem;
+  padding: 0.35rem 0.9rem;
   border-radius: 20px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  margin-top: 0.5rem;
   transition: background 0.2s, transform 0.2s;
-  width: fit-content;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s, transform 0.25s;
 }
 
 .promo-grid-card:hover .promo-grid-cta {
-  background: #c73652;
-  transform: translateX(3px);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* ── Scroll arrows ── */
+/* ── Arrows — outside the cards ── */
 .promo-grid-arrow {
   position: absolute;
   top: 50%;
@@ -149,8 +146,8 @@
   background: white;
   color: #1a1a2e;
   border: none;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -163,56 +160,36 @@
 .promo-grid-arrow:hover {
   background: #e94560;
   color: white;
-  transform: translateY(-50%) scale(1.08);
+  transform: translateY(-50%) scale(1.1);
 }
 
-.promo-grid-arrow-prev { left: -1rem; }
-.promo-grid-arrow-next { right: -1rem; }
+.promo-grid-arrow.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Arrows sit OUTSIDE the wrapper, not over cards */
+.promo-grid-arrow-prev { left: 0.25rem; }
+.promo-grid-arrow-next { right: 0.25rem; }
 
 /* ── Responsive ── */
-
-/* Desktop large — 4 cards visible */
 @media (min-width: 1200px) {
-  .promo-grid-card {
-    flex: 0 0 calc(25% - 1rem);
-  }
+  .promo-grid-card { flex: 0 0 calc(25% - 1rem); }
 }
 
-/* Desktop / laptop — 3 cards visible */
-@media (max-width: 1199px) and (min-width: 768px) {
-  .promo-grid-card {
-    flex: 0 0 calc(33.333% - 1rem);
-  }
+@media (max-width: 1199px) and (min-width: 900px) {
+  .promo-grid-card { flex: 0 0 calc(33.333% - 1rem); }
 }
 
-/* Tablet — 2 cards visible */
-@media (max-width: 767px) and (min-width: 480px) {
-  .promo-grid-card {
-    flex: 0 0 calc(50% - 0.75rem);
-  }
-
-  .promo-grid-arrow {
-    width: 36px;
-    height: 36px;
-  }
+@media (max-width: 899px) and (min-width: 540px) {
+  .promo-grid { padding: 0 2.5rem; }
+  .promo-grid-card { flex: 0 0 calc(50% - 0.75rem); }
 }
 
-/* Mobile — 1.5 cards visible (peek effect) */
-@media (max-width: 479px) {
-  .promo-grid {
-    padding: 0 0.5rem;
-  }
-
-  .promo-grid-card {
-    flex: 0 0 80vw;
-  }
-
-  .promo-grid-arrow {
-    display: none;
-  }
-
-  .promo-grid-track {
-    gap: 0.75rem;
-    padding: 0.5rem 0.5rem 1rem;
-  }
+@media (max-width: 539px) {
+  .promo-grid { padding: 0 0.5rem; }
+  .promo-grid-card { flex: 0 0 72vw; }
+  .promo-grid-arrow { display: none; }
+  .promo-grid-track { gap: 0.75rem; }
+  .promo-grid-overlay h3 { font-size: 0.95rem; }
 }
