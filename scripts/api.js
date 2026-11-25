@@ -5,8 +5,10 @@ export const CATEGORY_MAP = {
   all: null,
   clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'sunglasses', 'mens-watches', 'womens-watches', 'womens-bags'],
+  gadgets: ['smartphones', 'laptops', 'tablets', 'mobile-accessories'],
   beauty: ['beauty', 'fragrances', 'skin-care'],
   'home-living': ['furniture', 'home-decoration', 'kitchen-accessories'],
+  groceries: ['groceries'],
 };
 
 export async function fetchAllProducts(limit = 20, skip = 0) {

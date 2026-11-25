@@ -7,8 +7,10 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
 const megaMenuCategories = {
   Clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   Accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'mens-watches', 'womens-watches', 'sunglasses', 'womens-bags'],
+  Gadgets: ['smartphones', 'laptops', 'tablets', 'mobile-accessories'],
   Beauty: ['beauty', 'fragrances', 'skin-care'],
   'Home & Living': ['furniture', 'home-decoration', 'kitchen-accessories'],
+  Groceries: ['groceries'],
 };
 
 async function fetchCategoryBrands(apiCategory) {

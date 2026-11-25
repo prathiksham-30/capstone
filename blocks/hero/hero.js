@@ -1,34 +1,80 @@
 import { fetchProductsByApiCategory } from '../../scripts/api.js';
 
+function getCategoryTitle(category) {
+  const titles = {
+    'womens-dresses': 'New Season\nDresses',
+    'mens-shoes': 'Step Up\nYour Style',
+    'womens-jewellery': 'Shine\nBright',
+    'mens-watches': 'Timeless\nElegance',
+    'womens-shoes': 'Walk\nin Style',
+    'mens-shirts': 'Sharp\n& Smart',
+    tops: 'Fresh\nTops',
+    beauty: 'Glow\nUp',
+    fragrances: 'Find Your\nScent',
+    'skin-care': 'Healthy\nSkin',
+    'womens-bags': 'Carry\nin Style',
+    'womens-watches': 'Elegant\nTimepieces',
+    sunglasses: 'Look\nSharp',
+    smartphones: 'Latest\nSmartphones',
+    laptops: 'Power Your\nWorld',
+    tablets: 'Work &\nPlay',
+    'mobile-accessories': 'Gear\nUp',
+    groceries: 'Fresh\nEssentials',
+    furniture: 'Style Your\nSpace',
+    'home-decoration': 'Decorate\nYour Home',
+    'kitchen-accessories': 'Cook\nSmart',
+  };
+  return titles[category] || 'Shop\nShopEdge';
+}
+
+function getCategorySubtitle(category) {
+  const subtitles = {
+    'womens-dresses': 'Explore the latest dresses for every occasion.',
+    'mens-shoes': 'From sneakers to formal — find your perfect pair.',
+    'womens-jewellery': 'Rings, necklaces, bracelets and more.',
+    'mens-watches': 'Classic and modern watches for every wrist.',
+    'womens-shoes': 'Heels, flats, sandals and more.',
+    'mens-shirts': 'Formal, casual and everything in between.',
+    tops: 'Trending tops for every style.',
+    beauty: 'Makeup and beauty essentials.',
+    fragrances: 'Discover your signature scent.',
+    'skin-care': 'Glow with premium skincare.',
+    'womens-bags': 'Handbags, totes, clutches and more.',
+    'womens-watches': 'Elegant watches for every occasion.',
+    sunglasses: 'UV protection meets style.',
+    smartphones: 'Latest phones from Apple, Samsung and more.',
+    laptops: 'Powerful laptops for work and gaming.',
+    tablets: 'iPads and Android tablets for every need.',
+    'mobile-accessories': 'Cases, chargers, earphones and more.',
+    groceries: 'Fresh and packaged food essentials.',
+    furniture: 'Sofas, chairs and tables for every room.',
+    'home-decoration': 'Beautiful decor for your living space.',
+    'kitchen-accessories': 'Smart tools for your kitchen.',
+  };
+  return subtitles[category] || 'Discover top-rated products at ShopEdge.';
+}
+
 const SLIDE_CONFIG = [
   {
     category: 'womens-dresses',
-    title: 'New Season\nDresses',
-    subtitle: 'Explore the latest styles for every occasion.',
     cta: 'Shop Dresses',
     link: '/category/womens-dresses',
     accent: '#e94560',
   },
   {
     category: 'mens-shoes',
-    title: 'Step Up\nYour Style',
-    subtitle: 'From sneakers to formals — find your perfect pair.',
     cta: 'Shop Shoes',
     link: '/category/mens-shoes',
     accent: '#1a1a2e',
   },
   {
     category: 'womens-jewellery',
-    title: 'Shine\nBright',
-    subtitle: 'Rings, necklaces, bracelets and more.',
     cta: 'Shop Jewellery',
     link: '/category/womens-jewellery',
     accent: '#c0a060',
   },
   {
     category: 'mens-watches',
-    title: 'Timeless\nElegance',
-    subtitle: 'Classic and modern watches for every wrist.',
     cta: 'Shop Watches',
     link: '/category/mens-watches',
     accent: '#2c3e50',
@@ -46,6 +92,8 @@ export default async function decorate(block) {
       const product = products.find((p) => p.images?.length > 0) || products[0];
       return {
         ...config,
+        title: getCategoryTitle(config.category),
+        subtitle: getCategorySubtitle(config.category),
         image: product?.images?.[0] || product?.thumbnail || '',
         productTitle: product?.title || '',
         productPrice: product?.price || '',
