@@ -31,20 +31,12 @@
 .promo-grid-card {
   flex: 0 0 calc(25% - 1rem);
   scroll-snap-align: start;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  background: #f0f0f0;
-}
-
-.promo-grid-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+  overflow: visible;
 }
 
 .promo-grid-link {
   display: block;
+  color: inherit;
   text-decoration: none;
 }
 
@@ -53,7 +45,8 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #e8e8e8;
+  border-radius: 10px;
+  background: #f3f3f3;
 }
 
 .promo-grid-image img {
@@ -62,13 +55,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.35s ease;
 }
 
 .promo-grid-card:hover .promo-grid-image img {
-  transform: scale(1.07);
+  transform: scale(1.035);
 }
 
 .promo-grid-placeholder {
@@ -77,60 +70,75 @@
   background: linear-gradient(135deg, #e8e8e8, #f5f5f5);
 }
 
-.promo-grid-overlay {
+.promo-grid-card-icon {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 1.25rem 1rem;
-  gap: 0.5rem;
-}
-
-.promo-grid-overlay h3 {
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.promo-grid-cta {
-  display: inline-block;
-  background: #e94560;
-  color: white;
-  padding: 0.3rem 0.85rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s, transform 0.25s;
-}
-
-.promo-grid-card:hover .promo-grid-cta {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── Arrows — always visible, fade at limits ── */
-.promo-grid-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  background: white;
-  color: #1a1a2e;
-  border: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  cursor: pointer;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  border-radius: 50%;
+  background: #fff;
+  color: #1a1a2e;
+  transition: background 0.2s, color 0.2s;
+}
+
+.promo-grid-card:hover .promo-grid-card-icon {
+  background: #1a1a2e;
+  color: white;
+}
+
+.promo-grid-title {
+  margin: 0.65rem 0 0;
+  color: #1a1a2e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.promo-grid-link:hover .promo-grid-title {
+  color: #e94560;
+}
+
+.promo-grid-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.25rem 0;
+}
+
+.promo-grid-progress {
+  position: relative;
+  width: 180px;
+  max-width: 32%;
+  height: 2px;
+  margin-right: auto;
+  background: #e8ecf0;
+}
+
+.promo-grid-progress-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 65%;
+  background: #1a1a2e;
+  transition: left 0.2s, width 0.2s;
+}
+
+.promo-grid-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1a1a2e;
+  cursor: pointer;
   transition: background 0.2s, color 0.2s, opacity 0.2s;
   opacity: 1;
   pointer-events: auto;
@@ -142,13 +150,9 @@
   cursor: default;
 }
 
-.promo-grid-arrow:hover {
-  background: #e94560;
-  color: white;
+.promo-grid-arrow:hover:not(:disabled) {
+  color: #e94560;
 }
-
-.promo-grid-arrow-prev { left: 0.25rem; }
-.promo-grid-arrow-next { right: 0.25rem; }
 
 /* Responsive */
 @media (max-width: 1199px) and (min-width: 900px) {
@@ -163,5 +167,6 @@
 @media (max-width: 539px) {
   .promo-grid { padding: 0 1rem; }
   .promo-grid-card { flex: 0 0 72vw; }
-  .promo-grid-arrow { width: 34px; height: 34px; }
+  .promo-grid-arrow { width: 30px; height: 30px; }
+  .promo-grid-progress { width: 120px; }
 }
