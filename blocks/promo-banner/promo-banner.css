@@ -96,7 +96,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #e94560;
+  background: #c73652;
   color: #ffffff !important;
   padding: 0.8rem 2rem;
   border-radius: 6px;
@@ -112,7 +112,7 @@
 }
 
 .promo-banner-cta:hover {
-  background: #c73652;
+  background: #a72742;
   color: #ffffff !important;
   text-decoration: none !important;
   transform: translateX(4px);

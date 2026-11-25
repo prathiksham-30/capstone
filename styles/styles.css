@@ -258,11 +258,15 @@ main .default-content-wrapper {
 /* ══════════════════════════════
    SECTION HEADINGS
    ══════════════════════════════ */
-main > div > h2 {
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
+main > .section:not(.hero-container) > .default-content-wrapper {
+  padding: 2rem clamp(1rem, 2.5vw, 2rem) 0;
+}
+
+main > .section:not(.hero-container) > .default-content-wrapper > h2 {
+  font-size: clamp(1.4rem, 2vw, 2rem);
   font-weight: 700;
   color: #1a1a2e;
-  margin: 0 0 1.25rem 0;
+  margin: 0 0 1.25rem;
   padding: 0;
   line-height: 1.2;
   display: flex;
@@ -271,7 +275,7 @@ main > div > h2 {
 }
 
 /* Red accent line after heading */
-main > div > h2::after {
+main > .section:not(.hero-container) > .default-content-wrapper > h2::after {
   content: '';
   display: inline-block;
   width: 40px;
@@ -330,7 +334,9 @@ main img {
   main > div { padding: 1.5rem 1.25rem; }
   main > div:first-child { padding: 0 !important; margin: 0 !important; }
 
-  main > div > h2 { font-size: clamp(1rem, 3vw, 1.3rem); }
+  main > .section:not(.hero-container) > .default-content-wrapper {
+    padding-top: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {

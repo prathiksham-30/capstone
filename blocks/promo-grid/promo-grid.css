@@ -1,6 +1,6 @@
 .promo-grid {
   position: relative;
-  padding: 0 3rem;
+  padding: 0 clamp(1rem, 2.5vw, 2rem);
 }
 
 .promo-grid-loading {
@@ -132,14 +132,14 @@
   justify-content: center;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   transition: background 0.2s, color 0.2s, opacity 0.2s;
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-/* Show when scrollable */
-.promo-grid-arrow.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.promo-grid-arrow:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: default;
 }
 
 .promo-grid-arrow:hover {
@@ -156,12 +156,12 @@
 }
 
 @media (max-width: 899px) and (min-width: 540px) {
-  .promo-grid { padding: 0 2.5rem; }
+  .promo-grid { padding: 0 clamp(1rem, 2.5vw, 2rem); }
   .promo-grid-card { flex: 0 0 calc(50% - 0.75rem); }
 }
 
 @media (max-width: 539px) {
-  .promo-grid { padding: 0 0.5rem; }
+  .promo-grid { padding: 0 1rem; }
   .promo-grid-card { flex: 0 0 72vw; }
-  .promo-grid-arrow { display: none; }
+  .promo-grid-arrow { width: 34px; height: 34px; }
 }

@@ -74,13 +74,18 @@ export default async function decorate(block) {
   nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollBy(), behavior: 'smooth' }));
 
   function updateArrows() {
-    const atStart = track.scrollLeft <= 0;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
-    prevBtn.classList.toggle('hidden', atStart);
-    nextBtn.classList.toggle('hidden', atEnd);
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const atStart = track.scrollLeft <= 4;
+    const atEnd = maxScroll <= 4 || track.scrollLeft >= maxScroll - 4;
+    prevBtn.disabled = atStart;
+    nextBtn.disabled = atEnd;
+    prevBtn.setAttribute('aria-disabled', String(atStart));
+    nextBtn.setAttribute('aria-disabled', String(atEnd));
   }
 
   track.addEventListener('scroll', updateArrows, { passive: true });
   window.addEventListener('resize', updateArrows);
+  const resizeObserver = new ResizeObserver(updateArrows);
+  resizeObserver.observe(track);
   updateArrows();
 }
