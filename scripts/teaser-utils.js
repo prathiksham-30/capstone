@@ -13,19 +13,29 @@ export function renderProductCard(product) {
   const stars = '★'.repeat(Math.round(product.rating))
     + '☆'.repeat(5 - Math.round(product.rating));
 
-  // Badge logic
+  // Use best available image
+  const imgSrc = product.thumbnail
+    || (product.images && product.images[0])
+    || 'https://placehold.co/400x400/f8f8f8/999?text=No+Image';
+
   let badge = '';
   if (discount > 10) badge = `<span class="product-teaser-badge">-${discount}%</span>`;
 
   card.innerHTML = `
     <a href="/product/${product.id}" class="product-teaser-link">
       <div class="product-teaser-image">
-        <img src="${product.thumbnail}" alt="${product.title}" loading="lazy" decoding="async">
+        <img
+          src="${imgSrc}"
+          alt="${product.title}"
+          loading="lazy"
+          decoding="async"
+          onerror="this.onerror=null;this.src='https://placehold.co/400x400/f0f0f0/999?text=Image+Not+Found'"
+        >
         ${badge}
         ${product.stock < 10 ? `<span class="product-teaser-stock">Only ${product.stock} left</span>` : ''}
       </div>
       <div class="product-teaser-info">
-        <p class="product-teaser-brand">${product.brand || product.category}</p>
+        <p class="product-teaser-brand">${product.brand || product.category || ''}</p>
         <h3 class="product-teaser-title">${product.title}</h3>
         <p class="product-teaser-desc">${product.description.slice(0, 80)}...</p>
         <div class="product-teaser-pricing">
@@ -47,7 +57,7 @@ export function renderProductCard(product) {
 
   card.querySelector('.product-teaser-cta').addEventListener('click', (e) => {
     e.preventDefault();
-    addToCart(product.id, 1);
+    addToCart(product, 1); // ✅ pass full product object
     const btn = e.target;
     btn.textContent = 'Added ✓';
     btn.classList.add('added');
