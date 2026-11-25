@@ -1,4 +1,14 @@
 import { addToCart } from './api.js';
+import { loadCSS } from './aem.js';
+
+let productTeaserStylesPromise;
+
+export function loadProductTeaserStyles() {
+  if (!productTeaserStylesPromise) {
+    productTeaserStylesPromise = loadCSS(`${window.hlx.codeBasePath}/blocks/product-teaser/product-teaser.css`);
+  }
+  return productTeaserStylesPromise;
+}
 
 export function renderProductCard(product) {
   const card = document.createElement('div');

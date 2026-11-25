@@ -1,5 +1,7 @@
 import { fetchProductsByCategory, fetchProductsByApiCategory } from '../../scripts/api.js';
-import { renderProductGrid, showLoading, showEmpty } from '../../scripts/teaser-utils.js';
+import {
+  loadProductTeaserStyles, renderProductGrid, showLoading, showEmpty,
+} from '../../scripts/teaser-utils.js';
 
 export default async function decorate(block) {
   const config = {};
@@ -13,6 +15,7 @@ export default async function decorate(block) {
   const limit = parseInt(config.limit, 10) || 8;
 
   showLoading(block);
+  await loadProductTeaserStyles();
 
   const SHOPEDGE_CATEGORIES = ['all', 'shoes', 'clothing', 'accessories'];
   const products = SHOPEDGE_CATEGORIES.includes(category)
