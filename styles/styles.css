@@ -363,3 +363,55 @@ main > div:first-child {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* ── Global index page responsive ── */
+
+/* Section headings */
+main h2 {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #1a1a2e;
+}
+
+/* Section padding responsive */
+main > div {
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 4rem);
+}
+
+/* First section (hero) — no padding */
+main > div:first-child {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ── Responsive breakpoints ── */
+
+/* Large desktop 1400px+ */
+@media (min-width: 1400px) {
+  main > div {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Laptop 1024-1399px */
+@media (max-width: 1399px) and (min-width: 1024px) {
+  main > div { padding: 1.5rem 3rem; }
+}
+
+/* Tablet 768-1023px */
+@media (max-width: 1023px) and (min-width: 768px) {
+  main > div { padding: 1.25rem 2rem; }
+}
+
+/* Mobile 480-767px */
+@media (max-width: 767px) and (min-width: 480px) {
+  main > div { padding: 1rem 1.25rem; }
+}
+
+/* Small mobile <480px */
+@media (max-width: 479px) {
+  main > div { padding: 0.75rem 0.75rem; }
+}
