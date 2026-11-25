@@ -1,5 +1,5 @@
 /* ── Promo Banner — full width split layout ── */
-.promo-banner-wrapper {
+main > .section.promo-banner-container {
   margin: 2rem 0;
 }
 

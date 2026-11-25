@@ -25,21 +25,6 @@ async function fetchCategoryBrands(apiCategory) {
   }
 }
 
-function closeOnEscape(e) {
-  if (e.code === 'Escape') {
-    const nav = document.getElementById('nav');
-    const navSections = nav.querySelector('.nav-sections');
-    const expanded = navSections.querySelector('[aria-expanded="true"]');
-    if (expanded && isDesktop.matches) {
-      expanded.setAttribute('aria-expanded', 'false');
-      expanded.focus();
-    } else if (!isDesktop.matches) {
-      nav.setAttribute('aria-expanded', 'false');
-      nav.querySelector('button').focus();
-    }
-  }
-}
-
 function openOnKeydown(e) {
   const focused = document.activeElement;
   if (focused.classList.contains('nav-drop') && (e.code === 'Enter' || e.code === 'Space')) {
@@ -59,14 +44,28 @@ function toggleAllNavSections(sections, expanded = false) {
 }
 
 function toggleMenu(nav, navSections, forceExpanded = null) {
-  const expanded = forceExpanded !== null
-    ? !forceExpanded
-    : nav.getAttribute('aria-expanded') === 'true';
+  const isExpanded = nav.getAttribute('aria-expanded') === 'true';
+  const shouldExpand = forceExpanded === null ? !isExpanded : forceExpanded;
   const button = nav.querySelector('.nav-hamburger button');
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
-  nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+  document.body.style.overflowY = (shouldExpand && !isDesktop.matches) ? 'hidden' : '';
+  nav.setAttribute('aria-expanded', shouldExpand ? 'true' : 'false');
   toggleAllNavSections(navSections, false);
-  button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
+  button.setAttribute('aria-label', shouldExpand ? 'Close navigation' : 'Open navigation');
+}
+
+function closeOnEscape(e) {
+  if (e.code === 'Escape') {
+    const nav = document.getElementById('nav');
+    const navSections = nav.querySelector('.nav-sections');
+    const expanded = navSections.querySelector('[aria-expanded="true"]');
+    if (expanded && isDesktop.matches) {
+      expanded.setAttribute('aria-expanded', 'false');
+      expanded.focus();
+    } else if (!isDesktop.matches) {
+      toggleMenu(nav, navSections, false);
+      nav.querySelector('button').focus();
+    }
+  }
 }
 
 function updateCartCount() {
@@ -98,41 +97,38 @@ async function buildMegaMenu(navSection, label) {
   linksCol.append(navLinksDiv);
 
   // ── Col 2: Popular brands from API ──
+  let image = null;
   if (apiCategories) {
-    const { brands, image } = await fetchCategoryBrands(apiCategories[0]);
+    const categoryData = await fetchCategoryBrands(apiCategories[0]);
+    image = categoryData.image;
 
-    if (brands.length) {
+    if (categoryData.brands.length) {
       const brandSection = document.createElement('div');
       brandSection.className = 'mega-menu-brands';
-      brandSection.innerHTML = `<p class="mega-menu-brands-title">Popular Brands</p>`;
+      brandSection.innerHTML = '<p class="mega-menu-brands-title">Popular Brands</p>';
       const brandList = document.createElement('ul');
-      brands.slice(0, 8).forEach((brand) => {
+      categoryData.brands.slice(0, 8).forEach((brand) => {
         const li = document.createElement('li');
         li.innerHTML = `<a href="/category/${apiCategories[0]}?brand=${encodeURIComponent(brand)}">${brand}</a>`;
         brandList.append(li);
       });
       brandSection.append(brandList);
       linksCol.append(brandSection);
-
-      // ── Col 3: Category image ──
-      if (image) {
-        panel.classList.add('has-image');
-        const imgCol = document.createElement('div');
-        imgCol.className = 'mega-menu-image';
-        imgCol.innerHTML = `
-          <img src="${image}" alt="${label}" loading="lazy">
-          <p class="mega-menu-label">${label}</p>
-        `;
-        panel.append(linksCol);
-        panel.append(imgCol);
-      } else {
-        panel.append(linksCol);
-      }
-    } else {
-      panel.append(linksCol);
     }
-  } else {
-    panel.append(linksCol);
+  }
+
+  panel.append(linksCol);
+
+  // ── Category image ──
+  if (image) {
+    panel.classList.add('has-image');
+    const imgCol = document.createElement('div');
+    imgCol.className = 'mega-menu-image';
+    imgCol.innerHTML = `
+      <img src="${image}" alt="${label}" loading="lazy">
+      <p class="mega-menu-label">${label}</p>
+    `;
+    panel.append(imgCol);
   }
 
   existingUl.replaceWith(panel);
@@ -235,10 +231,18 @@ export default async function decorate(block) {
     <span class="nav-hamburger-icon"></span>
   </button>`;
   navHamburger.addEventListener('click', () => toggleMenu(nav, navSections));
-  nav.insertBefore(navHamburger, navSections);
+  nav.insertBefore(navHamburger, navBrand);
+
+  const navBackdrop = document.createElement('button');
+  navBackdrop.type = 'button';
+  navBackdrop.className = 'nav-backdrop';
+  navBackdrop.setAttribute('aria-label', 'Close navigation');
+  navBackdrop.addEventListener('click', () => toggleMenu(nav, navSections, false));
+  nav.insertBefore(navBackdrop, navSections);
+
   nav.setAttribute('aria-expanded', 'false');
 
-  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, false));
   document.addEventListener('keydown', closeOnEscape);
 
   const navWrapper = document.createElement('div');
@@ -249,23 +253,28 @@ export default async function decorate(block) {
   const iconMap = [
     {
       href: '/search',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+      svg: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
       className: 'nav-search-icon',
     },
     {
       href: '/account',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+      svg: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
       className: 'nav-account-icon',
     },
     {
       href: '/cart',
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`,
+      svg: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>',
       className: 'nav-cart-icon',
       badge: true,
     },
   ];
 
-  iconMap.forEach(({ href, svg, className, badge }) => {
+  iconMap.forEach(({
+    href,
+    svg,
+    className,
+    badge,
+  }) => {
     const link = navWrapper.querySelector(`a[href="${href}"]`);
     if (link) {
       link.className = className;

@@ -32,6 +32,31 @@ export default async function decorate(block) {
     return;
   }
 
+  const intro = block.closest('.best-sellers-container')
+    ?.querySelector(':scope > .default-content-wrapper');
+  if (intro && !intro.querySelector('.best-sellers-kicker')) {
+    const heading = intro.querySelector('h2');
+    const kicker = document.createElement('p');
+    kicker.className = 'best-sellers-kicker';
+    kicker.textContent = 'CUSTOMER FAVORITES';
+    const description = document.createElement('p');
+    description.className = 'best-sellers-description';
+    description.textContent = 'Top-rated finds our shoppers keep coming back for.';
+    const link = document.createElement('a');
+    link.className = 'best-sellers-cta';
+    link.href = '/category/all';
+    link.textContent = 'Explore best sellers';
+
+    intro.classList.add('best-sellers-intro');
+    if (heading) {
+      heading.textContent = 'Our best sellers';
+      intro.insertBefore(kicker, heading);
+    } else {
+      intro.prepend(kicker);
+    }
+    intro.append(description, link);
+  }
+
   block.innerHTML = '';
   block.append(renderProductGrid(products, 'best-sellers-grid'));
 }

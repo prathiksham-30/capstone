@@ -255,6 +255,10 @@ header nav {
     flex-direction: column !important;
   }
 
+  .nav-drop:not([aria-expanded="true"]) > .mega-menu-panel {
+    display: none;
+  }
+
   .mega-menu-image { display: none; }
 
   .mega-menu-links {
@@ -330,6 +334,10 @@ header nav {
   display: none;
 }
 
+.nav-backdrop {
+  display: none;
+}
+
 .nav-hamburger-icon,
 .nav-hamburger-icon::before,
 .nav-hamburger-icon::after {
@@ -361,16 +369,30 @@ header nav {
 @media (max-width: 900px) {
   .nav-hamburger { display: block; }
 
+  nav[aria-expanded="true"] .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--nav-height) 0 0;
+    background: rgb(13 27 42 / 40%);
+    border: 0;
+    padding: 0;
+    z-index: 101;
+    cursor: default;
+  }
+
   .nav-sections {
     display: none;
-    position: absolute;
+    position: fixed;
     top: var(--nav-height);
+    bottom: 0;
     left: 0;
-    right: 0;
+    width: min(320px, 85vw);
+    overflow-y: auto;
     background: var(--header-background-color);
-    padding: 1rem 2rem;
+    padding: 1rem;
     flex-direction: column;
-    z-index: 100;
+    z-index: 102;
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.2);
   }
 
   nav[aria-expanded="true"] .nav-sections {
@@ -389,6 +411,10 @@ header nav {
     border: none;
     padding: 0.5rem 0 0 1rem;
     flex-direction: column !important;
+  }
+
+  .nav-drop:not([aria-expanded="true"]) > .mega-menu-panel {
+    display: none;
   }
 
   .mega-menu-image { display: none; }
