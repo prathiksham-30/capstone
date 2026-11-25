@@ -1,28 +1,36 @@
 import { fetchProductsByApiCategory } from '../../scripts/api.js';
 
 export default async function decorate(block) {
-  const row = block.querySelector(':scope > div');
-  if (!row) return;
+  const rows = [...block.querySelectorAll(':scope > div')];
 
-  const cells = [...row.children].map((c) => c.textContent.trim());
-  const category = cells[1] || 'womens-dresses';
-  const title = cells[2] || 'Special Offer';
-  const desc = cells[3] || '';
-  const cta = cells[4] || 'Shop Now';
-  const link = cells[5] || `/category/${category}`;
+  // Parse config: category, title, description, cta text, cta link
+  const cols = [...(rows[0]?.querySelectorAll(':scope > div') || [])];
+  const category = cols[1]?.textContent.trim() || 'womens-dresses';
+  const title = cols[2]?.textContent.trim() || 'End of Season Sale';
+  const description = cols[3]?.textContent.trim() || 'Up to 50% off on selected items.';
+  const ctaText = cols[4]?.textContent.trim() || 'Shop Now';
+  const ctaLink = cols[5]?.textContent.trim() || '/category/all';
 
+  block.innerHTML = '<div class="promo-banner-loading"></div>';
+
+  // Fetch product image from API
   const products = await fetchProductsByApiCategory(category, 5);
-  const img = products[Math.floor(Math.random() * products.length)]?.images?.[0]
-    || products[0]?.thumbnail || '';
+  const product = products.find((p) => p.images?.length > 0) || products[0];
+  const image = product?.images?.[0] || product?.thumbnail || '';
+
+  block.innerHTML = '';
 
   block.innerHTML = `
     <div class="promo-banner-inner">
-      ${img ? `<div class="promo-banner-bg"><img src="${img}" alt="${title}" loading="lazy"></div>` : ''}
       <div class="promo-banner-content">
-        <span class="promo-banner-eyebrow">Limited Time</span>
-        <h2>${title}</h2>
-        <p>${desc}</p>
-        <a href="${link}" class="promo-banner-cta">${cta}</a>
+        <span class="promo-banner-tag">Limited Time Offer</span>
+        <h2 class="promo-banner-title">${title}</h2>
+        <p class="promo-banner-desc">${description}</p>
+        <a href="${ctaLink}" class="promo-banner-cta">${ctaText} →</a>
+      </div>
+      <div class="promo-banner-image">
+        ${image ? `<img src="${image}" alt="${title}" loading="lazy" decoding="async">` : ''}
+        <div class="promo-banner-image-overlay"></div>
       </div>
     </div>
   `;

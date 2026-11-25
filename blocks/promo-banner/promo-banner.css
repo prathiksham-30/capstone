@@ -1,87 +1,219 @@
-.promo-banner-inner {
-  position: relative;
-  border-radius: 10px;
+/* ── Promo Banner — full width split layout ── */
+.promo-banner-wrapper {
+  margin: 2rem 0;
+}
+
+.promo-banner {
+  border-radius: 20px;
   overflow: hidden;
-  min-height: 280px;
+  margin: 0 1rem;
+}
+
+.promo-banner-loading {
+  height: 320px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 20px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Inner — two column split ── */
+.promo-banner-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 360px;
+  background: #1a1a2e;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* ── LEFT — text content ── */
+.promo-banner-content {
   display: flex;
-  align-items: center;
-  background: #0d1b2a;
-}
-
-.promo-banner-bg {
-  position: absolute;
-  inset: 0;
-}
-
-.promo-banner-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.promo-banner-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(13,27,42,0.9) 0%, rgba(13,27,42,0.6) 50%, rgba(13,27,42,0.2) 100%);
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem 3.5rem;
+  background: #1a1a2e;
+  position: relative;
   z-index: 1;
 }
 
-.promo-banner-content {
-  position: relative;
-  z-index: 2;
-  padding: 2.5rem 3rem;
-  max-width: 520px;
+/* Decorative circle behind text */
+.promo-banner-content::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(233,69,96,0.08);
+  top: -50px;
+  left: -80px;
+  z-index: 0;
 }
 
-.promo-banner-eyebrow {
+.promo-banner-tag {
   display: inline-block;
-  background: #c9a84c;
-  color: #0d1b2a;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  background: rgba(233,69,96,0.15);
+  color: #e94560;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  padding: 0.25rem 0.75rem;
-  border-radius: 2px;
-  margin-bottom: 0.75rem;
+  letter-spacing: 1.5px;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  width: fit-content;
+  position: relative;
+  z-index: 1;
 }
 
-.promo-banner-content h2 {
-  color: #ffffff;
-  font-size: 2rem;
+.promo-banner-title {
+  font-size: 2.2rem;
   font-weight: 800;
-  margin: 0 0 0.75rem;
-  line-height: 1.2;
+  color: white;
+  line-height: 1.15;
+  margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
-.promo-banner-content p {
-  color: rgba(255,255,255,0.8);
+.promo-banner-desc {
   font-size: 0.95rem;
-  margin: 0 0 1.5rem;
-  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 380px;
+  position: relative;
+  z-index: 1;
 }
 
 .promo-banner-cta {
-  display: inline-block;
-  background: #c9a84c;
-  color: #0d1b2a;
-  padding: 0.75rem 2rem;
-  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #e94560;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 6px;
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  transition: background 0.2s;
+  letter-spacing: 0.3px;
+  width: fit-content;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  z-index: 1;
+  margin-top: 0.5rem;
 }
 
 .promo-banner-cta:hover {
-  background: #a8873a;
+  background: #c73652;
+  transform: translateX(4px);
 }
 
+/* ── RIGHT — image ── */
+.promo-banner-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+
+.promo-banner-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.promo-banner:hover .promo-banner-image img {
+  transform: scale(1.04);
+}
+
+/* Subtle left-side gradient on image for smooth blend */
+.promo-banner-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(26,26,46,0.6) 0%,
+    rgba(26,26,46,0) 40%
+  );
+  z-index: 1;
+}
+
+/* ── Responsive ── */
+
+/* Large desktop */
+@media (min-width: 1400px) {
+  .promo-banner-title { font-size: 2.6rem; }
+  .promo-banner-inner { min-height: 420px; }
+}
+
+/* Laptop */
+@media (max-width: 1200px) {
+  .promo-banner-content { padding: 2.5rem 2.5rem; }
+  .promo-banner-title { font-size: 1.9rem; }
+}
+
+/* Tablet landscape */
+@media (max-width: 1024px) {
+  .promo-banner-content { padding: 2rem 2rem; }
+  .promo-banner-title { font-size: 1.7rem; }
+}
+
+/* Tablet portrait — stack vertically */
 @media (max-width: 768px) {
-  .promo-banner-content { padding: 2rem; }
-  .promo-banner-content h2 { font-size: 1.5rem; }
+  .promo-banner {
+    margin: 0 0.5rem;
+    border-radius: 16px;
+  }
+
+  .promo-banner-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: 240px auto;
+    min-height: unset;
+  }
+
+  .promo-banner-image {
+    grid-row: 1;
+    min-height: 240px;
+  }
+
+  .promo-banner-content {
+    grid-row: 2;
+    padding: 2rem 1.5rem;
+    gap: 0.75rem;
+  }
+
+  .promo-banner-content::before {
+    display: none;
+  }
+
+  .promo-banner-title { font-size: 1.5rem; }
+  .promo-banner-desc { font-size: 0.88rem; }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .promo-banner {
+    margin: 0;
+    border-radius: 12px;
+  }
+
+  .promo-banner-inner {
+    grid-template-rows: 200px auto;
+  }
+
+  .promo-banner-image { min-height: 200px; }
+  .promo-banner-title { font-size: 1.3rem; }
+  .promo-banner-cta { padding: 0.65rem 1.5rem; font-size: 0.85rem; }
 }
