@@ -10,8 +10,14 @@
 }
 
 .promo-grid-wrapper {
+  position: relative;
   overflow: hidden;
   width: 100%;
+}
+
+.promo-grid > .promo-grid-wrapper {
+  box-sizing: border-box;
+  padding: 0 48px;
 }
 
 .promo-grid-track {
@@ -102,47 +108,30 @@
   color: #e94560;
 }
 
-.promo-grid-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.25rem 0;
-}
-
-.promo-grid-progress {
-  position: relative;
-  width: 180px;
-  max-width: 32%;
-  height: 2px;
-  margin-right: auto;
-  background: #e8ecf0;
-}
-
-.promo-grid-progress-thumb {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 65%;
-  background: #1a1a2e;
-  transition: left 0.2s, width 0.2s;
-}
-
 .promo-grid-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 0;
-  background: transparent;
+  border-radius: 50%;
+  background: #fff;
   color: #1a1a2e;
   cursor: pointer;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 15%);
+  transform: translateY(-50%);
   transition: background 0.2s, color 0.2s, opacity 0.2s;
   opacity: 1;
   pointer-events: auto;
 }
+
+.promo-grid-arrow-prev { left: 0.25rem; }
+.promo-grid-arrow-next { right: 0.25rem; }
 
 .promo-grid-arrow:disabled {
   opacity: 0.4;
@@ -166,7 +155,7 @@
 
 @media (max-width: 539px) {
   .promo-grid { padding: 0 1rem; }
+  .promo-grid > .promo-grid-wrapper { padding: 0 42px; }
   .promo-grid-card { flex: 0 0 72vw; }
-  .promo-grid-arrow { width: 30px; height: 30px; }
-  .promo-grid-progress { width: 120px; }
+  .promo-grid-arrow { width: 36px; height: 36px; }
 }

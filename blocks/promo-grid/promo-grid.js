@@ -69,21 +69,8 @@ export default async function decorate(block) {
   nextBtn.setAttribute('aria-disabled', 'false');
   nextBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`;
 
-  const controls = document.createElement('div');
-  controls.className = 'promo-grid-controls';
-
-  const progress = document.createElement('div');
-  progress.className = 'promo-grid-progress';
-  progress.setAttribute('role', 'progressbar');
-  progress.setAttribute('aria-label', 'Category carousel position');
-  progress.setAttribute('aria-valuemin', '0');
-  progress.setAttribute('aria-valuemax', '100');
-
-  const progressThumb = document.createElement('span');
-  progressThumb.className = 'promo-grid-progress-thumb';
-  progress.append(progressThumb);
-  controls.append(progress, prevBtn, nextBtn);
-  block.append(wrapper, controls);
+  wrapper.append(prevBtn, nextBtn);
+  block.append(wrapper);
 
   const scrollBy = () => track.querySelector('.promo-grid-card')?.offsetWidth + 20 || 300;
 
@@ -99,14 +86,6 @@ export default async function decorate(block) {
     nextBtn.disabled = atEnd;
     prevBtn.setAttribute('aria-disabled', String(atStart));
     nextBtn.setAttribute('aria-disabled', String(atEnd));
-
-    const scrollProgress = maxScroll > 4 ? track.scrollLeft / maxScroll : 0;
-    const thumbWidth = track.scrollWidth
-      ? Math.min(100, (track.clientWidth / track.scrollWidth) * 100)
-      : 100;
-    progressThumb.style.width = `${thumbWidth}%`;
-    progressThumb.style.left = `${scrollProgress * (100 - thumbWidth)}%`;
-    progress.setAttribute('aria-valuenow', String(Math.round(scrollProgress * 100)));
   }
 
   track.addEventListener('scroll', updateArrows, { passive: true });
