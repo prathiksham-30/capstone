@@ -210,24 +210,28 @@ button.button.secondary {
 }
 
 /* ══════════════════════════════
-   MAIN LAYOUT — FULL WIDTH
+   MAIN LAYOUT
    ══════════════════════════════ */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 main {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
 }
 
-/* All sections — consistent padding, no overlap */
 main > div {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   margin: 0;
-  padding: 2.5rem 3.5rem;
+  padding: 2.5rem 4rem;
 }
 
-/* Hero — zero padding always */
 main > div:first-child {
   padding: 0 !important;
   margin: 0 !important;
@@ -251,50 +255,85 @@ main .default-content-wrapper {
   max-width: 100%;
 }
 
-/* Section headings — consistent alignment */
-main h2 {
-  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+/* ══════════════════════════════
+   SECTION HEADINGS
+   ══════════════════════════════ */
+main > div > h2 {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 700;
   color: #1a1a2e;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.25rem 0;
   padding: 0;
   line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-main .section.light,
-main .section.highlight {
-  background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+/* Red accent line after heading */
+main > div > h2::after {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 3px;
+  background: #e94560;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
-/* ── Tablet landscape ── */
+/* ══════════════════════════════
+   IMAGE OVERFLOW FIX
+   ══════════════════════════════ */
+main img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Images inside fixed-height containers */
+.hero-slide-right img,
+.promo-grid-image img,
+.promo-banner-image img,
+.product-teaser-image img,
+.feature-banner-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  max-width: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+
+/* All image containers */
+.promo-grid-image,
+.product-teaser-image,
+.feature-banner-image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ══════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════ */
+@media (max-width: 1200px) {
+  main > div { padding: 2rem 2.5rem; }
+}
+
 @media (max-width: 1024px) {
-  main > div {
-    padding: 2rem 2rem;
-  }
+  main > div { padding: 1.75rem 2rem; }
 }
 
-/* ── Tablet portrait ── */
 @media (max-width: 768px) {
-  main > div {
-    padding: 1.5rem 1.25rem;
-  }
+  main > div { padding: 1.5rem 1.25rem; }
+  main > div:first-child { padding: 0 !important; margin: 0 !important; }
 
-  main > div:first-child {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
+  main > div > h2 { font-size: clamp(1rem, 3vw, 1.3rem); }
 }
 
-/* ── Mobile ── */
 @media (max-width: 480px) {
-  main > div {
-    padding: 1.25rem 0.875rem;
-  }
-
-  main > div:first-child {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
+  main > div { padding: 1.25rem 0.875rem; }
+  main > div:first-child { padding: 0 !important; margin: 0 !important; }
 }
