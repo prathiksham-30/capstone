@@ -54,32 +54,27 @@ function getCategorySubtitle(category) {
   return subtitles[category] || 'Discover top-rated products at ShopEdge.';
 }
 
-const SLIDE_CONFIG = [
-  {
-    category: 'womens-dresses',
-    cta: 'Shop Dresses',
-    link: '/category/womens-dresses',
-    accent: '#e94560',
-  },
-  {
-    category: 'mens-shoes',
-    cta: 'Shop Shoes',
-    link: '/category/mens-shoes',
-    accent: '#1a1a2e',
-  },
-  {
-    category: 'womens-jewellery',
-    cta: 'Shop Jewellery',
-    link: '/category/womens-jewellery',
-    accent: '#c0a060',
-  },
-  {
-    category: 'mens-watches',
-    cta: 'Shop Watches',
-    link: '/category/mens-watches',
-    accent: '#2c3e50',
-  },
+const FEATURED_CATEGORIES = [
+  'womens-dresses',
+  'mens-shoes',
+  'womens-jewellery',
+  'mens-watches',
 ];
+
+const CTA_LABELS = {
+  'womens-dresses': 'Shop Dresses',
+  'mens-shoes': 'Shop Shoes',
+  'womens-jewellery': 'Shop Jewellery',
+  'mens-watches': 'Shop Watches',
+};
+const SLIDE_ACCENTS = ['#e94560', '#1a1a2e', '#c0a060', '#2c3e50'];
+
+const SLIDE_CONFIG = FEATURED_CATEGORIES.map((category, index) => ({
+  category,
+  cta: CTA_LABELS[category] || 'Shop Now',
+  link: `/category/${category}`,
+  accent: SLIDE_ACCENTS[index % SLIDE_ACCENTS.length],
+}));
 
 export default async function decorate(block) {
   block.innerHTML = '<div class="hero-loading"></div>';
@@ -87,7 +82,7 @@ export default async function decorate(block) {
   // Fetch one product per slide for image
   const slidesData = await Promise.all(
     SLIDE_CONFIG.map(async (config) => {
-      const products = await fetchProductsByApiCategory(config.category, 5);
+      const products = await fetchProductsByApiCategory(config.category, 1);
       // Pick product with best image (use images array not just thumbnail)
       const product = products.find((p) => p.images?.length > 0) || products[0];
       return {

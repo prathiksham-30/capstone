@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+.new-arrivals-grid .product-teaser-card {
+  background: #f5f0eb;
+}
+
 /* Badge override for new arrivals */
 .new-arrivals-grid .product-teaser-badge {
   background: #27ae60;

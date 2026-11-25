@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+.best-sellers-grid .product-teaser-card {
+  background: #f5f0eb;
+}
+
 /* Badge override for best sellers */
 .best-sellers-grid .product-teaser-badge {
   background: #f5a623;
