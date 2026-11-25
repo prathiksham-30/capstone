@@ -56,8 +56,10 @@ function getCategorySubtitle(category) {
 
 const FEATURED_CATEGORIES = [
   'womens-dresses',
+  'smartphones',
   'mens-shoes',
   'womens-jewellery',
+  'laptops',
   'mens-watches',
 ];
 
@@ -66,6 +68,8 @@ const CTA_LABELS = {
   'mens-shoes': 'Shop Shoes',
   'womens-jewellery': 'Shop Jewellery',
   'mens-watches': 'Shop Watches',
+  laptops: 'Shop Laptops',
+  smartphones: 'Shop Phones',
 };
 const SLIDE_ACCENTS = ['#e94560', '#1a1a2e', '#c0a060', '#2c3e50'];
 
