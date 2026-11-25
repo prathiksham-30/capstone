@@ -1,0 +1,28 @@
+.best-sellers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Badge override for best sellers */
+.best-sellers-grid .product-teaser-badge {
+  background: #f5a623;
+}
+
+.best-sellers-grid .product-teaser-badge::before {
+  content: '⭐ ';
+}
+
+@media (max-width: 1200px) {
+  .best-sellers-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .best-sellers-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .best-sellers-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+}

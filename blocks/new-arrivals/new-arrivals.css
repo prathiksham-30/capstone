@@ -1,0 +1,28 @@
+.new-arrivals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Badge override for new arrivals */
+.new-arrivals-grid .product-teaser-badge {
+  background: #27ae60;
+}
+
+.new-arrivals-grid .product-teaser-badge::before {
+  content: '🆕 ';
+}
+
+@media (max-width: 1200px) {
+  .new-arrivals-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .new-arrivals-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .new-arrivals-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+}
