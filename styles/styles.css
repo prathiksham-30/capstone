@@ -210,26 +210,6 @@ button.button.secondary {
 }
 
 /* ══════════════════════════════
-   IMAGES
-   ══════════════════════════════ */
-main img {
-  max-width: 100%;
-  width: auto;
-  height: auto;
-}
-
-.icon {
-  display: inline-block;
-  height: 24px;
-  width: 24px;
-}
-
-.icon img {
-  height: 100%;
-  width: 100%;
-}
-
-/* ══════════════════════════════
    MAIN LAYOUT — FULL WIDTH
    ══════════════════════════════ */
 main {
@@ -238,22 +218,21 @@ main {
   overflow-x: hidden;
 }
 
-/* All sections — full width, responsive padding */
+/* All sections — consistent padding, no overlap */
 main > div {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   margin: 0;
-  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3.5rem);
+  padding: 2.5rem 3.5rem;
 }
 
-/* Hero section — zero padding, true full width */
+/* Hero — zero padding always */
 main > div:first-child {
   padding: 0 !important;
   margin: 0 !important;
 }
 
-/* Section wrappers */
 main > .section {
   width: 100%;
   max-width: 100% !important;
@@ -272,15 +251,16 @@ main .default-content-wrapper {
   max-width: 100%;
 }
 
-/* Section headings */
+/* Section headings — consistent alignment */
 main h2 {
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
   font-weight: 700;
-  color: var(--color-text);
-  margin: 0 0 1.25rem 0;
+  color: #1a1a2e;
+  margin: 0 0 1.5rem 0;
+  padding: 0;
+  line-height: 1.2;
 }
 
-/* Highlighted sections */
 main .section.light,
 main .section.highlight {
   background-color: var(--light-color);
@@ -288,21 +268,17 @@ main .section.highlight {
   padding: 40px 0;
 }
 
-/* ══════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   ══════════════════════════════ */
-
-/* Tablet landscape */
+/* ── Tablet landscape ── */
 @media (max-width: 1024px) {
   main > div {
-    padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 3vw, 2.5rem);
+    padding: 2rem 2rem;
   }
 }
 
-/* Tablet portrait */
+/* ── Tablet portrait ── */
 @media (max-width: 768px) {
   main > div {
-    padding: 1.25rem 1.25rem;
+    padding: 1.5rem 1.25rem;
   }
 
   main > div:first-child {
@@ -311,10 +287,10 @@ main .section.highlight {
   }
 }
 
-/* Mobile */
+/* ── Mobile ── */
 @media (max-width: 480px) {
   main > div {
-    padding: 1rem 0.75rem;
+    padding: 1.25rem 0.875rem;
   }
 
   main > div:first-child {

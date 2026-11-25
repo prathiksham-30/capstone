@@ -1,14 +1,7 @@
-/* ── Full width hero ── */
 .hero-wrapper {
   margin: 0 !important;
   padding: 0 !important;
-  width: 100vw !important;
-  max-width: 100% !important;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw !important;
-  margin-right: -50vw !important;
+  width: 100% !important;
 }
 
 .hero {
@@ -19,6 +12,7 @@
   background: #1a1a2e;
   margin: 0;
   padding: 0;
+  display: block;
 }
 
 .hero-loading {
@@ -34,7 +28,7 @@
   100% { background-position: -200% 0; }
 }
 
-/* ── Slider ── */
+/* Slider */
 .hero-slider {
   width: 100%;
   height: 100%;
@@ -49,24 +43,28 @@
   gap: 0;
   opacity: 0;
   transition: opacity 0.7s ease;
+  pointer-events: none;
 }
 
 .hero-slide.active {
   opacity: 1;
   z-index: 1;
+  pointer-events: auto;
 }
 
-/* ── LEFT — text ── */
+/* LEFT */
 .hero-slide-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(1.5rem, 4vw, 4rem);
+  padding: 3rem 3rem 3rem clamp(2rem, 5vw, 5rem);
   background: #1a1a2e;
   color: white;
   gap: 0.75rem;
   box-sizing: border-box;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-slide-tag {
@@ -83,7 +81,7 @@
 }
 
 .hero-slide-title {
-  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
   font-weight: 800;
   line-height: 1.1;
   color: white;
@@ -91,7 +89,7 @@
 }
 
 .hero-slide-subtitle {
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
   color: rgba(255,255,255,0.75);
   line-height: 1.6;
   margin: 0;
@@ -99,7 +97,7 @@
 }
 
 .hero-slide-brand {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -114,7 +112,7 @@
 
 .hero-slide-price strong {
   color: #e94560;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 
@@ -127,7 +125,7 @@
   padding: 0.75rem 1.75rem;
   border-radius: 4px;
   text-decoration: none;
-  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+  font-size: 0.9rem;
   font-weight: 700;
   transition: background 0.2s, transform 0.2s;
   width: fit-content;
@@ -136,10 +134,11 @@
 
 .hero-slide-cta:hover {
   background: #c73652;
-  transform: translateX(4px);
+  transform: translateX(3px);
+  text-decoration: none;
 }
 
-/* ── RIGHT — image ── */
+/* RIGHT */
 .hero-slide-right {
   position: relative;
   overflow: hidden;
@@ -176,15 +175,16 @@
   transform: scale(1.03);
 }
 
-/* ── Arrows ── */
+/* ── Arrows — inside hero, left panel ── */
 .hero-arrow {
   position: absolute;
+  bottom: 1.75rem;
   z-index: 10;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.12);
   color: white;
-  border: 1.5px solid rgba(255,255,255,0.3);
-  width: clamp(36px, 4vw, 44px);
-  height: clamp(36px, 4vw, 44px);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -199,23 +199,13 @@
   border-color: #e94560;
 }
 
-/* Arrows on LEFT side, vertically centered */
-.hero-arrow-prev {
-  left: clamp(0.75rem, 2vw, 1.5rem);
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.hero-arrow-next {
-  left: clamp(3.5rem, 7vw, 5.5rem);
-  top: 50%;
-  transform: translateY(-50%);
-}
+.hero-arrow-prev { left: clamp(1.5rem, 4vw, 4rem); }
+.hero-arrow-next { left: clamp(4.5rem, 8vw, 8rem); }
 
 /* ── Dots ── */
 .hero-dots {
   position: absolute;
-  bottom: 1.25rem;
+  bottom: 2.1rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -244,20 +234,26 @@
 @media (max-width: 900px) {
   .hero {
     height: auto;
-    min-height: unset;
+  }
+
+  .hero-slider {
+    height: auto;
+    position: relative;
   }
 
   .hero-slide {
     position: relative;
     grid-template-columns: 1fr;
     grid-template-rows: 260px auto;
+    inset: auto;
     opacity: 0;
     transition: opacity 0.7s ease;
+    display: none;
   }
 
   .hero-slide.active {
+    display: grid;
     opacity: 1;
-    z-index: 1;
   }
 
   .hero-slide-right {
@@ -272,49 +268,33 @@
 
   .hero-slide-left {
     grid-row: 2;
-    padding: 1.5rem;
+    padding: 1.75rem 1.5rem;
     gap: 0.6rem;
   }
 
-  .hero-slide-title { font-size: 1.6rem; }
-  .hero-slide-subtitle { font-size: 0.88rem; }
-
   .hero-arrow {
-    top: 130px;
+    bottom: auto;
+    top: 220px;
+  }
+
+  .hero-arrow-prev { left: 1rem; }
+  .hero-arrow-next { left: 3.75rem; }
+
+  .hero-dots {
+    bottom: auto;
+    top: 225px;
+    left: auto;
+    right: 1rem;
     transform: none;
   }
-
-  .hero-arrow-prev { left: 0.75rem; }
-  .hero-arrow-next { left: 3.5rem; }
-
-  .hero-dots { bottom: auto; top: 230px; }
 }
 
-/* ── Mobile ── */
 @media (max-width: 540px) {
-  .hero-slide-right {
-    height: 220px;
-  }
-
-  .hero-slide-left {
-    padding: 1.25rem 1rem;
-  }
-
+  .hero-slide-right { height: 220px; }
+  .hero-slide-left { padding: 1.25rem 1rem; }
   .hero-slide-title { font-size: 1.3rem; }
-
-  .hero-slide-cta {
-    padding: 0.6rem 1.25rem;
-    font-size: 0.82rem;
-  }
-
-  .hero-arrow {
-    width: 32px;
-    height: 32px;
-    top: 100px;
-  }
-
-  .hero-arrow-prev { left: 0.5rem; }
-  .hero-arrow-next { left: 3rem; }
-
-  .hero-dots { top: 192px; }
+  .hero-arrow { width: 32px; height: 32px; top: 182px; }
+  .hero-arrow-prev { left: 0.75rem; }
+  .hero-arrow-next { left: 3.25rem; }
+  .hero-dots { top: 188px; }
 }

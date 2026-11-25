@@ -1,8 +1,6 @@
-/* ── Container ── */
 .promo-grid {
   position: relative;
   padding: 0 3rem;
-  margin: 0 auto;
 }
 
 .promo-grid-loading {
@@ -11,7 +9,6 @@
   color: #999;
 }
 
-/* ── Scroll wrapper ── */
 .promo-grid-wrapper {
   overflow: hidden;
   width: 100%;
@@ -31,7 +28,6 @@
   display: none;
 }
 
-/* ── Card ── */
 .promo-grid-card {
   flex: 0 0 calc(25% - 1rem);
   scroll-snap-align: start;
@@ -43,7 +39,7 @@
 }
 
 .promo-grid-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.18);
 }
 
@@ -52,7 +48,6 @@
   text-decoration: none;
 }
 
-/* ── Image ── */
 .promo-grid-image {
   position: relative;
   width: 100%;
@@ -82,32 +77,16 @@
   background: linear-gradient(135deg, #e8e8e8, #f5f5f5);
 }
 
-/* ── Overlay ── */
 .promo-grid-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.75) 0%,
-    rgba(0,0,0,0.2) 50%,
-    rgba(0,0,0,0) 100%
-  );
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 100%);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-end;
   padding: 1.25rem 1rem;
   gap: 0.5rem;
-  transition: background 0.3s;
-}
-
-.promo-grid-card:hover .promo-grid-overlay {
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.85) 0%,
-    rgba(0,0,0,0.35) 60%,
-    rgba(0,0,0,0.05) 100%
-  );
 }
 
 .promo-grid-overlay h3 {
@@ -115,18 +94,16 @@
   font-size: 1rem;
   font-weight: 700;
   margin: 0;
-  line-height: 1.2;
 }
 
 .promo-grid-cta {
   display: inline-block;
   background: #e94560;
   color: white;
-  padding: 0.35rem 0.9rem;
+  padding: 0.3rem 0.85rem;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 600;
-  transition: background 0.2s, transform 0.2s;
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.25s, transform 0.25s;
@@ -137,7 +114,7 @@
   transform: translateY(0);
 }
 
-/* ── Arrows — outside the cards ── */
+/* ── Arrows — always visible, fade at limits ── */
 .promo-grid-arrow {
   position: absolute;
   top: 50%;
@@ -154,29 +131,26 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-  transition: background 0.2s, color 0.2s, transform 0.2s, opacity 0.2s;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Show when scrollable */
+.promo-grid-arrow.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .promo-grid-arrow:hover {
   background: #e94560;
   color: white;
-  transform: translateY(-50%) scale(1.1);
 }
 
-.promo-grid-arrow.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Arrows sit OUTSIDE the wrapper, not over cards */
 .promo-grid-arrow-prev { left: 0.25rem; }
 .promo-grid-arrow-next { right: 0.25rem; }
 
-/* ── Responsive ── */
-@media (min-width: 1200px) {
-  .promo-grid-card { flex: 0 0 calc(25% - 1rem); }
-}
-
+/* Responsive */
 @media (max-width: 1199px) and (min-width: 900px) {
   .promo-grid-card { flex: 0 0 calc(33.333% - 1rem); }
 }
@@ -190,6 +164,4 @@
   .promo-grid { padding: 0 0.5rem; }
   .promo-grid-card { flex: 0 0 72vw; }
   .promo-grid-arrow { display: none; }
-  .promo-grid-track { gap: 0.75rem; }
-  .promo-grid-overlay h3 { font-size: 0.95rem; }
 }
