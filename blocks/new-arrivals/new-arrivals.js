@@ -27,6 +27,30 @@ export default async function decorate(block) {
     return;
   }
 
+  const intro = block.closest('.new-arrivals-container')
+    ?.querySelector(':scope > .default-content-wrapper');
+  if (intro && !intro.querySelector('.new-arrivals-kicker')) {
+    const heading = intro.querySelector('h2');
+    const kicker = document.createElement('p');
+    kicker.className = 'new-arrivals-kicker';
+    kicker.textContent = 'JUST IN';
+    const description = document.createElement('p');
+    description.className = 'new-arrivals-description';
+    description.textContent = 'Discover the latest additions to ShopEdge.';
+    const link = document.createElement('a');
+    link.className = 'new-arrivals-cta';
+    link.href = '/category/all';
+    link.textContent = 'Explore new arrivals';
+
+    intro.classList.add('new-arrivals-intro');
+    if (heading) {
+      intro.insertBefore(kicker, heading);
+    } else {
+      intro.prepend(kicker);
+    }
+    intro.append(description, link);
+  }
+
   block.innerHTML = '';
   block.append(renderProductGrid(products, 'new-arrivals-grid'));
 }
