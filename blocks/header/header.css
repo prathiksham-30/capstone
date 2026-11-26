@@ -119,12 +119,6 @@ header nav {
   width: min(510px, calc(100vw - 2rem));
 }
 
-.nav-drop-all-categories .mega-menu-nav-links ul {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 1rem;
-}
-
 .nav-drop[aria-expanded="true"] > .mega-menu-panel,
 .nav-drop:hover > .mega-menu-panel {
   display: flex;
@@ -482,4 +476,60 @@ header nav {
   background: rgba(233,69,96,0.08);
   color: #e94560;
   padding-left: 0.75rem;
+}
+
+.nav-drop-all-categories .mega-menu-nav-links ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 1rem;
+}
+
+.nav-drop-all-categories .mega-menu-links,
+.nav-drop-all-categories .mega-menu-nav-links {
+  width: 100%;
+  min-width: 0;
+}
+
+.nav-sections .nav-drop-groceries > .mega-menu-panel {
+  width: min(640px, calc(100vw - 2rem));
+}
+
+.nav-drop-groceries .mega-menu-links,
+.nav-drop-groceries .mega-menu-nav-links {
+  width: 100%;
+  min-width: 0;
+}
+
+.nav-drop-groceries .mega-menu-nav-links > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
+}
+
+.nav-sections .nav-drop-groceries .mega-menu-nav-links > ul > li > p {
+  margin: 0.2rem 0 0.35rem;
+  color: #777;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav-drop-groceries .mega-menu-nav-links > ul > li > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 0.75rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+}
+
+@media (width <= 900px) {
+  .nav-drop-all-categories .mega-menu-nav-links ul,
+  .nav-drop-groceries .mega-menu-nav-links > ul > li > ul {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-sections .nav-drop-groceries > .mega-menu-panel {
+    width: 100%;
+  }
 }

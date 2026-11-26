@@ -5,7 +5,6 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
 
 // Map nav label → DummyJSON API categories (for brand fetching + image)
 const megaMenuCategories = {
-  'All Categories': ['mens-shirts', 'womens-dresses', 'smartphones', 'beauty', 'groceries'],
   Clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   Accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'mens-watches', 'womens-watches', 'sunglasses', 'womens-bags'],
   Gadgets: ['smartphones', 'laptops', 'tablets', 'mobile-accessories'],
@@ -192,6 +191,7 @@ export default async function decorate(block) {
           ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
           : '';
         if (label === 'All Categories') navSection.classList.add('nav-drop-all-categories');
+        if (label === 'Groceries') navSection.classList.add('nav-drop-groceries');
 
         buildPromises.push(buildMegaMenu(navSection, label));
       }
