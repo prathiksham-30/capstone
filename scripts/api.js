@@ -2,7 +2,7 @@ const BASE_URL = 'https://dummyjson.com';
 
 // ShopEdge → DummyJSON category mapping
 export const CATEGORY_MAP = {
-  all: null,
+  all: null, // null = fetch from /products directly (all categories)
   clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'sunglasses', 'mens-watches', 'womens-watches', 'womens-bags'],
   gadgets: ['smartphones', 'laptops', 'tablets', 'mobile-accessories'],

@@ -5,6 +5,7 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
 
 // Map nav label → DummyJSON API categories (for brand fetching + image)
 const megaMenuCategories = {
+  'All Categories': ['mens-shirts', 'womens-dresses', 'mens-shoes', 'smartphones', 'beauty', 'groceries'],
   Clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   Accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'mens-watches', 'womens-watches', 'sunglasses', 'womens-bags'],
   Gadgets: ['smartphones', 'laptops', 'tablets', 'mobile-accessories'],
