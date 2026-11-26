@@ -5,7 +5,6 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
 
 // Map nav label → DummyJSON API categories (for brand fetching + image)
 const megaMenuCategories = {
-  'All Categories': ['mens-shirts', 'womens-dresses', 'mens-shoes', 'smartphones', 'beauty', 'groceries'],
   Clothing: ['mens-shirts', 'womens-dresses', 'tops'],
   Accessories: ['mens-shoes', 'womens-shoes', 'womens-jewellery', 'mens-watches', 'womens-watches', 'sunglasses', 'womens-bags'],
   Gadgets: ['smartphones', 'laptops', 'tablets', 'mobile-accessories'],
@@ -161,8 +160,27 @@ export default async function decorate(block) {
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     const buildPromises = [];
+    const topLevelItems = [...navSections.querySelectorAll(':scope .default-content-wrapper > ul > li')];
+    const allCategories = topLevelItems.find((item) => {
+      const label = item.querySelector(':scope > p > a, :scope > a');
+      return label?.textContent.trim() === 'All Categories';
+    });
 
-    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
+    if (allCategories && !allCategories.querySelector(':scope > ul')) {
+      const categoryList = document.createElement('ul');
+      topLevelItems
+        .filter((item) => item !== allCategories)
+        .forEach((item) => {
+          item.querySelectorAll(':scope > ul > li > a').forEach((link) => {
+            const listItem = document.createElement('li');
+            listItem.append(link.cloneNode(true));
+            categoryList.append(listItem);
+          });
+        });
+      allCategories.append(categoryList);
+    }
+
+    topLevelItems.forEach((navSection) => {
       if (navSection.querySelector('ul')) {
         navSection.classList.add('nav-drop');
         navSection.setAttribute('aria-expanded', 'false');
@@ -172,6 +190,7 @@ export default async function decorate(block) {
         const label = labelEl
           ? labelEl.textContent.replace(/[›»>\u203a]/g, '').trim()
           : '';
+        if (label === 'All Categories') navSection.classList.add('nav-drop-all-categories');
 
         buildPromises.push(buildMegaMenu(navSection, label));
       }
@@ -216,6 +235,8 @@ export default async function decorate(block) {
       navSection.addEventListener('click', (e) => {
         if (!isDesktop.matches) {
           e.stopPropagation();
+          const labelLink = navSection.querySelector(':scope > p > a, :scope > a');
+          if (labelLink && e.target.closest('a') === labelLink) e.preventDefault();
           const isExpanded = navSection.getAttribute('aria-expanded') === 'true';
           toggleAllNavSections(navSections, false);
           navSection.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');

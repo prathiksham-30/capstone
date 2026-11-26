@@ -113,6 +113,16 @@ header nav {
   width: 580px;
 }
 
+.nav-drop-all-categories > .mega-menu-panel {
+  width: min(820px, calc(100vw - 2rem));
+}
+
+.nav-drop-all-categories .mega-menu-nav-links ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 1rem;
+}
+
 .nav-drop[aria-expanded="true"] > .mega-menu-panel,
 .nav-drop:hover > .mega-menu-panel {
   display: flex;
@@ -269,6 +279,10 @@ header nav {
   .mega-menu-links > ul {
     grid-template-columns: 1fr;
   }
+
+  .nav-drop-all-categories .mega-menu-nav-links ul {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── RIGHT — Icons ── */
@@ -422,6 +436,10 @@ header nav {
   .mega-menu-links {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .nav-drop-all-categories .mega-menu-nav-links ul {
+    grid-template-columns: 1fr;
   }
 }
 
