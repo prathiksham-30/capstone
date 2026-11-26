@@ -341,7 +341,7 @@ main > .section.category-hero-container {
 .category-hero-container .category-hero {
   width: min(100% - 3rem, 1440px);
   margin: 0 auto;
-  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  padding: 1.5rem 0;
 }
 
 .category-hero-container .category-hero h1 {
@@ -352,10 +352,11 @@ main > .section.category-hero-container {
 }
 
 .category-hero-container .category-hero p {
-  max-width: 680px;
+  max-width: none;
   margin: 0.75rem 0 0;
   color: var(--color-text-light);
   font-size: clamp(1rem, 1.5vw, 1.15rem);
+  white-space: nowrap;
 }
 
 main > .section.product-teaser-container {
@@ -552,7 +553,7 @@ main > .section.product-teaser-container {
 @media (width <= 760px) {
   .category-hero-container .category-hero {
     width: calc(100% - 2rem);
-    padding: 1.75rem 0;
+    padding: 1.25rem 0;
   }
 
   main > .section.product-teaser-container {
@@ -562,6 +563,12 @@ main > .section.product-teaser-container {
   .product-teaser-container .product-teaser-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.875rem;
+  }
+}
+
+@media (width <= 900px) {
+  .category-hero-container .category-hero p {
+    white-space: normal;
   }
 }
 

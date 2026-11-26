@@ -1,6 +1,7 @@
 import { fetchProductsByCategory, fetchProductsByApiCategory } from '../../scripts/api.js';
 
-const SHOPEDGE_CATEGORIES = ['all', 'shoes', 'clothing', 'accessories', 'beauty', 'home-living'];
+// ✅ Added gadgets and groceries
+const SHOPEDGE_CATEGORIES = ['all', 'shoes', 'clothing', 'accessories', 'gadgets', 'beauty', 'home-living', 'groceries'];
 
 function renderCard(product, listing = false) {
   const card = document.createElement('div');
@@ -93,8 +94,9 @@ function renderCard(product, listing = false) {
     `;
   }
 
-  // Add to cart
-  card.querySelector('.product-teaser-cta').addEventListener('click', (e) => {
+  const addToCartButton = card.querySelector('.product-teaser-cta');
+  const originalAriaLabel = addToCartButton.getAttribute('aria-label');
+  addToCartButton.addEventListener('click', (e) => {
     e.preventDefault();
     const cart = JSON.parse(localStorage.getItem('shopedge-cart') || '[]');
     const existing = cart.find((item) => item.id === product.id);
@@ -103,11 +105,14 @@ function renderCard(product, listing = false) {
     localStorage.setItem('shopedge-cart', JSON.stringify(cart));
     window.dispatchEvent(new Event('cart-updated'));
     const btn = e.target;
-    btn.textContent = 'Added ✓';
+    btn.textContent = listing ? '✓' : 'Added ✓';
     btn.classList.add('added');
+    if (listing) btn.setAttribute('aria-label', `Added ${product.title} to cart`);
     setTimeout(() => {
-      btn.textContent = 'Add to Cart';
+      btn.textContent = listing ? '+' : 'Add to Cart';
       btn.classList.remove('added');
+      if (originalAriaLabel) btn.setAttribute('aria-label', originalAriaLabel);
+      else btn.removeAttribute('aria-label');
     }, 2000);
   });
 
@@ -125,7 +130,11 @@ export default async function decorate(block) {
   const category = config.category || 'all';
   const limit = parseInt(config.limit, 10) || 12;
   const isAllProducts = category === 'all';
-  const brandFilter = new URLSearchParams(window.location.search).get('brand');
+
+  // ✅ Read both brand and tag filters from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const brandFilter = urlParams.get('brand');
+  const tagFilter = urlParams.get('tag')?.toLowerCase();
 
   block.innerHTML = `
     <div class="product-teaser-loading">
@@ -134,16 +143,30 @@ export default async function decorate(block) {
     </div>
   `;
 
-  const fetchLimit = brandFilter ? 100 : limit;
+  // Fetch more when filtering so we have enough after filtering
+  const fetchLimit = (brandFilter || tagFilter) ? 200 : limit;
   const fetchedProducts = SHOPEDGE_CATEGORIES.includes(category)
     ? await fetchProductsByCategory(category, fetchLimit)
     : await fetchProductsByApiCategory(category, fetchLimit);
-  const products = fetchedProducts
-    .filter((product) => !brandFilter || (product.brand || product.category) === brandFilter)
-    .slice(0, limit);
+
+  // ✅ Apply brand filter
+  let products = fetchedProducts.filter((product) =>
+    !brandFilter || (product.brand || product.category) === brandFilter
+  );
+
+  // ✅ Apply tag filter (for groceries types)
+  if (tagFilter) {
+    products = products.filter((p) =>
+      p.tags?.some((t) => t.toLowerCase().includes(tagFilter))
+      || p.category?.toLowerCase().includes(tagFilter)
+      || p.title?.toLowerCase().includes(tagFilter)
+    );
+  }
+
+  products = products.slice(0, limit);
 
   if (!products.length) {
-    block.innerHTML = '<p class="product-teaser-empty">No products found.</p>';
+    block.innerHTML = `<p class="product-teaser-empty">No products found${tagFilter ? ` for "${tagFilter}"` : ''}.</p>`;
     return;
   }
 
