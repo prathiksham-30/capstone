@@ -1,0 +1,33 @@
+.category-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 3rem clamp(1.5rem, 5vw, 5rem);
+  margin: 0;
+}
+
+.category-hero .default-content-wrapper {
+  max-width: 800px;
+}
+
+.category-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  color: white;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.1;
+}
+
+.category-hero p {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .category-hero { padding: 2rem 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .category-hero { padding: 1.5rem 0.875rem; }
+}
